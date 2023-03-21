@@ -1,17 +1,19 @@
 import { Text, View, StyleSheet } from "react-native"
 import { ButtonLoader } from "../components/Button"
-import { useNavigation } from "@react-navigation/native"
+import { NavigationProp, useNavigation } from "@react-navigation/native"
 import { Input } from "../components/Input"
 import { Auth } from "../../App"
+import { useRef } from "react"
+import { NativeStackNavigatorProps } from "@react-navigation/native-stack/lib/typescript/src/types"
 
-export const Sign = () => {
-	const navigation = useNavigation()
-
+export const Sign = ({ route, navigation }) => {
+	const email = useRef()
+	const password = useRef()
 	return (
 		<View style={styles.container}>
 			<Text style={styles.title}>Conecte-se em sua conta</Text>
-			<Input placeholder="Email/Usuário"></Input>
-			<Input placeholder="Senha" password></Input>
+			<Input placeholder="Email/Usuário" ></Input>
+			<Input placeholder="Senha" password ></Input>
 			<ButtonLoader
 				title={"Entrar"}
 				loading={false}
@@ -20,7 +22,7 @@ export const Sign = () => {
 				color={"#fff"}
 			/>
 			<Text
-				onPress={() => navigation.replace("signUp")}
+				onPress={() => navigation.replace("SignUp")}
 				style={{ color: "#0007" }}
 			>
 				ou Cadastre-se gratuitamente!

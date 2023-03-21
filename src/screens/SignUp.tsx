@@ -1,16 +1,14 @@
 import { Text, View, StyleSheet, Alert } from "react-native"
 import { ButtonLoader } from "../components/Button"
-import { useNavigation } from "@react-navigation/native"
 import { createUserWithEmailAndPassword } from "firebase/auth"
 import { Input } from "../components/Input"
 import { useRef, useState } from "react"
 import { Auth } from "../../App"
 
-export const SignUp = () => {
-	const navigation = useNavigation()
-	const email = useRef("")
-	const password = useRef("")
-	const confirmPassword = useRef("")
+export const SignUp = ({ route, navigation }) => {
+	const email = useRef(null)
+	const password = useRef(null)
+	const confirmPassword = useRef(null)
 	const [loading, setLoading] = useState(false)
 
 	const registerUser = async (auth, email, senha) => {
@@ -39,7 +37,7 @@ export const SignUp = () => {
 			<ButtonLoader
 				title={"Cadastrar"}
 				loading={loading}
-				onPress={() => registerUser(Auth)}
+				onPress={() => {}}
 				style={styles.button}
 				color={"#fff"}
 			/>

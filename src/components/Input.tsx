@@ -1,7 +1,18 @@
-import { TextInput, StyleSheet, View } from "react-native"
+import { TextInput, StyleSheet, View, StyleProp, ViewStyle } from "react-native"
 import { AntDesign } from "@expo/vector-icons"
-import { useState } from "react"
-export const Input = ({ password = false, placeholder, style, ref }) => {
+import { forwardRef, LegacyRef, useState } from "react"
+
+interface IInput {
+	password?: boolean
+	placeholder: string
+	style?: StyleProp<ViewStyle>
+	ref: LegacyRef<TextInput>
+}
+
+export const Input = forwardRef(({password = false,
+	placeholder,
+	style,
+	ref,}: IInput) => {
 	const [show, toggleShow] = useState(false)
 	return (
 		<View style={[style, styles.container]}>
@@ -21,7 +32,7 @@ export const Input = ({ password = false, placeholder, style, ref }) => {
 			)}
 		</View>
 	)
-}
+})
 
 const styles = StyleSheet.create({
 	container: {

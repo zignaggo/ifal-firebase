@@ -4,18 +4,25 @@ import { SignUp } from "../screens/SignUp"
 import { Sign } from "../screens/Sign"
 import { Home } from "../screens/Home"
 
-const { Navigator, Screen } = createNativeStackNavigator()
+type RootStackParamList = {
+	Sign: undefined
+	SignUp: undefined
+	Home: undefined
+	Profile: { userId: string }
+}
+
+const { Navigator, Screen } = createNativeStackNavigator<RootStackParamList>()
 
 export const AppStackNavigator = () => {
 	return (
 		<NavigationContainer>
 			<Navigator
-				initialRouteName="sign"
+				initialRouteName="Sign"
 				screenOptions={{ headerShown: false }}
 			>
-				<Screen name="sign" component={Sign} />
-				<Screen name="signUp" component={SignUp} />
-				<Screen name="home" component={Home} />
+				<Screen name="Sign" component={Sign} />
+				<Screen name="SignUp" component={SignUp} />
+				<Screen name="Home" component={Home} />
 			</Navigator>
 		</NavigationContainer>
 	)
