@@ -1,65 +1,86 @@
-import { Text, View, StyleSheet } from "react-native"
-import { ButtonLoader } from "../components/Button"
-import { NavigationProp, useNavigation } from "@react-navigation/native"
-import { Input } from "../components/Input"
+import { useState } from "react"
+import { Alert, Text } from "react-native"
 import { Auth } from "../../App"
-import { useRef } from "react"
-import { NativeStackNavigatorProps } from "@react-navigation/native-stack/lib/typescript/src/types"
+import { useAuth } from "../Contexts/AuthProvider/useAuth"
+import { Button, Heading, VStack } from "native-base"
+import { Input } from "../components/Input"
+import { Controller } from "react-hook-form"
+import { yupResolver } from "@hookform/resolvers/yup"
+import { useForm } from "react-hook-form"
+import * as yup from "yup"
+import { verifyError } from "../../errorcodes"
 
+interface FieldsForm {
+	email: string
+	password: string,
+	terms?: boolean
+}
+
+const singSchema = yup.object({
+	email: yup
+		.string()
+		.email("Email Inválido")
+		.required("Este Campo é Obrigatório"),
+	password: yup
+		.string()
+		.required("Este Campo é Obrigatório")
+		.min(8, "No mínimo 8 caracteres"),
+
+})
 export const Sign = ({ route, navigation }) => {
-	const email = useRef()
-	const password = useRef()
+
+	const [loading, setLoading] = useState<boolean>(false)
+ 
+	const {
+		control,
+		handleSubmit,
+		formState: { errors },
+	} = useForm<FieldsForm>({
+		resolver: yupResolver(singSchema),
+	})
+
+	const { login } = useAuth()
+	console.log(loading)
+	function handleSign({ email, password }: FieldsForm) {
+		login(email, password, Auth, () => navigation.replace("Home"), setLoading)
+	}
 	return (
-		<View style={styles.container}>
-			<Text style={styles.title}>Conecte-se em sua conta</Text>
-			<Input placeholder="Email/Usuário" ></Input>
-			<Input placeholder="Senha" password ></Input>
-			<ButtonLoader
-				title={"Entrar"}
-				loading={false}
-				onPress={() => console.log("cadastrou")}
-				style={styles.button}
-				color={"#fff"}
-			/>
+		<VStack alignItems={"center"} p={50} space={5} justifyContent={"center"} h={"full"}>
+			<VStack>
+			<Heading  textAlign={"center"}>Conecte-se</Heading>
+			<Heading  textAlign={"center"}>em sua conta</Heading>
+			</VStack>
+			<VStack space={2} w={"full"}>
+			<Controller
+					control={control}
+					name="email"
+					render={({ field: { onChange } }) => (
+						<Input
+							placeholder="Email"
+							onChangeText={onChange}
+							errorMessage={errors.email?.message}
+						/>
+					)}
+				/>
+				<Controller
+					control={control}
+					name="password"
+					render={({ field: { onChange } }) => (
+						<Input
+							placeholder="Senha"
+							onChangeText={onChange}
+							errorMessage={errors.password?.message}
+						/>
+					)}
+				/>
+			</VStack>
+			<Button isLoading={loading} onPress={handleSubmit(handleSign)} rounded={"full"} w={"full"} bg={"#f27"} _hover={{bg: "#9b4666"}}  _pressed={{bg: "#9b4666"}}>Entrar</Button>
 			<Text
 				onPress={() => navigation.replace("SignUp")}
 				style={{ color: "#0007" }}
 			>
 				ou Cadastre-se gratuitamente!
 			</Text>
-		</View>
+		</VStack>
 	)
 }
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: "#fff",
-		alignItems: "center",
-		justifyContent: "center",
-		padding: 40,
-		gap: 10,
-	},
-	button: {
-		alignItems: "center",
-		justifyContent: "center",
-		width: "100%",
-		height: 50,
-		backgroundColor: "#f27",
-		borderRadius: 50,
-	},
-	input: {
-		width: "100%",
-		height: 50,
-		borderWidth: 1,
-		borderRadius: 10,
-		borderColor: "#0002",
-		paddingLeft: 20,
-	},
-	title: {
-		fontSize: 28,
-		fontWeight: "bold",
-		textAlign: "center",
-		width: "70%",
-	},
-})

@@ -1,56 +1,34 @@
-import { TextInput, StyleSheet, View, StyleProp, ViewStyle } from "react-native"
-import { AntDesign } from "@expo/vector-icons"
-import { forwardRef, LegacyRef, useState } from "react"
+import { Input as NativeBaseInput, IInputProps } from "native-base"
+import { FormControl } from "native-base"
 
-interface IInput {
-	password?: boolean
-	placeholder: string
-	style?: StyleProp<ViewStyle>
-	ref: LegacyRef<TextInput>
+interface IInput extends IInputProps {
+	errorMessage?: string | null
 }
 
-export const Input = forwardRef(({password = false,
-	placeholder,
-	style,
-	ref,}: IInput) => {
-	const [show, toggleShow] = useState(false)
-	return (
-		<View style={[style, styles.container]}>
-			<TextInput
-				secureTextEntry={show}
-				placeholder={placeholder}
-				style={styles.input}
-				ref={ref}
-			></TextInput>
-			{password && (
-				<AntDesign
-					name={show ? "eye" : "eyeo"}
-					size={24}
-					color="black"
-					onPress={() => toggleShow(!show)}
-				/>
-			)}
-		</View>
-	)
-})
+export function Input({  errorMessage = null , isInvalid,...rest}: IInput) {
+	const invalid = !!errorMessage ||  isInvalid
 
-const styles = StyleSheet.create({
-	container: {
-		width: "100%",
-		height: 50,
-		borderWidth: 1,
-		borderRadius: 10,
-		borderColor: "#0002",
-		paddingLeft: 20,
-		flexDirection: "row",
-		justifyContent: "space-between",
-		alignItems: "center",
-		paddingRight: 20,
-		padding: 0,
-	},
-	input: {
-		flex: 1,
-		alignItems: "center",
-		justifyContent: "center",
-	},
-})
+	return (
+		<FormControl isInvalid={invalid}>
+			<NativeBaseInput
+				{...rest}
+				rounded={"10px"}
+				h={45}
+				w={"full"}
+				_focus={{
+					borderColor: "#d27",
+					borderWidth: 1,
+					focusOutlineColor: "#d27",
+					bg: "gray.100",
+				}}
+
+				_invalid={{
+					borderColor: "red.300"
+				}}
+			/>
+			<FormControl.ErrorMessage>
+				{errorMessage}
+			</FormControl.ErrorMessage>
+		</FormControl>
+	)
+}

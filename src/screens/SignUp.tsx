@@ -1,85 +1,125 @@
-import { Text, View, StyleSheet, Alert } from "react-native"
-import { ButtonLoader } from "../components/Button"
-import { createUserWithEmailAndPassword } from "firebase/auth"
+import { Text } from "react-native"
 import { Input } from "../components/Input"
-import { useRef, useState } from "react"
-import { Auth } from "../../App"
+import { Button, Heading, VStack } from "native-base"
+import { useForm } from "react-hook-form"
+import { Controller } from "react-hook-form"
+import { yupResolver } from "@hookform/resolvers/yup"
+import * as yup from "yup"
 
-export const SignUp = ({ route, navigation }) => {
-	const email = useRef(null)
-	const password = useRef(null)
-	const confirmPassword = useRef(null)
-	const [loading, setLoading] = useState(false)
-
-	const registerUser = async (auth, email, senha) => {
-		try {
-			setLoading(true)
-			await createUserWithEmailAndPassword(auth, email, senha)
-		} catch (error) {
-			console.log(error)
-			Alert.alert(error)
-		} finally {
-			setLoading(false)
-			navigation.replace("home")
-		}
-	}
-
-	return (
-		<View style={styles.container}>
-			<Text style={styles.title}>Crie uma conta Gratuitamente</Text>
-			<Input placeholder="Email/Usuário" ref={email}></Input>
-			<Input placeholder="Senha" password ref={password}></Input>
-			<Input
-				placeholder="Confirmar Senha"
-				password
-				ref={confirmPassword}
-			></Input>
-			<ButtonLoader
-				title={"Cadastrar"}
-				loading={loading}
-				onPress={() => {}}
-				style={styles.button}
-				color={"#fff"}
-			/>
-			<Text
-				onPress={() => navigation.replace("sign")}
-				style={{ color: "#0007" }}
-			>
-				ou Cadastre-se gratuitamente!
-			</Text>
-		</View>
-	)
+interface FieldsForm {
+	name: string
+	email: string
+	password: string
+	confirmPassword: string
 }
 
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: "#fff",
-		alignItems: "center",
-		justifyContent: "center",
-		padding: 40,
-		gap: 10,
-	},
-	button: {
-		alignItems: "center",
-		justifyContent: "center",
-		width: "100%",
-		height: 50,
-		backgroundColor: "#f27",
-		borderRadius: 50,
-	},
-	input: {
-		width: "100%",
-		height: 50,
-		borderWidth: 1,
-		borderRadius: 10,
-		borderColor: "#0002",
-		paddingLeft: 20,
-	},
-	title: {
-		fontSize: 28,
-		fontWeight: "bold",
-		textAlign: "center",
-		width: "70%",
-	},
+const signUpSchema = yup.object({
+	name: yup
+		.string()
+		.required("Este Campo é Obrigatório")
+		.min(6, "No mínimo 6 caracteres"),
+	email: yup
+		.string()
+		.email("Email Inválido")
+		.required("Este Campo é Obrigatório"),
+	password: yup
+		.string()
+		.required("Este Campo é Obrigatório")
+		.min(8, "No mínimo 8 caracteres"),
+	confirmPassword: yup
+		.string()
+		.required("Este Campo é Obrigatório")
+		.min(8, "No mínimo 8 caracteres")
+		.oneOf([yup.ref("password"), null], "As senhas não são idênticas"),
 })
+
+export const SignUp = ({ route, navigation }) => {
+	const {
+		control,
+		handleSubmit,
+		formState: { errors },
+	} = useForm<FieldsForm>({
+		resolver: yupResolver(signUpSchema),
+	})
+
+	function handleSignUp(data: FieldsForm) {
+		console.log(data)
+	}
+	return (
+		<VStack
+			alignItems={"center"}
+			p={50}
+			space={5}
+			justifyContent={"center"}
+			h={"full"}
+		>
+			<VStack>
+				<Heading textAlign={"center"}>Cadastre-se</Heading>
+				<Heading textAlign={"center"}>Gratuitamente</Heading>
+			</VStack>
+
+			<VStack space={2} w={"full"}>
+				<Controller
+					control={control}
+					name="name"
+					render={({ field: { onChange } }) => (
+						<Input
+							placeholder="Nome"
+							onChangeText={onChange}
+							errorMessage={errors.name?.message}
+						/>
+					)}
+				/>
+				<Controller
+					control={control}
+					name="email"
+					render={({ field: { onChange } }) => (
+						<Input
+							placeholder="Email"
+							onChangeText={onChange}
+							errorMessage={errors.email?.message}
+						/>
+					)}
+				/>
+				<Controller
+					control={control}
+					name="password"
+					render={({ field: { onChange } }) => (
+						<Input
+							placeholder="Senha"
+							onChangeText={onChange}
+							errorMessage={errors.password?.message}
+						/>
+					)}
+				/>
+				<Controller
+					control={control}
+					name="confirmPassword"
+					render={({ field: { onChange } }) => (
+						<Input
+							placeholder="Confirmar Senha"
+							onChangeText={onChange}
+							errorMessage={errors.confirmPassword?.message}
+						/>
+					)}
+				/>
+			</VStack>
+			<Button
+				rounded={"full"}
+				w={"full"}
+				bg={"#f27"}
+				_hover={{ bg: "#9b4666" }}
+				_pressed={{ bg: "#9b4666" }}
+				onPress={handleSubmit(handleSignUp)}
+			>
+				Entrar
+			</Button>
+			<Text
+				onPress={() => navigation.replace("Sign")}
+				style={{ color: "#0007" }}
+			>
+				ou entre na sua Conta!
+			</Text>
+		</VStack>
+	)
+}

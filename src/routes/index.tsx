@@ -3,7 +3,6 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { SignUp } from "../screens/SignUp"
 import { Sign } from "../screens/Sign"
 import { Home } from "../screens/Home"
-
 type RootStackParamList = {
 	Sign: undefined
 	SignUp: undefined
