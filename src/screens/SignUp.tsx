@@ -1,10 +1,12 @@
 import { Text } from "react-native"
+import { useState } from "react"
 import { Input } from "../components/Input"
 import { Button, Heading, VStack } from "native-base"
 import { useForm } from "react-hook-form"
 import { Controller } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
+import { useAuth } from "../Contexts/AuthProvider/useAuth"
 
 interface FieldsForm {
 	name: string
@@ -42,8 +44,12 @@ export const SignUp = ({ route, navigation }) => {
 		resolver: yupResolver(signUpSchema),
 	})
 
-	function handleSignUp(data: FieldsForm) {
-		console.log(data)
+	const { createUser } = useAuth()
+
+	const [loading, setLoading] = useState<boolean>(false)
+
+	function handleSignUp({ email, password} : FieldsForm) {
+		createUser(email, password, () => navigation.replace("Home"), setLoading)
 	}
 	return (
 		<VStack
@@ -111,8 +117,9 @@ export const SignUp = ({ route, navigation }) => {
 				_hover={{ bg: "#9b4666" }}
 				_pressed={{ bg: "#9b4666" }}
 				onPress={handleSubmit(handleSignUp)}
+				isLoading={loading}
 			>
-				Entrar
+				Criar Conta
 			</Button>
 			<Text
 				onPress={() => navigation.replace("Sign")}

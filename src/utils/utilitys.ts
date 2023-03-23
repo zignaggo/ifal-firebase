@@ -1,19 +1,4 @@
-import {
-	createUserWithEmailAndPassword,
-	signInWithEmailAndPassword,
-	sendPasswordResetEmail,
-	Auth,
-} from "firebase/auth"
-import { verifyError, errors } from "../../errorcodes"
-import firebaseConfig from "../../firebase.json"
 import * as SecureStore from "expo-secure-store"
-
-// //Recuperar/alterar senha
-// const recoverPassword = (email: string) => {
-// 	sendPasswordResetEmail(auth, email)
-// 		.then(() => console.log("Email sent"))
-// 		.catch((erro) => console.log(verifyError(erro)))
-// }
 
 export async function saveOnStorage(key: string, value: string) {
 	try {
