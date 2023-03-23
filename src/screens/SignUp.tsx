@@ -48,8 +48,8 @@ export const SignUp = ({ route, navigation }) => {
 
 	const [loading, setLoading] = useState<boolean>(false)
 
-	function handleSignUp({ email, password} : FieldsForm) {
-		createUser(email, password, () => navigation.replace("Home"), setLoading)
+	function handleSignUp({ email, password, name} : FieldsForm) {
+		createUser(email, password, name, () => navigation.replace("Home"), setLoading)
 	}
 	return (
 		<VStack

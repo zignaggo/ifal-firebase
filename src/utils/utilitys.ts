@@ -1,4 +1,18 @@
 import * as SecureStore from "expo-secure-store"
+import {
+	collection,
+	getFirestore,
+	getDoc,
+	setDoc,
+	doc,
+} from "firebase/firestore"
+
+export interface UserData {
+	name: string
+	email: string
+	phone: number
+	uid: string
+}
 
 export async function saveOnStorage(key: string, value: string) {
 	try {
@@ -16,4 +30,26 @@ export async function getValueStorage(key: string) {
 		console.log(error)
 	}
 	return ""
+}
+
+export async function saveDataOnFirestore(data: UserData) {
+	try {
+		await setDoc(doc(getFirestore(), "Users", data.uid), {
+			name: data.name,
+			email: data.email,
+			phone: data.phone,
+		})
+
+		console.log("Cadastrado")
+	} catch (error) {
+		console.log(error)
+	}
+}
+
+export async function getDataFirebase(uid: string) {
+	try {
+		return await getDoc(doc(getFirestore(), "Users", uid))
+	} catch (error) {
+		console.log(error)
+	}
 }

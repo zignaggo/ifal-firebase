@@ -11,18 +11,20 @@ import {
 	createUserWithEmailAndPassword,
 	Auth,
 	sendPasswordResetEmail,
+	signOut
 } from "firebase/auth"
 import { Auth as AuthApp } from "../../../App"
 import { verifyError } from "../../utils/errorcodes"
 import { collection, getFirestore } from "firebase/firestore"
 import { Alert } from "react-native"
+import { getDataFirebase, saveDataOnFirestore } from "../../utils/utilitys"
 
 export interface UserData {
 	name: string
 	email: string
-	verified: boolean
-	id: string
-	token?: string
+	verified?: boolean
+	uid: string
+	phone?: number,
 }
 
 export interface IContext {
@@ -33,15 +35,16 @@ export interface IContext {
 		action: () => void,
 		setLoading: Dispatch<SetStateAction<boolean>>
 	) => Promise<void>
-	logout: () => void
+	logout: (action: () => void) => void
 	createUser: (
 		email: string,
 		password: string,
+		name: string,
 		action: () => void,
 		setLoading: Dispatch<SetStateAction<boolean>>
 	) => Promise<void>
 	onStateChanged: (user: UserData) => void
-	loadData: () => void
+	loadData: () => Promise<void>
 	recoverPassword: (
 		email: string,
 		action: () => void,
@@ -61,6 +64,7 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
 	async function createUser(
 		email: string,
 		password: string,
+		name: string,
 		action: () => void,
 		setLoading: Dispatch<SetStateAction<boolean>>
 	) {
@@ -71,7 +75,7 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
 				email,
 				password
 			)
-			console.log(`User ${response.user} logged in`)
+			saveDataOnFirestore({email: email, name: name, uid: response.user.uid, phone: -1})
 			action()
 		} catch (error) {
 			Alert.alert(verifyError(error.code))
@@ -99,10 +103,9 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
 				...user,
 				email: response.user.email,
 				verified: response.user.emailVerified,
-				id: response.user.uid,
+				uid: response.user.uid,
 				name: response.user.displayName,
 			})
-			console.log(`User ${response.user} logged in`)
 			action()
 		} catch (error) {
 			Alert.alert(verifyError(error.code))
@@ -112,15 +115,19 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
 		}
 	}
 
-	function logout() {}
+	function logout(action: () => void) {
+		signOut(AuthApp)
+		action()
+	}
 
 	function onStateChanged(user: UserData) {
 		setUser(user)
 	}
 
-	function loadData() {
-		const response = collection(getFirestore(), "Users")
-		console.log(response)
+	async function loadData() {
+		const response = await getDataFirebase(user.uid)
+		if(response.data()) setUser(response.data() as UserData)
+		console.log(response.data())
 	}
 
 	//Recuperar/alterar senha
@@ -131,7 +138,7 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
 	) {
 		try {
             setLoading(true)
-			const response = await sendPasswordResetEmail(AuthApp, email)
+			await sendPasswordResetEmail(AuthApp, email)
 			Alert.alert("Email Enviado")
             action()
         } catch (error) {
@@ -150,7 +157,7 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
 					name: displayName,
 					email: email,
 					verified: emailVerified,
-					id: uid,
+					uid: uid,
 				})
 		)
 		return subscriber // unsubscribe on unmount

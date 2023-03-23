@@ -1,9 +1,9 @@
 import { MaterialIcons } from "@expo/vector-icons"
-import { VStack, Text, Avatar, HStack, Center, IconButton, Heading } from "native-base"
+import { VStack, Text, Avatar, HStack, Center, IconButton, Heading, Button } from "native-base"
 import { useAuth } from "../Contexts/AuthProvider/useAuth"
 
 export const Home = ({ route, navigation }) => {
-	const { user, loadData } = useAuth()
+	const { user, loadData, logout } = useAuth()
 	loadData()
 	return (
 		<VStack w={"full"}>
@@ -29,6 +29,8 @@ export const Home = ({ route, navigation }) => {
 					</VStack>
 				</Center>
 			</HStack>
+			<Heading>{user.name}</Heading>
+			<Button onPress={() => logout(() => navigation.replace("Sign"))}>Sair</Button>
 		</VStack>
 	)
 }
