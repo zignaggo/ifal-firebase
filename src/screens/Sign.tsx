@@ -40,7 +40,7 @@ export const Sign = ({ route, navigation }) => {
 	})
 
 	const { login } = useAuth()
-	console.log(loading)
+
 	function handleSign({ email, password }: FieldsForm) {
 		login(email, password, Auth, () => navigation.replace("Home"), setLoading)
 	}

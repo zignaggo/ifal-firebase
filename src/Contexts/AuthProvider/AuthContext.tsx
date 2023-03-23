@@ -13,15 +13,14 @@ import {
 } from "firebase/auth"
 import { Auth as AuthApp} from "../../../App"
 import { verifyError } from "../../../errorcodes"
-// import { getValueStorage, saveOnStorage } from "../../utils/utilitys"
-import firestore from '@react-native-firebase/firestore';
-
+import { getValueStorage, saveOnStorage } from "../../utils/utilitys"
+import { collection, getFirestore } from "firebase/firestore"
 export interface UserData {
     name: string
     email: string
     verified: boolean
     id: string
-    token: string
+    token?: string
 }
 
 export interface IContext {
@@ -40,7 +39,7 @@ export interface IContext {
         action: () => void
     ) => Promise<void>
     onStateChanged: (user: UserData) => void
-    loadData: () => Promise<void>
+    loadData: () => void
 }
 
 export interface IAuthProvider {
@@ -108,8 +107,8 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
         setUser(user)
     }
 
-    async function loadData() {
-        const response = await firestore().collection("Users").get()
+    function loadData() {
+        const response = collection( getFirestore(), "Users")
         console.log(response)
     }
 
@@ -117,13 +116,12 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
     useEffect(() => {
         const subscriber = onAuthStateChanged(
             AuthApp,
-            async ({ displayName, email, emailVerified, uid, getIdToken }) =>
+            ({ displayName, email, emailVerified, uid }) =>
                 onStateChanged({
                     name: displayName,
                     email: email,
                     verified: emailVerified,
                     id: uid,
-                    token: await getIdToken(),
                 })
         )
         return subscriber // unsubscribe on unmount
