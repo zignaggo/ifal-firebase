@@ -9,9 +9,10 @@ import {
 	signInWithEmailAndPassword,
 	onAuthStateChanged,
 	createUserWithEmailAndPassword,
-	Auth,
 	sendPasswordResetEmail,
-	signOut
+	signOut,
+	sendEmailVerification,
+	updateProfile
 } from "firebase/auth"
 import { Auth as AuthApp } from "../../../App"
 import { verifyError } from "../../utils/errorcodes"
@@ -23,7 +24,7 @@ export interface UserData {
 	name: string
 	email: string
 	verified?: boolean
-	uid: string
+	uid?: string
 	phone?: number,
 }
 
@@ -59,7 +60,7 @@ export interface IAuthProvider {
 export const AuthContext = createContext<IContext>({} as IContext)
 
 export const AuthProvider = ({ children }: IAuthProvider) => {
-	const [user, setUser] = useState<UserData>({} as UserData)
+	const [user, setUser] = useState<UserData | null>(null)
 
 	async function createUser(
 		email: string,
@@ -70,12 +71,14 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
 	) {
 		try {
 			setLoading(true)
-			const response = await createUserWithEmailAndPassword(
+			const { user } = await createUserWithEmailAndPassword(
 				AuthApp,
 				email,
 				password
 			)
-			saveDataOnFirestore({email: email, name: name, uid: response.user.uid, phone: -1})
+			await updateProfile(user, {displayName: name})
+			setUser({name: user.displayName, email: user.email, verified: user.emailVerified, uid: user.uid})
+			saveDataOnFirestore({email: user.email, name: user.displayName, uid: user.uid, phone: -1})
 			action()
 		} catch (error) {
 			Alert.alert(verifyError(error.code))
@@ -117,6 +120,7 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
 
 	function logout(action: () => void) {
 		signOut(AuthApp)
+		setUser(null)
 		action()
 	}
 
@@ -126,8 +130,11 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
 
 	async function loadData() {
 		const response = await getDataFirebase(user.uid)
-		if(response.data()) setUser(response.data() as UserData)
-		console.log(response.data())
+		if(!response) return 
+		const data = response.data() as UserData
+		if(response && data) {
+			setUser({email: data.email, name: data.name, phone: data.phone})
+		}
 	}
 
 	//Recuperar/alterar senha
@@ -149,19 +156,19 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
         }
 	}
 
-	useEffect(() => {
-		const subscriber = onAuthStateChanged(
-			AuthApp,
-			({ displayName, email, emailVerified, uid }) =>
-				onStateChanged({
-					name: displayName,
-					email: email,
-					verified: emailVerified,
-					uid: uid,
-				})
-		)
-		return subscriber // unsubscribe on unmount
-	}, [])
+	// useEffect(() => {
+	// 	const subscriber = onAuthStateChanged(
+	// 		AuthApp,
+	// 		({ displayName, email, emailVerified, uid }) =>
+	// 			onStateChanged({
+	// 				name: displayName,
+	// 				email: email,
+	// 				verified: emailVerified,
+	// 				uid: uid,
+	// 			})
+	// 	)
+	// 	return subscriber // unsubscribe on unmount
+	// }, [])
 
 	return (
 		<AuthContext.Provider

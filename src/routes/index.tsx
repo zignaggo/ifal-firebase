@@ -1,9 +1,11 @@
-import { NavigationContainer } from "@react-navigation/native"
+import { NavigationContainer, useNavigation } from "@react-navigation/native"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { SignUp } from "../screens/SignUp"
 import { Sign } from "../screens/Sign"
 import { Home } from "../screens/Home"
 import { RecoverPassword } from "../screens/RecoverPassword"
+import { useAuth } from "../Contexts/AuthProvider/useAuth"
+import { useEffect } from "react"
 type RootStackParamList = {
 	Sign: undefined
 	SignUp: undefined
@@ -14,17 +16,26 @@ type RootStackParamList = {
 
 const { Navigator, Screen } = createNativeStackNavigator<RootStackParamList>()
 
-export const AppStackNavigator = () => {
+export function AppStackNavigator() {
+	const { user } = useAuth()
 	return (
 		<NavigationContainer>
 			<Navigator
 				initialRouteName="Sign"
 				screenOptions={{ headerShown: false }}
 			>
-				<Screen name="Sign" component={Sign} />
-				<Screen name="SignUp" component={SignUp} />
-				<Screen name="Home" component={Home} />
-				<Screen name="RecoverPassword" component={RecoverPassword} />
+				{!user ? (
+					<>
+						<Screen name="Sign" component={Sign} />
+						<Screen name="SignUp" component={SignUp} />
+						<Screen
+							name="RecoverPassword"
+							component={RecoverPassword}
+						/>
+					</>
+				) : (
+					<Screen name="Home" component={Home} />
+				)}
 			</Navigator>
 		</NavigationContainer>
 	)

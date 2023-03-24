@@ -41,7 +41,7 @@ export const Sign = ({ route, navigation }) => {
 	const { login } = useAuth()
 
 	function handleSign({ email, password }: FieldsForm) {
-		login(email, password, () => navigation.replace("Home"), setLoading)
+		login(email, password, () => {}, setLoading)
 	}
 	return (
 		<VStack alignItems={"center"} p={50} space={5} justifyContent={"center"} h={"full"}>

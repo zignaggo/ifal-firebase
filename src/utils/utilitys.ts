@@ -53,3 +53,7 @@ export async function getDataFirebase(uid: string) {
 		console.log(error)
 	}
 }
+
+export async function verifyEmail() {
+
+}

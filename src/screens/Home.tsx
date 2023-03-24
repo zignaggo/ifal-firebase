@@ -14,7 +14,7 @@ export const Home = ({ route, navigation }) => {
 						uri: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
 					}}
 				/>
-				<Heading>{user.email}</Heading>
+				<Heading>Home</Heading>
 				<Center>
 					<VStack space={4} alignItems="center">
 						<IconButton
@@ -29,8 +29,13 @@ export const Home = ({ route, navigation }) => {
 					</VStack>
 				</Center>
 			</HStack>
-			<Heading>{user.name}</Heading>
-			<Button onPress={() => logout(() => navigation.replace("Sign"))}>Sair</Button>
+			<VStack w="full">
+				<Heading>Dados Pessoais</Heading>
+			<Text>Nome: {user.name}</Text>
+			<Text>Email: {user.email}</Text>
+			<Text>Status: {user.verified ? "Verificado" : "Não Verificado"}</Text>
+			</VStack>
+			<Button onPress={() => logout(() => {})}>Sair</Button>
 		</VStack>
 	)
 }
