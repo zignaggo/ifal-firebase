@@ -9,9 +9,10 @@ import {
 	Flex,
 	HStack,
 } from "native-base"
-
+import { useAuth } from "../Contexts/AuthProvider/useAuth"
 export function MenuImage() {
-	const { isOpen, onOpen, onClose } = useDisclose()
+	const { isOpen, onOpen, onClose, } = useDisclose()
+	const { imagePickerCall } = useAuth()
 	return (
 		<Center>
 			<Button onPress={onOpen} borderRadius={"50%"} p={2} bg={"#d27"} _hover={{background: "#d27"}}>
@@ -48,7 +49,7 @@ export function MenuImage() {
 						</HStack>
 					</Actionsheet.Item>
 
-					<Actionsheet.Item w={"full"}>
+					<Actionsheet.Item w={"full"} onPress={() => imagePickerCall()}>
 						<HStack
 							flexDir={"row"}
 							justifyContent={"center"}

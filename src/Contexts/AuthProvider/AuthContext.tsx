@@ -13,19 +13,22 @@ import {
 	signOut,
 	sendEmailVerification,
 	updateProfile,
+	User
 } from "firebase/auth"
 import { Auth as AuthApp } from "../../../App"
 import { verifyError } from "../../utils/errorcodes"
-import { collection, getFirestore } from "firebase/firestore"
 import { Alert } from "react-native"
-import { getDataFirebase, saveDataOnFirestore } from "../../utils/utilitys"
+import { getDataFirebase, getUrlImage, saveDataOnFirestore, uploadImageToStorage } from "../../utils/utilitys"
+import * as ImagePicker from "expo-image-picker"
+import { doc, getFirestore, onSnapshot } from "firebase/firestore";
+
 
 export interface UserData {
 	name: string
 	email: string
 	verified?: boolean
 	uid?: string
-	phone?: number
+	image?: string
 }
 
 export interface IContext {
@@ -52,6 +55,8 @@ export interface IContext {
 		setLoading: Dispatch<SetStateAction<boolean>>
 	) => Promise<void>
 	verifyEmail: () => Promise<void>
+	imagePickerCall: () => void
+	setImageProfile: () => Promise<void>
 }
 
 export interface IAuthProvider {
@@ -79,16 +84,16 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
 			)
 			await updateProfile(user, { displayName: name })
 			setUser({
-				name: user.displayName,
+				name: name,
 				email: user.email,
 				verified: user.emailVerified,
 				uid: user.uid,
 			})
 			saveDataOnFirestore({
 				email: user.email,
-				name: user.displayName,
+				name: name,
 				uid: user.uid,
-				phone: -1,
+				image: "s",
 			})
 			action()
 		} catch (error) {
@@ -113,7 +118,6 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
 				email,
 				password
 			)
-			console.log(response)
 			setUser({
 				...user,
 				email: response.user.email,
@@ -145,7 +149,7 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
 		if (!response) return
 		const data = response.data() as UserData
 		if (response && data) {
-			setUser({...user, email: data.email, name: data.name, phone: data.phone })
+			setUser({...user, email: data.email, name: data.name, image: data.image})
 		}
 	}
 
@@ -178,6 +182,28 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
 		}
 	}
 
+	async function imagePickerCall() {
+		try {
+			const data = await ImagePicker.launchImageLibraryAsync({})
+			await uploadImageToStorage(data.assets[0].uri, user.uid)
+			await setImageProfile()
+			await loadData()
+		} catch (error) {
+			console.log(error.code)
+		}
+	}
+	
+
+	async function setImageProfile() {
+		const response = await getUrlImage(user.uid)
+		saveDataOnFirestore({
+			email: user.email,
+			name: user.name,
+			uid: user.uid,
+			image: response,
+		})
+	}
+
 	useEffect(() => {
 		const subscriber = onAuthStateChanged(AuthApp, (user) => {
 			if (user)
@@ -192,6 +218,21 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
 		return subscriber
 	}, [])
 
+
+	// useEffect( () => {
+		
+	// 	if(user) {
+	// 		console.log("out")
+	// 		const subscriber = onSnapshot(doc(getFirestore(), "Users", user.uid), (doc) => {
+	// 			console.log("Teste")
+	// 			loadData()
+	// 		  })
+	// 		  return subscriber
+	// 	}
+		
+	// }, [])
+
+	
 	return (
 		<AuthContext.Provider
 			value={{
@@ -202,7 +243,9 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
 				onStateChanged,
 				loadData,
 				recoverPassword,
-				verifyEmail
+				verifyEmail,
+				imagePickerCall,
+				setImageProfile
 			}}
 		>
 			{children}

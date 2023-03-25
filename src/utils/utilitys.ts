@@ -1,20 +1,16 @@
 import * as SecureStore from "expo-secure-store"
-import { sendEmailVerification } from "firebase/auth"
 import {
-	collection,
 	getFirestore,
 	getDoc,
 	setDoc,
 	doc,
 } from "firebase/firestore"
-import { Auth } from "../../App"
-import { verifyError, errors } from "./errorcodes"
-import { Alert } from "react-native"
+import { getStorage, ref, uploadString, getDownloadURL } from "firebase/storage";
 
 export interface UserData {
 	name: string
 	email: string
-	phone: number
+	image: string
 	uid: string
 }
 
@@ -36,12 +32,12 @@ export async function getValueStorage(key: string) {
 	return ""
 }
 
-export async function saveDataOnFirestore(data: UserData) {
+export async function saveDataOnFirestore({uid, email, image, name}: UserData) {
 	try {
-		await setDoc(doc(getFirestore(), "Users", data.uid), {
-			name: data.name,
-			email: data.email,
-			phone: data.phone,
+		await setDoc(doc(getFirestore(), "Users", uid), {
+			name: name,
+			email: email,
+			image: image,
 		})
 
 		console.log("Cadastrado")
@@ -58,3 +54,22 @@ export async function getDataFirebase(uid: string) {
 	}
 }
 
+
+export async function uploadImageToStorage(uri: string, uid: string) {
+	try {
+		const storage = getStorage()
+		const storageRef = ref(storage, `image-profile-${uid}`)
+
+		await uploadString(storageRef, uri, 'data_url')
+	} catch (error) {
+		console.log(error)
+	}
+}
+
+export async function getUrlImage(uid: string) {
+	const storage = getStorage()
+	const imageRef = ref(storage, `image-profile-${uid}`)
+	
+	const response = await getDownloadURL(imageRef)
+	return response
+}

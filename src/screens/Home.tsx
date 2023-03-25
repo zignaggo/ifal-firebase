@@ -14,7 +14,6 @@ import { Alert } from "react-native"
 import { MenuImage } from "../components/MenuImage"
 import { useAuth } from "../Contexts/AuthProvider/useAuth"
 import {
-	FontAwesome,
 	MaterialIcons,
 	Ionicons,
 	Feather,
@@ -62,7 +61,7 @@ export const Home = ({ route, navigation }) => {
 							<Avatar
 								bg="#d27"
 								source={{
-									uri: "https://s2.glbimg.com/PMyXprKXC0gsusYiEVLx1GsPDN4=/0x0:1170x1162/1000x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_59edd422c0c84a879bd37670ae4f538a/internal_photos/bs/2023/A/b/xneLsORwWB3GHHnrcg7g/whatsapp-image-2023-03-08-at-09.41.08.jpeg",
+									uri: user.image,
 								}}
 								w={"100px"}
 								h={"100px"}
