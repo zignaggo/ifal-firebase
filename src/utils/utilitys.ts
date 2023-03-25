@@ -1,4 +1,5 @@
 import * as SecureStore from "expo-secure-store"
+import { sendEmailVerification } from "firebase/auth"
 import {
 	collection,
 	getFirestore,
@@ -6,6 +7,9 @@ import {
 	setDoc,
 	doc,
 } from "firebase/firestore"
+import { Auth } from "../../App"
+import { verifyError, errors } from "./errorcodes"
+import { Alert } from "react-native"
 
 export interface UserData {
 	name: string
@@ -54,6 +58,3 @@ export async function getDataFirebase(uid: string) {
 	}
 }
 
-export async function verifyEmail() {
-
-}

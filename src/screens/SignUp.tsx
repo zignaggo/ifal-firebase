@@ -23,11 +23,13 @@ const signUpSchema = yup.object({
 	email: yup
 		.string()
 		.email("Email Inválido")
-		.required("Este Campo é Obrigatório"),
+		.required("Este Campo é Obrigatório")
+		.max(256, "Máximo de caracteres alcançado"),
 	password: yup
 		.string()
 		.required("Este Campo é Obrigatório")
-		.min(8, "No mínimo 8 caracteres"),
+		.min(8, "No mínimo 8 caracteres")
+		.max(32, "Tamanho máximo de senha alcançado"),
 	confirmPassword: yup
 		.string()
 		.required("Este Campo é Obrigatório")

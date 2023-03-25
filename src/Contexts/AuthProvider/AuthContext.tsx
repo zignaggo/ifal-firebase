@@ -12,7 +12,7 @@ import {
 	sendPasswordResetEmail,
 	signOut,
 	sendEmailVerification,
-	updateProfile
+	updateProfile,
 } from "firebase/auth"
 import { Auth as AuthApp } from "../../../App"
 import { verifyError } from "../../utils/errorcodes"
@@ -25,7 +25,7 @@ export interface UserData {
 	email: string
 	verified?: boolean
 	uid?: string
-	phone?: number,
+	phone?: number
 }
 
 export interface IContext {
@@ -36,7 +36,7 @@ export interface IContext {
 		action: () => void,
 		setLoading: Dispatch<SetStateAction<boolean>>
 	) => Promise<void>
-	logout: (action: () => void) => void
+	logout: () => void
 	createUser: (
 		email: string,
 		password: string,
@@ -51,6 +51,7 @@ export interface IContext {
 		action: () => void,
 		setLoading: Dispatch<SetStateAction<boolean>>
 	) => Promise<void>
+	verifyEmail: () => Promise<void>
 }
 
 export interface IAuthProvider {
@@ -76,9 +77,19 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
 				email,
 				password
 			)
-			await updateProfile(user, {displayName: name})
-			setUser({name: user.displayName, email: user.email, verified: user.emailVerified, uid: user.uid})
-			saveDataOnFirestore({email: user.email, name: user.displayName, uid: user.uid, phone: -1})
+			await updateProfile(user, { displayName: name })
+			setUser({
+				name: user.displayName,
+				email: user.email,
+				verified: user.emailVerified,
+				uid: user.uid,
+			})
+			saveDataOnFirestore({
+				email: user.email,
+				name: user.displayName,
+				uid: user.uid,
+				phone: -1,
+			})
 			action()
 		} catch (error) {
 			Alert.alert(verifyError(error.code))
@@ -88,7 +99,7 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
 		}
 	}
 
-	//Login do usuário
+	//Login do usuario
 	async function login(
 		email: string,
 		password: string,
@@ -102,6 +113,7 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
 				email,
 				password
 			)
+			console.log(response)
 			setUser({
 				...user,
 				email: response.user.email,
@@ -118,10 +130,9 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
 		}
 	}
 
-	function logout(action: () => void) {
+	function logout() {
 		signOut(AuthApp)
 		setUser(null)
-		action()
 	}
 
 	function onStateChanged(user: UserData) {
@@ -129,11 +140,12 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
 	}
 
 	async function loadData() {
+		if (!user.uid) return
 		const response = await getDataFirebase(user.uid)
-		if(!response) return 
+		if (!response) return
 		const data = response.data() as UserData
-		if(response && data) {
-			setUser({email: data.email, name: data.name, phone: data.phone})
+		if (response && data) {
+			setUser({...user, email: data.email, name: data.name, phone: data.phone })
 		}
 	}
 
@@ -144,31 +156,41 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
 		setLoading: Dispatch<SetStateAction<boolean>>
 	) {
 		try {
-            setLoading(true)
+			setLoading(true)
 			await sendPasswordResetEmail(AuthApp, email)
 			Alert.alert("Email Enviado")
-            action()
-        } catch (error) {
+			action()
+		} catch (error) {
 			Alert.alert(verifyError(error.code))
-            console.log(error.code)
-        } finally {
-            setLoading(false)
-        }
+			console.log(error.code)
+		} finally {
+			setLoading(false)
+		}
 	}
 
-	// useEffect(() => {
-	// 	const subscriber = onAuthStateChanged(
-	// 		AuthApp,
-	// 		({ displayName, email, emailVerified, uid }) =>
-	// 			onStateChanged({
-	// 				name: displayName,
-	// 				email: email,
-	// 				verified: emailVerified,
-	// 				uid: uid,
-	// 			})
-	// 	)
-	// 	return subscriber // unsubscribe on unmount
-	// }, [])
+	// Verificar email
+	async function verifyEmail() {
+		try {
+			sendEmailVerification(AuthApp.currentUser)
+		} catch (error) {
+			Alert.alert(verifyError(error.code)),
+			console.log(error.code)
+		}
+	}
+
+	useEffect(() => {
+		const subscriber = onAuthStateChanged(AuthApp, (user) => {
+			if (user)
+				setUser({
+					email: user.email,
+					verified: user.emailVerified,
+					name: user.displayName,
+					uid: user.uid,
+				})
+		})
+		
+		return subscriber
+	}, [])
 
 	return (
 		<AuthContext.Provider
@@ -179,7 +201,8 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
 				createUser,
 				onStateChanged,
 				loadData,
-                recoverPassword
+				recoverPassword,
+				verifyEmail
 			}}
 		>
 			{children}

@@ -73,7 +73,7 @@ export const Sign = ({ route, navigation }) => {
 					)}
 				/>
 			
-			<Text onPress={() => navigation.replace("RecoverPassword")} w={"full"} color={"#d27"}  >Esqueceu a senha?</Text>
+			<Text onPress={() => navigation.replace("RecoverPassword")} w={"full"} color={"#d27"}>Esqueceu a senha?</Text>
 			</VStack>
 			<Button isLoading={loading} onPress={handleSubmit(handleSign)} rounded={"full"} w={"full"} bg={"#f27"} _hover={{bg: "#9b4666"}}  _pressed={{bg: "#9b4666"}}>Entrar</Button>
 			<Text
