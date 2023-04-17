@@ -10,7 +10,7 @@ import {
 	Box,
 } from "native-base"
 import { useEffect } from "react"
-import { Alert } from "react-native"
+import { Alert, Image } from "react-native"
 import { MenuImage } from "../components/MenuImage"
 import { useAuth } from "../Contexts/AuthProvider/useAuth"
 import {
@@ -28,10 +28,9 @@ export const Home = ({ route, navigation }) => {
 	}, [])
 
 	return (
-		<VStack w={"full"} h={"full"} justifyContent={"space-between"} p={4}>
+		<VStack w={"full"} h={"full"} bgColor={"#1e1e1e"} justifyContent={"space-between"} p={4} safeArea>
 			<VStack space={4}>
 				<HStack justifyContent={"space-between"} alignItems={"center"}>
-					<Heading>Fire</Heading>
 					<Center>
 						<VStack space={4} alignItems="center">
 							<MaterialIcons
@@ -75,23 +74,21 @@ export const Home = ({ route, navigation }) => {
 							</Box>
 						</Flex>
 
-						<Heading fontSize={20} color={"#222222"}>
-							{user.name ? user.name.split(" ")[0] : user.name}
-						</Heading>
+						<Heading fontSize={20} color={"#808997"}>Discente</Heading>
 					</VStack>
 
-					<Input
-						isInvalid={false}
-						isReadOnly
-						placeholder="Digite seu nome"
-						defaultValue={user.name}
-					/>
-					<Input
-						isInvalid={false}
-						isReadOnly
-						placeholder="Digite seu email"
-						defaultValue={user.email}
-					/>
+					<VStack bgColor={"#E7E7E7"} w={"90%"}>
+						<Heading>Dados pessoais:</Heading>
+						<Text>Nome: {user.name}</Text>
+						<Text>Matrícula: {}</Text>
+						<Text>Email: {user.email}</Text>
+						<Heading>Dados acadêmicos:</Heading>
+						<Text>Curso: {user.name}</Text>
+						<Text>Turno: {user.name}</Text>
+						<Text>Período: {user.name}</Text>
+						<Text>carga horária: {user.name}</Text>
+						<Text>Nível: {user.name}</Text>
+					</VStack>
 
 					<Heading fontSize={24} color={"#222222"}>
 						Verificação do email
@@ -105,7 +102,7 @@ export const Home = ({ route, navigation }) => {
 							</HStack>
 						) : (
 							<HStack space={2} alignItems={"center"}>
-								<Text  fontWeight={"medium"} fontSize={16} color={"#FF5858"}>
+								<Text fontWeight={"medium"} fontSize={16} color={"#FF5858"}>
 									Não verificado
 								</Text>
 								<Feather
@@ -117,10 +114,8 @@ export const Home = ({ route, navigation }) => {
 						)}
 					</HStack>
 					<Text fontSize={14} color={"#d27"}>Enviaremos um email para verificação de integridade</Text>
-					
+
 					<Button disabled={user.verified} h={"40px"} w={"full"} borderRadius={10} bg={!user.verified ? "#75D284" : "#4B8F51"} onPress={() => verifyEmail()}>{user.verified ? "Verificado" : "Verificar"}</Button>
-					
-					
 				</VStack>
 			</VStack>
 			<HStack></HStack>

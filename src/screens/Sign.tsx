@@ -1,7 +1,8 @@
 import { useState } from "react"
+import { Image } from "react-native"
 import { Auth } from "../../App"
 import { useAuth } from "../Contexts/AuthProvider/useAuth"
-import { Button, Heading, VStack, Text, Link } from "native-base"
+import { Button, Heading, VStack, Text } from "native-base"
 import { Input } from "../components/Input"
 import { Controller } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
@@ -26,10 +27,10 @@ const singSchema = yup.object({
 		.min(8, "No mínimo 8 caracteres"),
 
 })
+// /^(\w)+@(aluno\. ) 7ifalI.edu\.br$/.test(' a@aluno.ifal.edu.br')
 export const Sign = ({ route, navigation }) => {
-
 	const [loading, setLoading] = useState<boolean>(false)
- 
+
 	const {
 		control,
 		handleSubmit,
@@ -41,47 +42,50 @@ export const Sign = ({ route, navigation }) => {
 	const { login } = useAuth()
 
 	function handleSign({ email, password }: FieldsForm) {
-		login(email, password, () => {}, setLoading)
+		login(email, password, () => { }, setLoading)
 	}
+
 	return (
-		<VStack alignItems={"center"} p={50} space={5} justifyContent={"center"} h={"full"}>
+		<VStack bgColor={"#1e1e1e"} p={5} space={5} h={"full"} safeArea>
+			<Image
+				source={require('../../assets/logo_IF.png')}
+				style={{ width: 63, height: 88 }}
+			/>
 			<VStack>
-			<Heading  textAlign={"center"}>Conecte-se</Heading>
-			<Heading  textAlign={"center"}>em sua conta</Heading>
+				<Heading color={"#fff"} fontSize={50} textAlign={"center"}>Sigaa²</Heading>
 			</VStack>
-			<VStack space={2} w={"full"}>
-			<Controller
+			<VStack bgColor={"#e7e7e7"} space={2} w={"full"}>
+				<Heading color={"#232529"} fontSize={26} fontWeight={'bold'} textAlign={"center"}>Conecte-se</Heading>
+				<Heading color={"#232529"} fontSize={24} textAlign={"center"}>à sua conta</Heading>
+				<Text>Email</Text>
+				<Controller
 					control={control}
 					name="email"
 					render={({ field: { onChange } }) => (
 						<Input
-							placeholder="Email"
+							placeholder="Ex: glevson@ifal.aluno.edu.br"
 							onChangeText={onChange}
 							errorMessage={errors.email?.message}
 						/>
 					)}
 				/>
+				<Text>Senha</Text>
 				<Controller
 					control={control}
 					name="password"
 					render={({ field: { onChange } }) => (
 						<Input
-							placeholder="Senha"
+							placeholder="Digite sua senha"
 							onChangeText={onChange}
 							errorMessage={errors.password?.message}
 						/>
 					)}
 				/>
-			
-			<Text onPress={() => navigation.replace("RecoverPassword")} w={"full"} color={"#d27"}>Esqueceu a senha?</Text>
+
+				<Text onPress={() => navigation.replace("RecoverPassword")} w={"full"} color={"#51BF64"}>Esqueci minha senha</Text>
+				<Button isLoading={loading} onPress={handleSubmit(handleSign)} rounded={"full"} marginX={5} bg={"#51BF64"} _hover={{ bg: "#9b4666" }} _pressed={{ bg: "#9b4666" }}>Entrar</Button>
+				<Text onPress={() => navigation.replace("SignUp")} style={{ color: "#51BF64", textAlign: "center" }}>Ou registre-se aqui</Text>
 			</VStack>
-			<Button isLoading={loading} onPress={handleSubmit(handleSign)} rounded={"full"} w={"full"} bg={"#f27"} _hover={{bg: "#9b4666"}}  _pressed={{bg: "#9b4666"}}>Entrar</Button>
-			<Text
-				onPress={() => navigation.replace("SignUp")}
-				style={{ color: "#0007" }}
-			>
-				ou Cadastre-se gratuitamente!
-			</Text>
 		</VStack>
 	)
 }
