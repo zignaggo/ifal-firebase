@@ -18,7 +18,6 @@ import {
 	Ionicons,
 	Feather,
 } from "@expo/vector-icons"
-import { Input } from "../components/Input"
 
 export const Home = ({ route, navigation }) => {
 	const { user, loadData, logout, verifyEmail } = useAuth()
@@ -42,20 +41,12 @@ export const Home = ({ route, navigation }) => {
 						</VStack>
 					</Center>
 				</HStack>
-				<VStack
-					justifyContent={"space-between"}
-					alignItems={"center"}
-					space={4}
-				>
-					<VStack
-						justifyContent={"center"}
-						alignItems={"center"}
+				<VStack justifyContent={"space-between"} alignItems={"center"} space={4}>
+					<VStack justifyContent={"center"} alignItems={"center"}
 						w={"full"}
 						space={"12px"}
 					>
-						<Heading fontSize={24} color={"#222222"}>
-							Meu Perfil
-						</Heading>
+						<Heading fontSize={24} color={"#e6e6e6"}>Meu Perfil</Heading>
 						<Flex position={"relative"}>
 							<Avatar
 								bg="#d27"
@@ -73,52 +64,32 @@ export const Home = ({ route, navigation }) => {
 								<MenuImage />
 							</Box>
 						</Flex>
-
-						<Heading fontSize={20} color={"#808997"}>Discente</Heading>
 					</VStack>
 
+					<Heading fontSize={20} color={"#E7E7E7"}>Discente</Heading>
 					<VStack bgColor={"#E7E7E7"} w={"90%"}>
 						<Heading>Dados pessoais:</Heading>
 						<Text>Nome: {user.name}</Text>
-						<Text>Matrícula: {}</Text>
-						<Text>Email: {user.email}</Text>
-						<Heading>Dados acadêmicos:</Heading>
-						<Text>Curso: {user.name}</Text>
-						<Text>Turno: {user.name}</Text>
-						<Text>Período: {user.name}</Text>
-						<Text>carga horária: {user.name}</Text>
-						<Text>Nível: {user.name}</Text>
+						<Text>Matrícula: { }</Text>
+						<HStack>
+							<Text>Email: </Text>
+							<Text color={user.verified ? "#535861" : "#e9a94b"}>{user.email}</Text>
+							{
+								user.verified ? <MaterialIcons name="verified" size={18} color="green" /> : <Ionicons name="alert-circle" size={24} color="#e9a94b" />
+							}
+						</HStack>
+						{
+							user.verified ? "" : <Button disabled={user.verified} w={"full"} borderRadius={10} bg={"#75D284"} onPress={() => verifyEmail()}>{user.verified ? "Verificado" : "Verificar"}</Button>
+						}
+						<Heading color={"#202225"}>Dados acadêmicos:</Heading>
+						<Text color={"#202225"}>Curso: Sistemas de informação</Text>
+						<Text color={"#202225"}>Turno: Noturno</Text>
+						<Text color={"#202225"}>Período: 1º</Text>
+						<Text color={"#202225"}>Carga horária: 2683h</Text>
+						<Text color={"#202225"}>Nível: Bacharelado</Text>
 					</VStack>
-
-					<Heading fontSize={24} color={"#222222"}>
-						Verificação do email
-					</Heading>
-					<HStack w="full" justifyContent={"space-between"} >
-						<Text fontWeight={"medium"}>Status:</Text>
-						{user.verified ? (
-							<HStack space={2} alignItems={"center"}>
-								<Text fontWeight={"medium"} fontSize={16} color={"#75D284"}>Verificado</Text>
-								<Ionicons name="checkbox" size={24} color="#75D284" />
-							</HStack>
-						) : (
-							<HStack space={2} alignItems={"center"}>
-								<Text fontWeight={"medium"} fontSize={16} color={"#FF5858"}>
-									Não verificado
-								</Text>
-								<Feather
-									name="x-square"
-									size={18}
-									color="#FF5858"
-								/>
-							</HStack>
-						)}
-					</HStack>
-					<Text fontSize={14} color={"#d27"}>Enviaremos um email para verificação de integridade</Text>
-
-					<Button disabled={user.verified} h={"40px"} w={"full"} borderRadius={10} bg={!user.verified ? "#75D284" : "#4B8F51"} onPress={() => verifyEmail()}>{user.verified ? "Verificado" : "Verificar"}</Button>
 				</VStack>
 			</VStack>
-			<HStack></HStack>
 		</VStack>
 	)
 }

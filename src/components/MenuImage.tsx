@@ -15,7 +15,7 @@ export function MenuImage() {
 	const { imagePickerCall } = useAuth()
 	return (
 		<Center>
-			<Button onPress={onOpen} borderRadius={"50%"} p={2} bg={"#d27"} _hover={{background: "#d27"}}>
+			<Button onPress={onOpen} borderRadius={"50%"} p={2} bg={"#75D284"} _hover={{background: "#d27"}}>
 				<FontAwesome name="camera" size={14} color="#fff" />
 			</Button>
 			<Actionsheet isOpen={isOpen} onClose={onClose}>

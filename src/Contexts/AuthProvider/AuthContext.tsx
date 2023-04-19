@@ -104,7 +104,6 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
 		}
 	}
 
-	//Login do usuario
 	async function login(
 		email: string,
 		password: string,
@@ -153,7 +152,6 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
 		}
 	}
 
-	//Recuperar/alterar senha
 	async function recoverPassword(
 		email: string,
 		action: () => void,
@@ -172,7 +170,6 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
 		}
 	}
 
-	// Verificar email
 	async function verifyEmail() {
 		try {
 			sendEmailVerification(AuthApp.currentUser)
@@ -192,7 +189,6 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
 			console.log(error.code)
 		}
 	}
-	
 
 	async function setImageProfile() {
 		const response = await getUrlImage(user.uid)

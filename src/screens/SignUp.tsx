@@ -15,6 +15,7 @@ interface FieldsForm {
 	confirmPassword: string
 }
 
+const regex = /^(\w)+@(aluno\.)ifal.edu\.br$/.test(`${name}@aluno.ifal.edu.br`)
 const signUpSchema = yup.object({
 	name: yup
 		.string()
@@ -53,14 +54,9 @@ export const SignUp = ({ route, navigation }) => {
 	function handleSignUp({ email, password, name} : FieldsForm) {
 		createUser(email, password, name, () => {}, setLoading)
 	}
+
 	return (
-		<VStack
-			alignItems={"center"}
-			p={50}
-			space={5}
-			justifyContent={"center"}
-			h={"full"}
-		>
+		<VStack alignItems={"center"} p={50} space={5} justifyContent={"center"} h={"full"}>
 			<VStack>
 				<Heading textAlign={"center"}>Cadastre-se</Heading>
 				<Heading textAlign={"center"}>Gratuitamente</Heading>
