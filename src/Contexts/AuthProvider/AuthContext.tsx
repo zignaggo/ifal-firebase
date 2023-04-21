@@ -1,19 +1,11 @@
 import {
-	createContext,
-	Dispatch,
-	SetStateAction,
-	useEffect,
-	useState,
+	createContext, Dispatch, SetStateAction, useEffect, useState,
 } from "react"
 import {
-	signInWithEmailAndPassword,
-	onAuthStateChanged,
-	createUserWithEmailAndPassword,
-	sendPasswordResetEmail,
-	signOut,
-	sendEmailVerification,
-	updateProfile,
-	User
+	signInWithEmailAndPassword, onAuthStateChanged,
+	createUserWithEmailAndPassword, sendPasswordResetEmail,
+	signOut, sendEmailVerification,
+	updateProfile, User
 } from "firebase/auth"
 import { Auth as AuthApp } from "../../../App"
 import { verifyError } from "../../utils/errorcodes"
@@ -21,7 +13,6 @@ import { Alert } from "react-native"
 import { getDataFirebase, getUrlImage, saveDataOnFirestore, uploadImageToStorage } from "../../utils/utilitys"
 import * as ImagePicker from "expo-image-picker"
 import { doc, getFirestore, onSnapshot } from "firebase/firestore";
-
 
 export interface UserData {
 	name: string
@@ -67,8 +58,8 @@ export const AuthContext = createContext<IContext>({} as IContext)
 
 export const AuthProvider = ({ children }: IAuthProvider) => {
 	const [user, setUser] = useState<UserData | null>(null)
-
-	async function createUser(
+	
+		async function createUser(
 		email: string,
 		password: string,
 		name: string,
@@ -97,8 +88,8 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
 			})
 			action()
 		} catch (error) {
-			Alert.alert(verifyError(error.code))
-			console.log(error.code)
+			Alert.alert(verifyError(error))
+			console.log(verifyError(error))
 		} finally {
 			setLoading(false)
 		}
@@ -152,6 +143,17 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
 		}
 	}
 
+	// const recoverPassword = (
+	// 	email: string,
+	// 	action: () => void,
+	// 	setLoading: Dispatch<SetStateAction<boolean>>
+	// 	) => {
+	// 	setLoading(true)
+	// 	sendPasswordResetEmail(AuthApp, email)
+	// 	.then(() => console.log("Email enviado"))
+	// 	.catch(error => console.log(verifyError(error)))
+	// 	.finally(() => setLoading(false))
+	// }
 	async function recoverPassword(
 		email: string,
 		action: () => void,
@@ -170,6 +172,11 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
 		}
 	}
 
+	// const verifyEmail = () => {
+	// 	sendEmailVerification(AuthApp.currentUser)
+	// 	.then(() => console.log("Email de confirmação enviado"))
+	// 	.catch((error) => verifyError(error))
+	// }
 	async function verifyEmail() {
 		try {
 			sendEmailVerification(AuthApp.currentUser)

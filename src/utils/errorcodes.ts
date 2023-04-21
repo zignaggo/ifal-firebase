@@ -88,5 +88,6 @@ export const errors = {
   'auth/phone-number-already-exists': 'O telefone fornecido já está em uso.',
   'auth/project-not-found': 'Nenhum projeto foi encontrado.',
   'auth/insufficient-permission': 'A credencial utilizada não tem permissão para acessar o recurso solicitado.',
-  'auth/internal-error': 'O servidor de autenticação encontrou um erro inesperado ao tentar processar a solicitação.'
+  'auth/internal-error': 'O servidor de autenticação encontrou um erro inesperado ao tentar processar a solicitação.',
+  'FirebaseError: Failed to get document because the client is offline.': 'Cliente offline'
 }

@@ -8,8 +8,6 @@ import { NativeBaseProvider } from "native-base"
 export const app = initializeApp(firebaseConfig)
 export const Auth = getAuth(app)
 
-
-
 export default function App() {
 	return (
 		<NativeBaseProvider>
