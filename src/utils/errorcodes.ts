@@ -9,7 +9,7 @@ export const errors = {
   'auth/user-disabled': 'O usuário correspondente à credencial fornecida foi desativado.',
   'auth/user-not-found': 'O usuário não correponde à nenhuma credencial.',
   'auth/weak-password': 'A senha é muito fraca.',
-  'auth/email-already-in-use': 'Já existi uma conta com o endereço de email fornecido.',
+  'auth/email-already-in-use': 'Já existe uma conta com o endereço de email fornecido.',
   'auth/invalid-email': 'O endereço de e-mail não é válido.',
   'auth/operation-not-allowed': 'O tipo de conta correspondente à esta credencial, ainda não encontra-se ativada.',
   'auth/account-exists-with-different-credential': 'E-mail já associado a outra conta.',

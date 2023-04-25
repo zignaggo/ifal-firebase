@@ -43,7 +43,7 @@ export async function saveDataOnFirestore({uid, email, image, name}: UserData) {
 
 		console.log("Cadastrado")
 	} catch (error) {
-		console.log(verifyError(error))
+		console.log(verifyError(error.code))
 	}
 }
 
@@ -51,10 +51,9 @@ export async function getDataFirebase(uid: string) {
 	try {
 		return await getDoc(doc(getFirestore(), "Users", uid))
 	} catch (error) {
-		console.log(verifyError(error))
+		console.log(error)
 	}
 }
-
 
 export async function uploadImageToStorage(uri: string, uid: string) {
 	try {

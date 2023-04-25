@@ -12,7 +12,7 @@ import { verifyError } from "../../utils/errorcodes"
 import { Alert } from "react-native"
 import { getDataFirebase, getUrlImage, saveDataOnFirestore, uploadImageToStorage } from "../../utils/utilitys"
 import * as ImagePicker from "expo-image-picker"
-import { doc, getFirestore, onSnapshot } from "firebase/firestore";
+import { doc, Firestore, getFirestore, onSnapshot } from "firebase/firestore"
 
 export interface UserData {
 	name: string
@@ -58,8 +58,8 @@ export const AuthContext = createContext<IContext>({} as IContext)
 
 export const AuthProvider = ({ children }: IAuthProvider) => {
 	const [user, setUser] = useState<UserData | null>(null)
-	
-		async function createUser(
+
+	async function createUser(
 		email: string,
 		password: string,
 		name: string,
@@ -88,8 +88,8 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
 			})
 			action()
 		} catch (error) {
-			Alert.alert(verifyError(error))
-			console.log(verifyError(error))
+			Alert.alert(error)
+			console.log(verifyError(error.code))
 		} finally {
 			setLoading(false)
 		}
@@ -118,7 +118,7 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
 			action()
 		} catch (error) {
 			Alert.alert(verifyError(error.code))
-			console.log(error.code)
+			console.log(verifyError(error.code))
 		} finally {
 			setLoading(false)
 		}
@@ -139,38 +139,37 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
 		if (!response) return
 		const data = response.data() as UserData
 		if (response && data) {
-			setUser({...user, email: data.email, name: data.name, image: data.image})
+			setUser({ ...user, email: data.email, name: data.name, image: data.image })
 		}
 	}
 
-	// const recoverPassword = (
-	// 	email: string,
-	// 	action: () => void,
-	// 	setLoading: Dispatch<SetStateAction<boolean>>
-	// 	) => {
-	// 	setLoading(true)
-	// 	sendPasswordResetEmail(AuthApp, email)
-	// 	.then(() => console.log("Email enviado"))
-	// 	.catch(error => console.log(verifyError(error)))
-	// 	.finally(() => setLoading(false))
-	// }
-	async function recoverPassword(
+	const recoverPassword = async (
 		email: string,
 		action: () => void,
 		setLoading: Dispatch<SetStateAction<boolean>>
-	) {
-		try {
-			setLoading(true)
-			await sendPasswordResetEmail(AuthApp, email)
-			Alert.alert("Email Enviado")
-			action()
-		} catch (error) {
-			Alert.alert(verifyError(error.code))
-			console.log(error.code)
-		} finally {
-			setLoading(false)
-		}
+	) => {
+		setLoading(true)
+		await sendPasswordResetEmail(AuthApp, email)
+			.catch(error => console.log(verifyError(error)))
+			.finally(() => setLoading(false))
 	}
+	// async function recoverPassword(
+	// 	email: string,
+	// 	action: () => void,
+	// 	setLoading: Dispatch<SetStateAction<boolean>>
+	// ) {
+	// 	try {
+	// 		setLoading(true)
+	// 		await sendPasswordResetEmail(AuthApp, email)
+	// 		Alert.alert("Email Enviado")
+	// 		action()
+	// 	} catch (error) {
+	// 		Alert.alert(verifyError(error.code))
+	// 		console.log(error.code)
+	// 	} finally {
+	// 		setLoading(false)
+	// 	}
+	// }
 
 	// const verifyEmail = () => {
 	// 	sendEmailVerification(AuthApp.currentUser)
@@ -182,7 +181,7 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
 			sendEmailVerification(AuthApp.currentUser)
 		} catch (error) {
 			Alert.alert(verifyError(error.code)),
-			console.log(error.code)
+				console.log(error.code)
 		}
 	}
 
@@ -218,24 +217,14 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
 				})
 		})
 		
+		function unsub() { // não tá funcionando
+				onSnapshot(doc(getFirestore(), "Users", user.uid), (doc) => {
+					console.log("Current data: ", loadData())
+				})
+			}
 		return subscriber
 	}, [])
 
-
-	// useEffect( () => {
-		
-	// 	if(user) {
-	// 		console.log("out")
-	// 		const subscriber = onSnapshot(doc(getFirestore(), "Users", user.uid), (doc) => {
-	// 			console.log("Teste")
-	// 			loadData()
-	// 		  })
-	// 		  return subscriber
-	// 	}
-		
-	// }, [])
-
-	
 	return (
 		<AuthContext.Provider
 			value={{
