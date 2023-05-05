@@ -15,7 +15,6 @@ interface FieldsForm {
 	confirmPassword: string
 }
 
-const regex = /^(\w)+@(aluno\.)ifal.edu\.br$/.test(`${name}@aluno.ifal.edu.br`)
 const signUpSchema = yup.object({
 	name: yup
 		.string()
