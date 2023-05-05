@@ -7,6 +7,7 @@ import {
 	Button,
 	Flex,
 	Box,
+	Image,
 } from "native-base"
 import { useEffect } from "react"
 import { MenuImage } from "../components/MenuImage"
@@ -28,6 +29,7 @@ export const Home = ({ route, navigation }) => {
 			justifyContent={"space-between"}
 			p={4}
 			safeArea
+			position={"relative"}
 		>
 			<VStack>
 				<HStack
@@ -209,6 +211,15 @@ export const Home = ({ route, navigation }) => {
 					</VStack>
 				</VStack>
 			</VStack>
+			<Image
+				position={"absolute"}
+				zIndex={-1}
+				width={"full"}
+				height={"400px"}
+				bottom={0}
+				left={0}
+				source={require("../../assets/Squares.svg")}
+			/>
 		</VStack>
 	)
 }
