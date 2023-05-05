@@ -1,31 +1,43 @@
-import { Text } from "react-native"
 import { useState } from "react"
 import { Input } from "../components/Input"
-import { Button, Heading, VStack } from "native-base"
+import { Button, Heading, VStack, Text } from "native-base"
 import { useForm } from "react-hook-form"
 import { Controller } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 import { useAuth } from "../Contexts/AuthProvider/useAuth"
+import { ModelLogin } from "../components/ModelLogin"
 
 interface FieldsForm {
 	name: string
+	cpf: string
 	email: string
 	password: string
 	confirmPassword: string
 }
 
-const regex = /^(\w)+@(aluno\.)ifal.edu\.br$/.test(`${name}@aluno.ifal.edu.br`)
 const signUpSchema = yup.object({
 	name: yup
 		.string()
 		.required("Este Campo é Obrigatório")
 		.min(6, "No mínimo 6 caracteres"),
+	cpf: yup
+		.string()
+		.required("Este Campo é Obrigatório")
+		.min(11, "No mínimo 11 caracteres")
+		.matches(
+			/ ([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})/,
+			"CPF inválido"
+		),
 	email: yup
 		.string()
 		.email("Email Inválido")
 		.required("Este Campo é Obrigatório")
-		.max(256, "Máximo de caracteres alcançado"),
+		.max(256, "Máximo de caracteres alcançado")
+		.matches(
+			/^([a-zA-Z0-9])+@(aluno.)?ifal.edu.br$/,
+			"Email não contém @ifal.edu.br"
+		),
 	password: yup
 		.string()
 		.required("Este Campo é Obrigatório")
@@ -51,80 +63,100 @@ export const SignUp = ({ route, navigation }) => {
 
 	const [loading, setLoading] = useState<boolean>(false)
 
-	function handleSignUp({ email, password, name} : FieldsForm) {
+	function handleSignUp({ email, password, name }: FieldsForm) {
 		createUser(email, password, name, () => {}, setLoading)
 	}
 
 	return (
-		<VStack alignItems={"center"} p={50} space={5} justifyContent={"center"} h={"full"}>
-			<VStack>
-				<Heading textAlign={"center"}>Cadastre-se</Heading>
-				<Heading textAlign={"center"}>Gratuitamente</Heading>
-			</VStack>
+		<ModelLogin>
+			<VStack space={5} w={"full"} justifyContent={"center"} h={"full"}>
+				<VStack>
+					<Heading textAlign={"center"}>Cadastrar</Heading>
+					<Text textAlign={"center"}>Conta</Text>
+				</VStack>
 
-			<VStack space={2} w={"full"}>
-				<Controller
-					control={control}
-					name="name"
-					render={({ field: { onChange } }) => (
-						<Input
-							placeholder="Nome"
-							onChangeText={onChange}
-							errorMessage={errors.name?.message}
-						/>
-					)}
-				/>
-				<Controller
-					control={control}
-					name="email"
-					render={({ field: { onChange } }) => (
-						<Input
-							placeholder="Email"
-							onChangeText={onChange}
-							errorMessage={errors.email?.message}
-						/>
-					)}
-				/>
-				<Controller
-					control={control}
-					name="password"
-					render={({ field: { onChange } }) => (
-						<Input
-							placeholder="Senha"
-							onChangeText={onChange}
-							errorMessage={errors.password?.message}
-						/>
-					)}
-				/>
-				<Controller
-					control={control}
-					name="confirmPassword"
-					render={({ field: { onChange } }) => (
-						<Input
-							placeholder="Confirmar Senha"
-							onChangeText={onChange}
-							errorMessage={errors.confirmPassword?.message}
-						/>
-					)}
-				/>
+				<VStack space={2} w={"full"}>
+					<Controller
+						control={control}
+						name="name"
+						render={({ field: { onChange } }) => (
+							<Input
+								placeholder="Ex: Glevson Pinto"
+								title="Nome"
+								onChangeText={onChange}
+								errorMessage={errors.name?.message}
+							/>
+						)}
+					/>
+					<Controller
+						control={control}
+						name="cpf"
+						render={({ field: { onChange } }) => (
+							<Input
+								placeholder="111.111.111-11"
+								title="CPF"
+								onChangeText={onChange}
+								errorMessage={errors.name?.message}
+							/>
+						)}
+					/>
+					<Controller
+						control={control}
+						name="email"
+						render={({ field: { onChange } }) => (
+							<Input
+								placeholder="Ex: glevson@ifal.aluno.edu.br"
+								title="Email"
+								onChangeText={onChange}
+								errorMessage={errors.email?.message}
+							/>
+						)}
+					/>
+					<Controller
+						control={control}
+						name="password"
+						render={({ field: { onChange } }) => (
+							<Input
+								placeholder="Senha"
+								title="Senha"
+								onChangeText={onChange}
+								errorMessage={errors.password?.message}
+							/>
+						)}
+					/>
+					<Controller
+						control={control}
+						name="confirmPassword"
+						render={({ field: { onChange } }) => (
+							<Input
+								placeholder="Confirmar Senha"
+								title="Confirmar Senha"
+								onChangeText={onChange}
+								errorMessage={errors.confirmPassword?.message}
+							/>
+						)}
+					/>
+				</VStack>
+				<Text
+					onPress={() => navigation.replace("Sign")}
+					color={"green.default"}
+					w={"fit-content"}
+					underline
+				>
+					ou entre na sua Conta!
+				</Text>
+				<Button
+					rounded={"md"}
+					w={"full"}
+					bg={"green.default"}
+					_hover={{ bg: "#41804C" }}
+					_pressed={{ bg: "#41804C" }}
+					onPress={handleSubmit(handleSignUp)}
+					isLoading={loading}
+				>
+					Criar Conta
+				</Button>
 			</VStack>
-			<Button
-				rounded={"full"}
-				w={"full"}
-				bg={"#f27"}
-				_hover={{ bg: "#9b4666" }}
-				_pressed={{ bg: "#9b4666" }}
-				onPress={handleSubmit(handleSignUp)}
-				isLoading={loading}
-			>
-				Criar Conta
-			</Button>
-			<Text
-				onPress={() => navigation.replace("Sign")}
-				style={{ color: "#0007" }}
-			>
-				ou entre na sua Conta!
-			</Text>
-		</VStack>
+		</ModelLogin>
 	)
 }

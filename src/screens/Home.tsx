@@ -13,11 +13,7 @@ import { useEffect } from "react"
 import { Alert, Image } from "react-native"
 import { MenuImage } from "../components/MenuImage"
 import { useAuth } from "../Contexts/AuthProvider/useAuth"
-import {
-	MaterialIcons,
-	Ionicons,
-	Feather,
-} from "@expo/vector-icons"
+import { MaterialIcons, Ionicons, Feather } from "@expo/vector-icons"
 
 export const Home = ({ route, navigation }) => {
 	const { user, loadData, logout, verifyEmail } = useAuth()
@@ -27,7 +23,14 @@ export const Home = ({ route, navigation }) => {
 	}, [])
 
 	return (
-		<VStack w={"full"} h={"full"} bgColor={"#1e1e1e"} justifyContent={"space-between"} p={4} safeArea>
+		<VStack
+			w={"full"}
+			h={"full"}
+			bgColor={"#1e1e1e"}
+			justifyContent={"space-between"}
+			p={4}
+			safeArea
+		>
 			<VStack space={4}>
 				<HStack justifyContent={"space-between"} alignItems={"center"}>
 					<Center>
@@ -41,12 +44,20 @@ export const Home = ({ route, navigation }) => {
 						</VStack>
 					</Center>
 				</HStack>
-				<VStack justifyContent={"space-between"} alignItems={"center"} space={4}>
-					<VStack justifyContent={"center"} alignItems={"center"}
+				<VStack
+					justifyContent={"space-between"}
+					alignItems={"center"}
+					space={4}
+				>
+					<VStack
+						justifyContent={"center"}
+						alignItems={"center"}
 						w={"full"}
 						space={"12px"}
 					>
-						<Heading fontSize={24} color={"#e6e6e6"}>Meu Perfil</Heading>
+						<Heading fontSize={24} color={"#e6e6e6"}>
+							Meu Perfil
+						</Heading>
 						<Flex position={"relative"}>
 							<Avatar
 								bg="#d27"
@@ -66,23 +77,49 @@ export const Home = ({ route, navigation }) => {
 						</Flex>
 					</VStack>
 
-					<Heading fontSize={20} color={"#E7E7E7"}>Discente</Heading>
+					<Heading fontSize={20} color={"#E7E7E7"}>
+						Discente
+					</Heading>
 					<VStack bgColor={"#E7E7E7"} w={"90%"}>
 						<Heading>Dados pessoais:</Heading>
 						<Text>Nome: {user.name}</Text>
-						<Text>Matrícula: { }</Text>
+						<Text>Matrícula: {}</Text>
 						<HStack>
 							<Text>Email: </Text>
-							<Text color={user.verified ? "#535861" : "#e9a94b"}>{user.email}</Text>
-							{
-								user.verified ? <MaterialIcons name="verified" size={18} color="green" /> : <Ionicons name="alert-circle" size={24} color="#e9a94b" />
-							}
+							<Text color={user.verified ? "#535861" : "#e9a94b"}>
+								{user.email}
+							</Text>
+							{user.verified ? (
+								<MaterialIcons
+									name="verified"
+									size={18}
+									color="green"
+								/>
+							) : (
+								<Ionicons
+									name="alert-circle"
+									size={24}
+									color="#e9a94b"
+								/>
+							)}
 						</HStack>
-						{
-							user.verified ? "" : <Button disabled={user.verified} w={"full"} borderRadius={10} bg={"#75D284"} onPress={() => verifyEmail()}>{user.verified ? "Verificado" : "Verificar"}</Button>
-						}
+						{user.verified ? (
+							""
+						) : (
+							<Button
+								disabled={user.verified}
+								w={"full"}
+								borderRadius={10}
+								bg={"#75D284"}
+								onPress={() => verifyEmail()}
+							>
+								{user.verified ? "Verificado" : "Verificar"}
+							</Button>
+						)}
 						<Heading color={"#202225"}>Dados acadêmicos:</Heading>
-						<Text color={"#202225"}>Curso: Sistemas de informação</Text>
+						<Text color={"#202225"}>
+							Curso: Sistemas de informação
+						</Text>
 						<Text color={"#202225"}>Turno: Noturno</Text>
 						<Text color={"#202225"}>Período: 1º</Text>
 						<Text color={"#202225"}>Carga horária: 2683h</Text>

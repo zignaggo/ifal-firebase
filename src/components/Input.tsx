@@ -1,32 +1,64 @@
-import { Input as NativeBaseInput, IInputProps } from "native-base"
+import {
+	Input as NativeBaseInput,
+	IInputProps,
+	Text,
+	InputGroup,
+} from "native-base"
 import { FormControl } from "native-base"
 
 interface IInput extends IInputProps {
 	errorMessage?: string | null
+	title: string
 }
 
-export function Input({  errorMessage = null , isInvalid,...rest}: IInput) {
-	const invalid = !!errorMessage ||  isInvalid
+export function Input({
+	errorMessage = null,
+	isInvalid,
+	title,
+	...rest
+}: IInput) {
+	const invalid = !!errorMessage || isInvalid
 
 	return (
 		<FormControl isInvalid={invalid}>
-			<NativeBaseInput
-				{...rest}
-				rounded={"10px"}
-				h={45}
+			<InputGroup
+				position={"relative"}
+				h={50}
+				borderRadius={"10px"}
 				w={"full"}
-				_focus={{
-					borderColor: "#d27",
-					borderWidth: 1,
-					focusOutlineColor: "#d27",
-					bg: "gray.100",
-				}}
+				overflowX={"hidden"}
+				p={0}
+				m={0}
+			>
+				<NativeBaseInput
+					{...rest}
+					pt={"15px"}
+					w={"full"}
+					pb={"5px"}
+					px={"10px"}
+					borderRadius={"8px"}
+					_focus={{
+						borderColor: "gray.400",
+						borderWidth: 1,
+						focusOutlineColor: "gray.400",
+						bg: "gray.100",
+					}}
+					_invalid={{
+						borderColor: "red.300",
+					}}
+				/>
+				<Text
+					position={"absolute"}
+					top={"5px"}
+					left={"10px"}
+					fontSize={"12px"}
+					color={"gray.400"}
+				>
+					{title}
+				</Text>
+			</InputGroup>
 
-				_invalid={{
-					borderColor: "red.300"
-				}}
-			/>
-			<FormControl.ErrorMessage>
+			<FormControl.ErrorMessage mt={"1px"}>
 				{errorMessage}
 			</FormControl.ErrorMessage>
 		</FormControl>

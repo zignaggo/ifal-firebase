@@ -1,11 +1,10 @@
 import { NavigationContainer, useNavigation } from "@react-navigation/native"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { SignUp } from "../screens/SignUp"
-import { Sign } from "../screens/Sign"
 import { Home } from "../screens/Home"
 import { RecoverPassword } from "../screens/RecoverPassword"
 import { useAuth } from "../Contexts/AuthProvider/useAuth"
-import { useEffect } from "react"
+import { Sign } from "../screens/Sign"
 type RootStackParamList = {
 	Sign: undefined
 	SignUp: undefined
