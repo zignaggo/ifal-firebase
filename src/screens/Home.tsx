@@ -153,7 +153,7 @@ export const Home = ({ route, navigation }) => {
 										w={"full"}
 										borderRadius={10}
 										bg={"#75D284"}
-										_hover={{bg: "#75D284"}}
+										_hover={{ bg: "#75D284" }}
 										onPress={() => verifyEmail()}
 									>
 										{user.verified

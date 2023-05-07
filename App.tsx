@@ -5,6 +5,7 @@ import firebaseConfig from "./firebase.json"
 import { AuthProvider } from "./src/Contexts/AuthProvider/AuthContext"
 import { NativeBaseProvider } from "native-base"
 import { theme } from "./src/config/theme"
+import "react-native-gesture-handler"
 export const app = initializeApp(firebaseConfig)
 export const Auth = getAuth(app)
 

@@ -1,5 +1,5 @@
 import { NavigationContainer, useNavigation } from "@react-navigation/native"
-import { createNativeStackNavigator } from "@react-navigation/native-stack"
+import { FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons"
 import { SignUp } from "../screens/SignUp"
 import { Home } from "../screens/Home"
 import { Subjects } from "../screens/Subjects"
@@ -7,6 +7,8 @@ import { Marks } from "../screens/Marks"
 import { RecoverPassword } from "../screens/RecoverPassword"
 import { useAuth } from "../Contexts/AuthProvider/useAuth"
 import { Sign } from "../screens/Sign"
+import { createDrawerNavigator } from "@react-navigation/drawer"
+import { CustomDrawer } from "../components/CustomDrawer"
 type RootStackParamList = {
 	Sign: undefined
 	SignUp: undefined
@@ -17,7 +19,7 @@ type RootStackParamList = {
 	Marks: undefined
 }
 
-const { Navigator, Screen } = createNativeStackNavigator<RootStackParamList>()
+const { Navigator, Screen } = createDrawerNavigator<RootStackParamList>()
 
 export function AppStackNavigator() {
 	const { user } = useAuth()
@@ -25,7 +27,20 @@ export function AppStackNavigator() {
 		<NavigationContainer>
 			<Navigator
 				initialRouteName="Sign"
-				screenOptions={{ headerShown: false }}
+				screenOptions={{
+					headerShown: false,
+					drawerStyle: {
+						backgroundColor: "#202225",
+					},
+					drawerType: "slide",
+					drawerActiveTintColor: "#353940",
+					drawerActiveBackgroundColor: "#E7E7E7",
+					drawerInactiveTintColor: "#E7E7E7",
+					drawerInactiveBackgroundColor: "transparent",
+					drawerLabelStyle: { marginLeft: -20 },
+					drawerItemStyle: { borderRadius: 12 },
+				}}
+				drawerContent={(props) => <CustomDrawer {...props} />}
 			>
 				{!user ? (
 					<>
@@ -38,9 +53,44 @@ export function AppStackNavigator() {
 					</>
 				) : (
 					<>
-						<Screen name="Subjects" component={Subjects} />
-						<Screen name="Marks" component={Marks} />
-						<Screen name="Home" component={Home} />
+						<Screen
+							name="Subjects"
+							component={Subjects}
+							options={{
+								drawerIcon: ({ color }) => (
+									<MaterialCommunityIcons
+										name="file-document-edit"
+										size={24}
+										color={color}
+									/>
+								),
+								title: "Minhas Notas",
+							}}
+						/>
+						<Screen
+							name="Marks"
+							component={Marks}
+							options={{
+								drawerLabel: () => null,
+								title: null,
+								drawerIcon: () => null,
+								drawerItemStyle: { height: 0 },
+							}}
+						/>
+						<Screen
+							name="Home"
+							component={Home}
+							options={{
+								drawerIcon: ({ color }) => (
+									<FontAwesome
+										name="user-circle"
+										size={24}
+										color={color}
+									/>
+								),
+								title: "Início",
+							}}
+						/>
 					</>
 				)}
 			</Navigator>
