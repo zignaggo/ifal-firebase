@@ -1,4 +1,4 @@
-import { NavigationContainer, useNavigation } from "@react-navigation/native"
+import { NavigationContainer } from "@react-navigation/native"
 import { FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons"
 import { SignUp } from "../screens/SignUp"
 import { Home } from "../screens/Home"

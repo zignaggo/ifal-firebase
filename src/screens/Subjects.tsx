@@ -1,12 +1,7 @@
 import {
 	VStack,
-	Text,
-	Avatar,
 	HStack,
 	Heading,
-	Button,
-	Flex,
-	Box,
 	Image,
 } from "native-base"
 import { theme } from "../config/theme"
