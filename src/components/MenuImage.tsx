@@ -11,11 +11,17 @@ import {
 } from "native-base"
 import { useAuth } from "../Contexts/AuthProvider/useAuth"
 export function MenuImage() {
-	const { isOpen, onOpen, onClose, } = useDisclose()
+	const { isOpen, onOpen, onClose } = useDisclose()
 	const { imagePickerCall } = useAuth()
 	return (
 		<Center>
-			<Button onPress={onOpen} borderRadius={"50%"} p={2} bg={"#75D284"} _hover={{background: "#d27"}}>
+			<Button
+				onPress={onOpen}
+				borderRadius={"50%"}
+				p={2}
+				bg={"#75D284"}
+				_hover={{ background: "#d27" }}
+			>
 				<FontAwesome name="camera" size={14} color="#fff" />
 			</Button>
 			<Actionsheet isOpen={isOpen} onClose={onClose}>
@@ -28,7 +34,7 @@ export function MenuImage() {
 								color: "gray.300",
 							}}
 						>
-							Select a option
+							Selecione uma opção
 						</Text>
 					</Box>
 					<Actionsheet.Item w={"full"}>
@@ -44,12 +50,15 @@ export function MenuImage() {
 								color="gray.800"
 							/>
 							<Text fontWeight={"600"} color={"gray.800"}>
-								Take a picture
+								Tire uma Foto
 							</Text>
 						</HStack>
 					</Actionsheet.Item>
 
-					<Actionsheet.Item w={"full"} onPress={() => imagePickerCall()}>
+					<Actionsheet.Item
+						w={"full"}
+						onPress={() => imagePickerCall()}
+					>
 						<HStack
 							flexDir={"row"}
 							justifyContent={"center"}
@@ -62,26 +71,26 @@ export function MenuImage() {
 								color={"gray.800"}
 							/>
 							<Text fontWeight={"bold"} color={"gray.800"}>
-								Gallery
+								Galeria
 							</Text>
 						</HStack>
 					</Actionsheet.Item>
-					
-          <Actionsheet.Item w={"full"}>
+
+					<Actionsheet.Item w={"full"}>
 						<HStack
 							flexDir={"row"}
 							justifyContent={"center"}
 							alignItems={"center"}
 							space={4}
 						>
-              <FontAwesome5
-                name="trash"
-                size={18}
-                color={"rgb(249, 113, 113)"}
-              />
-              <Text fontWeight={"bold"} color={"red.400"}>
-                Delete
-              </Text>
+							<FontAwesome5
+								name="trash"
+								size={18}
+								color={"rgb(249, 113, 113)"}
+							/>
+							<Text fontWeight={"bold"} color={"red.400"}>
+								Apagar
+							</Text>
 						</HStack>
 					</Actionsheet.Item>
 				</Actionsheet.Content>

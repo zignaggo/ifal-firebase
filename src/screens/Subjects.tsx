@@ -11,17 +11,26 @@ import {
 } from "native-base"
 import { theme } from "../config/theme"
 import { Subject } from "../components/Subject"
+import { Ionicons } from "@expo/vector-icons"
 
 export const Subjects = ({ route, navigation }) => {
 	return (
 		<VStack
 			w={"full"}
 			h={"full"}
-			bgColor={"#1e1e1e"}
+			bgColor={"gray.900"}
 			p={4}
 			safeArea
 			position={"relative"}
 		>
+			<HStack justifyContent={"space-between"} alignItems={"center"}>
+				<Ionicons
+					name="md-reorder-two-sharp"
+					size={34}
+					color="#E7E7E7"
+					onPress={() => navigation.openDrawer()}
+				/>
+			</HStack>
 			<Heading
 				color={theme.colors.gray[50]}
 				textAlign={"center"}

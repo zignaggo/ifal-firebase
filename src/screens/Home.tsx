@@ -25,25 +25,20 @@ export const Home = ({ route, navigation }) => {
 		<VStack
 			w={"full"}
 			h={"full"}
-			bgColor={"#1e1e1e"}
-			justifyContent={"space-between"}
+			bgColor={"gray.900"}
 			p={4}
 			safeArea
 			position={"relative"}
 		>
-			<VStack>
-				<HStack
-					justifyContent={"space-between"}
-					alignItems={"center"}
-					paddingBottom={10}
-				>
-					<MaterialIcons
-						name="exit-to-app"
-						size={24}
-						color="#d27"
-						onPress={() => logout()}
-					/>
-				</HStack>
+			<HStack justifyContent={"space-between"} alignItems={"center"}>
+				<Ionicons
+					name="md-reorder-two-sharp"
+					size={34}
+					color="#E7E7E7"
+					onPress={() => navigation.openDrawer()}
+				/>
+			</HStack>
+			<VStack px={8}>
 				<VStack
 					space={0}
 					justifyContent={"space-between"}
@@ -64,57 +59,81 @@ export const Home = ({ route, navigation }) => {
 					<VStack
 						borderTopRadius={15}
 						bgColor={"#353940"}
-						width={"90%"}
-						height={135}
+						width={"full"}
 						alignItems={"center"}
+						justifyContent={"flex-end"}
+						position={"relative"}
+						h={"135px"}
+						pb={"20px"}
 					>
-						<Flex position={"relative"}>
-							<Avatar
-								bg="#d27"
-								source={{
-									uri: user.image,
-								}}
-								w={"100px"}
-								h={"100px"}
-								top={"-30%"}
-							/>
-							<Box
-								position={"absolute"}
-								bottom={"-5px"}
-								left={"55%"}
-								top={"50%"}
-							>
-								<MenuImage />
-							</Box>
-						</Flex>
+						<Box position={"absolute"} top={"-30px"}>
+							<Flex position={"relative"}>
+								<Avatar
+									bg="#d27"
+									source={{
+										uri: user.image,
+									}}
+									w={"100px"}
+									h={"100px"}
+								/>
+								<Box
+									position={"absolute"}
+									bottom={"-5px"}
+									left={"55%"}
+									top={"75%"}
+								>
+									<MenuImage />
+								</Box>
+							</Flex>
+						</Box>
 						<Heading fontSize={22} color={"#E7E7E7"}>
 							Discente
 						</Heading>
 					</VStack>
 					<VStack
-						w={"90%"}
-						borderBottomRadius={15}
+						w={"full"}
+						borderBottomRadius={8}
 						bgColor={"#E7E7E7"}
-						paddingTop={3}
 					>
-						<VStack paddingLeft={"4%"} paddingBottom={3}>
-							<Heading fontSize={16}>Dados pessoais:</Heading>
-							<HStack>
-								<VStack paddingRight={4}>
-									<Text fontSize={12}>Nome:</Text>
-									<Text fontSize={12}>Matrícula:</Text>
-									<VStack marginTop={1} height={6}>
-										<Text fontSize={12}>Email:</Text>
+						<VStack p={"15px"} space={"6px"}>
+							<Heading
+								fontSize={16}
+								fontWeight={"bold"}
+								color={"gray.900"}
+							>
+								Dados pessoais:
+							</Heading>
+							<HStack space={"10px"}>
+								<VStack space={"4px"}>
+									<Text
+										fontSize={12}
+										fontWeight={"bold"}
+										color={"gray.500"}
+									>
+										Nome:
+									</Text>
+									<Text
+										fontSize={12}
+										fontWeight={"bold"}
+										color={"gray.500"}
+									>
+										Matrícula:
+									</Text>
+									<VStack>
+										<Text
+											fontSize={12}
+											fontWeight={"bold"}
+											color={"gray.500"}
+										>
+											Email:
+										</Text>
 									</VStack>
 								</VStack>
-								<VStack>
+								<VStack space={"4px"}>
 									<Text fontSize={12}>{user.name}</Text>
 									<Text fontSize={12}>teste{}</Text>
-									<HStack height={5} alignItems={"center"}>
-										<HStack
-											marginTop={2}
-											alignItems={"center"}
-										>
+									<HStack alignItems={"center"}>
+										<HStack alignItems={"center"}>
 											<Text
 												color={
 													user.verified
@@ -134,7 +153,7 @@ export const Home = ({ route, navigation }) => {
 											) : (
 												<Ionicons
 													name="alert-circle"
-													size={24}
+													size={18}
 													color="#e9a94b"
 												/>
 											)}
@@ -142,55 +161,74 @@ export const Home = ({ route, navigation }) => {
 									</HStack>
 								</VStack>
 							</HStack>
+							{!user.verified && (
+								<Button
+									disabled={user.verified}
+									w={"full"}
+									h={"30px"}
+									borderRadius={"8px"}
+									bg={"#75D284"}
+									_hover={{ bg: "#75D284" }}
+									onPress={() => verifyEmail()}
+								>
+									{user.verified ? "Verificado" : "Verificar"}
+								</Button>
+							)}
 						</VStack>
-						{user.verified ? (
-							""
-						) : (
-							<VStack alignItems={"center"} paddingBottom={5}>
-								<VStack w={"90%"}>
-									<Button
-										disabled={user.verified}
-										w={"full"}
-										borderRadius={10}
-										bg={"#75D284"}
-										_hover={{ bg: "#75D284" }}
-										onPress={() => verifyEmail()}
-									>
-										{user.verified
-											? "Verificado"
-											: "Verificar"}
-									</Button>
-								</VStack>
-							</VStack>
-						)}
+
 						<VStack
-							paddingLeft={"4%"}
-							paddingY={3}
+							p={"15px"}
+							pb={"20px"}
+							space={"6px"}
 							borderTopWidth={2}
 							borderTopColor={"#BABEC5"}
 						>
-							<Heading fontSize={16} color={"#202225"}>
+							<Heading
+								fontSize={16}
+								fontWeight={"bold"}
+								color={"gray.900"}
+							>
 								Dados acadêmicos:
 							</Heading>
-							<HStack>
-								<VStack paddingRight={2}>
-									<Text fontSize={12} color={"#202225"}>
+							<HStack space={"10px"}>
+								<VStack space={"4px"}>
+									<Text
+										fontSize={12}
+										fontWeight={"bold"}
+										color={"gray.500"}
+									>
 										Curso:
 									</Text>
-									<Text fontSize={12} color={"#202225"}>
+									<Text
+										fontSize={12}
+										fontWeight={"bold"}
+										color={"gray.500"}
+									>
 										Turno:
 									</Text>
-									<Text fontSize={12} color={"#202225"}>
+									<Text
+										fontSize={12}
+										fontWeight={"bold"}
+										color={"gray.500"}
+									>
 										Período:
 									</Text>
-									<Text fontSize={12} color={"#202225"}>
+									<Text
+										fontSize={12}
+										fontWeight={"bold"}
+										color={"gray.500"}
+									>
 										Carga horária:
 									</Text>
-									<Text fontSize={12} color={"#202225"}>
+									<Text
+										fontSize={12}
+										fontWeight={"bold"}
+										color={"gray.500"}
+									>
 										Nível:
 									</Text>
 								</VStack>
-								<VStack>
+								<VStack space={"4px"}>
 									<Text fontSize={12} color={"#202225"}>
 										Sistemas de informação
 									</Text>

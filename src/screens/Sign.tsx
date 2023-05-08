@@ -128,7 +128,7 @@ export const Sign = ({ route, navigation }) => {
 					Ou entre com
 				</Text>
 				<Button
-					isLoading={loading}
+					isLoading={false}
 					onPress={handleSubmit(handleSign)}
 					rounded={"full"}
 					bg={"gray.100"}

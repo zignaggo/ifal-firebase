@@ -37,22 +37,64 @@ export function AppStackNavigator() {
 					drawerActiveBackgroundColor: "#E7E7E7",
 					drawerInactiveTintColor: "#E7E7E7",
 					drawerInactiveBackgroundColor: "transparent",
-					drawerLabelStyle: { marginLeft: -20 },
-					drawerItemStyle: { borderRadius: 12 },
+					drawerLabelStyle: {
+						marginLeft: -20,
+						padding: 0,
+					},
+					drawerItemStyle: {
+						borderRadius: 12,
+						margin: 0,
+						paddingHorizontal: 6,
+						height: 45,
+					},
+
+					overlayColor: "transparent",
 				}}
 				drawerContent={(props) => <CustomDrawer {...props} />}
 			>
 				{!user ? (
 					<>
-						<Screen name="Sign" component={Sign} />
-						<Screen name="SignUp" component={SignUp} />
+						<Screen
+							name="Sign"
+							component={Sign}
+							options={{
+								swipeEnabled: false,
+								drawerStyle: { display: "none" },
+							}}
+						/>
+						<Screen
+							name="SignUp"
+							component={SignUp}
+							options={{
+								swipeEnabled: false,
+								drawerStyle: { display: "none" },
+							}}
+						/>
 						<Screen
 							name="RecoverPassword"
 							component={RecoverPassword}
+							options={{
+								swipeEnabled: false,
+								drawerStyle: { display: "none" },
+							}}
 						/>
 					</>
 				) : (
 					<>
+						<Screen
+							name="Home"
+							component={Home}
+							options={{
+								drawerIcon: ({ color }) => (
+									<FontAwesome
+										name="user-circle"
+										size={24}
+										color={color}
+									/>
+								),
+								title: "Meu Perfil",
+							}}
+						/>
 						<Screen
 							name="Subjects"
 							component={Subjects}
@@ -75,20 +117,6 @@ export function AppStackNavigator() {
 								title: null,
 								drawerIcon: () => null,
 								drawerItemStyle: { height: 0 },
-							}}
-						/>
-						<Screen
-							name="Home"
-							component={Home}
-							options={{
-								drawerIcon: ({ color }) => (
-									<FontAwesome
-										name="user-circle"
-										size={24}
-										color={color}
-									/>
-								),
-								title: "Início",
 							}}
 						/>
 					</>
