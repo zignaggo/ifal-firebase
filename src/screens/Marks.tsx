@@ -1,5 +1,4 @@
 import { VStack, Text, HStack, Heading, Image } from "native-base"
-import { theme } from "../config/theme"
 import { FontAwesome } from "@expo/vector-icons"
 import { TouchableOpacity } from "react-native"
 
@@ -8,11 +7,11 @@ export const Marks = ({ route, navigation }) => {
 
 	return (
 		<VStack
+			safeArea
 			w={"full"}
 			minH={"full"}
 			bgColor={"gray.900"}
 			p={7}
-			safeArea
 			position={"relative"}
 		>
 			<VStack paddingBottom={15}>
@@ -48,7 +47,7 @@ export const Marks = ({ route, navigation }) => {
 				<Text
 					paddingBottom={3}
 					fontSize={14}
-					color={theme.colors.gray[100]}
+					color={"gray.100"}
 				>
 					Nome prof
 				</Text>
@@ -98,7 +97,7 @@ export const Marks = ({ route, navigation }) => {
 
 					<VStack
 						p={3}
-						bg={theme.colors.gray[600]}
+						bg={"gray.600"}
 						marginBottom={2}
 						borderRadius={8}
 					>
@@ -107,7 +106,7 @@ export const Marks = ({ route, navigation }) => {
 						</Heading>
 						<HStack justifyContent={"space-between"}>
 							<Text fontSize={14}>3,5</Text>
-							<Text fontSize={14} color={theme.colors.gray[400]}>
+							<Text fontSize={14} color={"gray.400"}>
 								Mínimo: 7,00
 							</Text>
 						</HStack>
@@ -121,7 +120,7 @@ export const Marks = ({ route, navigation }) => {
 					bgColor={"green.default"}
 					height={"68px"}
 				>
-					<Heading fontSize={18}>Situação</Heading>
+					<Text bold fontSize={18}>Situação</Text>
 					<Text>APROVADO</Text>
 				</VStack>
 			</VStack>

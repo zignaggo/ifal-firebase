@@ -1,24 +1,18 @@
-import {
-	VStack,
-	HStack,
-	Heading,
-	Image,
-} from "native-base"
-import { theme } from "../config/theme"
+import { VStack, HStack, Heading, Image } from "native-base"
 import { Subject } from "../components/Subject"
 import { Ionicons } from "@expo/vector-icons"
 
 export const Subjects = ({ route, navigation }) => {
 	return (
 		<VStack
+			safeArea
 			w={"full"}
 			h={"full"}
 			bgColor={"gray.900"}
 			p={4}
-			safeArea
 			position={"relative"}
 		>
-			<HStack justifyContent={"space-between"} alignItems={"center"}>
+			<HStack>
 				<Ionicons
 					name="md-reorder-two-sharp"
 					size={34}
@@ -27,7 +21,7 @@ export const Subjects = ({ route, navigation }) => {
 				/>
 			</HStack>
 			<Heading
-				color={theme.colors.gray[50]}
+				color={"gray.50"}
 				textAlign={"center"}
 				paddingBottom={18}
 			>
