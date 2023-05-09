@@ -10,7 +10,7 @@ import {
 	HStack,
 } from "native-base"
 import { useAuth } from "../Contexts/AuthProvider/useAuth"
-export function MenuImage() {
+export const MenuImage = () => {
 	const { isOpen, onOpen, onClose } = useDisclose()
 	const { imagePickerCall } = useAuth()
 	return (

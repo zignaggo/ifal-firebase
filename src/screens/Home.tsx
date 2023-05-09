@@ -39,7 +39,12 @@ export const Home = ({ route, navigation }) => {
 				/>
 			</HStack>
 			<VStack px={8}>
-				<Heading paddingBottom={16} textAlign={"center"} fontSize={22} color={"gray.50"}>
+				<Heading
+					paddingBottom={16}
+					textAlign={"center"}
+					fontSize={22}
+					color={"gray.50"}
+				>
 					Meu Perfil
 				</Heading>
 
@@ -77,10 +82,7 @@ export const Home = ({ route, navigation }) => {
 						Discente
 					</Heading>
 				</VStack>
-				<VStack
-					borderBottomRadius={8}
-					bgColor={"gray.50"}
-				>
+				<VStack borderBottomRadius={8} bgColor={"gray.50"}>
 					<VStack p={"15px"} space={"6px"}>
 						<Heading
 							fontSize={16}
@@ -117,7 +119,7 @@ export const Home = ({ route, navigation }) => {
 							</VStack>
 							<VStack space={"4px"}>
 								<Text fontSize={12}>{user.name}</Text>
-								<Text fontSize={12}>teste{ }</Text>
+								<Text fontSize={12}>teste{}</Text>
 								<HStack alignItems={"center"}>
 									<HStack alignItems={"center"}>
 										<Text
@@ -237,6 +239,7 @@ export const Home = ({ route, navigation }) => {
 			</VStack>
 			<Image
 				position={"absolute"}
+				alt={"Quadrados"}
 				zIndex={-1}
 				width={"full"}
 				height={"400px"}

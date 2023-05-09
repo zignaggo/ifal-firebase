@@ -2,12 +2,12 @@ import {
 	DrawerContentComponentProps,
 	DrawerContentScrollView,
 	DrawerItemList,
-	useDrawerStatus,
 } from "@react-navigation/drawer"
-import { Button, Flex, HStack, Heading, Image, Text, VStack } from "native-base"
-import { SimpleLineIcons, FontAwesome5 } from "@expo/vector-icons"
+import { Button, HStack, Heading, Image, Text, VStack } from "native-base"
+import { FontAwesome5 } from "@expo/vector-icons"
 import { useAuth } from "../Contexts/AuthProvider/useAuth"
-export function CustomDrawer(props: DrawerContentComponentProps) {
+
+export const CustomDrawer = (props: DrawerContentComponentProps) => {
 	const { logout } = useAuth()
 	return (
 		<VStack
@@ -19,6 +19,7 @@ export function CustomDrawer(props: DrawerContentComponentProps) {
 		>
 			<HStack alignItems={"center"} space={3}>
 				<Image
+					alt={"LogoIfal"}
 					source={require("../../assets/LogoIfal.svg")}
 					h={"42px"}
 					w={"29px"}
@@ -30,30 +31,6 @@ export function CustomDrawer(props: DrawerContentComponentProps) {
 			<DrawerContentScrollView {...props}>
 				<DrawerItemList {...props} />
 			</DrawerContentScrollView>
-			{/* {useDrawerStatus() === "open" && (
-				<Button
-					position={"absolute"}
-					top={"50px"}
-					right={"-30px"}
-					display={"flex"}
-					alignItems={"center"}
-					justifyContent={"center"}
-					w={"30px"}
-					h={"70px"}
-					borderTopRightRadius={"15px"}
-					borderBottomRightRadius={"15px"}
-					bg={"#202225"}
-					onPress={() => {
-						props.navigation.toggleDrawer()
-					}}
-				>
-					<SimpleLineIcons
-						name="arrow-left"
-						size={16}
-						color="#E7E7E7"
-					/>
-				</Button>
-			)} */}
 
 			<Button
 				h={"40px"}

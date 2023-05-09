@@ -20,11 +20,7 @@ export const Subjects = ({ route, navigation }) => {
 					onPress={() => navigation.openDrawer()}
 				/>
 			</HStack>
-			<Heading
-				color={"gray.50"}
-				textAlign={"center"}
-				paddingBottom={18}
-			>
+			<Heading color={"gray.50"} textAlign={"center"} paddingBottom={18}>
 				Minhas notas
 			</Heading>
 
@@ -73,6 +69,7 @@ export const Subjects = ({ route, navigation }) => {
 
 			<Image
 				position={"absolute"}
+				alt={"Quadrados"}
 				zIndex={-1}
 				width={"full"}
 				height={"400px"}

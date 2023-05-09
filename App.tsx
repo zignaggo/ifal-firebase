@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app"
 import { getAuth } from "firebase/auth"
-import { AppStackNavigator } from "./src/routes"
+import { MainNavigation } from "./src/routes"
 import firebaseConfig from "./firebase.json"
 import { AuthProvider } from "./src/Contexts/AuthProvider/AuthContext"
 import { NativeBaseProvider } from "native-base"
@@ -13,7 +13,7 @@ export default function App() {
 	return (
 		<NativeBaseProvider theme={theme}>
 			<AuthProvider>
-				<AppStackNavigator />
+				<MainNavigation />
 			</AuthProvider>
 		</NativeBaseProvider>
 	)

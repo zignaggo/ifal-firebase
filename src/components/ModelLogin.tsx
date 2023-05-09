@@ -1,6 +1,6 @@
 import { Flex, HStack, Heading, Image, Text, VStack } from "native-base"
 import { ReactNode } from "react"
-export function ModelLogin({ children }: { children: ReactNode }) {
+export const ModelLogin = ({ children }: { children: ReactNode }) => {
 	return (
 		<Flex bg={"gray.800"} w={"full"} h={"full"} justifyContent={"flex-end"}>
 			<VStack
@@ -10,6 +10,7 @@ export function ModelLogin({ children }: { children: ReactNode }) {
 				justifyContent={"center"}
 			>
 				<Image
+					alt={"LogoIfal"}
 					position={"absolute"}
 					source={require("../../assets/LogoIfal.svg")}
 					zIndex={-1}
@@ -19,6 +20,7 @@ export function ModelLogin({ children }: { children: ReactNode }) {
 					w={"35px"}
 				/>
 				<Image
+					alt={"Quadrados"}
 					position={"absolute"}
 					source={require("../../assets/Squares.svg")}
 					zIndex={-1}
@@ -40,7 +42,7 @@ export function ModelLogin({ children }: { children: ReactNode }) {
 				w={"full"}
 				px={"25px"}
 				py={"30px"}
-				minH={"55%"}
+				minH={"50%"}
 				height={"fit-content"}
 				borderRadius={"30px"}
 				borderBottomRadius={"0"}

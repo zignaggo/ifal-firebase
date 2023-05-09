@@ -44,11 +44,7 @@ export const Marks = ({ route, navigation }) => {
 				<Heading paddingY={3} fontSize={18} color={"gray.50"}>
 					Docente
 				</Heading>
-				<Text
-					paddingBottom={3}
-					fontSize={14}
-					color={"gray.100"}
-				>
+				<Text paddingBottom={3} fontSize={14} color={"gray.100"}>
 					Nome prof
 				</Text>
 			</VStack>
@@ -120,12 +116,15 @@ export const Marks = ({ route, navigation }) => {
 					bgColor={"green.default"}
 					height={"68px"}
 				>
-					<Text bold fontSize={18}>Situação</Text>
+					<Text bold fontSize={18}>
+						Situação
+					</Text>
 					<Text>APROVADO</Text>
 				</VStack>
 			</VStack>
 			<Image
 				position={"absolute"}
+				alt={"Quadrados"}
 				zIndex={-1}
 				width={"full"}
 				height={"400px"}

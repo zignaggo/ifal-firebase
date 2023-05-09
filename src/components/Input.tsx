@@ -11,12 +11,12 @@ interface IInput extends IInputProps {
 	title: string
 }
 
-export function Input({
+export const Input = ({
 	errorMessage = null,
 	isInvalid,
 	title,
 	...rest
-}: IInput) {
+}: IInput) => {
 	const invalid = !!errorMessage || isInvalid
 
 	return (
