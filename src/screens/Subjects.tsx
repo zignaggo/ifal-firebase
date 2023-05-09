@@ -30,34 +30,34 @@ export const Subjects = ({ navigation }) => {
 				alignItems={"center"}
 			>
 				<Subject
-					// color="#5187D7"
-					// name="Algoritmo e lógica de programação"
-					// navigation={navigation}
+					color="#5187D7"
+					name="Algoritmo e lógica de programação"
+					navigation={navigation}
 				/>
 				<Subject
-					// color="#48D1C9"
-					// name="Fundamentos da matemática"
-					// navigation={navigation}
+					color="#48D1C9"
+					name="Fundamentos da matemática"
+					navigation={navigation}
 				/>
 				<Subject
-					// color="#D78151"
-					// name="Fundamentos de sistemas de informação"
-					// navigation={navigation}
+					color="#D78151"
+					name="Fundamentos de sistemas de informação"
+					navigation={navigation}
 				/>
 				<Subject
-					// color="#D15148"
-					// name="Introdução às tecnologias WEB"
-					// navigation={navigation}
+					color="#D15148"
+					name="Introdução às tecnologias WEB"
+					navigation={navigation}
 				/>
 				<Subject
-					// color="#9C51D7"
-					// name="Filosofia"
-					// navigation={navigation}
+					color="#9C51D7"
+					name="Filosofia"
+					navigation={navigation}
 				/>
 				<Subject
-					// color="#78C03F"
-					// name="Inglês técnico"
-					// navigation={navigation}
+					color="#78C03F"
+					name="Inglês técnico"
+					navigation={navigation}
 				/>
 			</HStack>
 
