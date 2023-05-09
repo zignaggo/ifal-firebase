@@ -11,7 +11,7 @@ interface PropsButtonLoader {
 	title: string
 	onPress: (event: GestureResponderEvent) => void
 	loading: boolean
-	style: StyleProp<ViewStyle>
+	style?: StyleProp<ViewStyle>
 	color: string
 }
 

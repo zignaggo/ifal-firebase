@@ -1,12 +1,10 @@
 import React from "react"
 import { NativeBaseProvider } from "native-base"
 import "react-native"
-import { Subject } from "./Subject"
+import { Input } from "./Input"
 import { render } from "@testing-library/react-native"
 
-test("componente matéria", () => {})
-
-describe("Mark Component", () => {
+describe("Input Component", () => {
 	it("rendered", () => {
 		const inset = {
 			frame: { x: 0, y: 0, width: 0, height: 0 },
@@ -15,7 +13,7 @@ describe("Mark Component", () => {
 
 		render(
 			<NativeBaseProvider initialWindowMetrics={inset}>
-				<Subject color={"#fff"} name={"a"} />
+				<Input title="Teste" placeholder="Teste" />
 			</NativeBaseProvider>
 		)
 	})
