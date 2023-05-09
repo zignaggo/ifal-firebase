@@ -1,4 +1,6 @@
 import { Flex, HStack, Heading, Image, Text, VStack } from "native-base"
+import Squares from "../../assets/Squares.svg"
+import LogoIfal from "../../assets/LogoIfal.svg"
 import { ReactNode } from "react"
 export const ModelLogin = ({ children }: { children: ReactNode }) => {
 	return (
@@ -12,7 +14,7 @@ export const ModelLogin = ({ children }: { children: ReactNode }) => {
 				<Image
 					alt={"LogoIfal"}
 					position={"absolute"}
-					source={require("../../assets/LogoIfal.svg")}
+					source={LogoIfal}
 					zIndex={-1}
 					top={"25px"}
 					left={"25px"}
@@ -22,7 +24,7 @@ export const ModelLogin = ({ children }: { children: ReactNode }) => {
 				<Image
 					alt={"Quadrados"}
 					position={"absolute"}
-					source={require("../../assets/Squares.svg")}
+					source={Squares}
 					zIndex={-1}
 					top={"10%"}
 					left={0}
@@ -43,7 +45,7 @@ export const ModelLogin = ({ children }: { children: ReactNode }) => {
 				px={"25px"}
 				py={"30px"}
 				minH={"50%"}
-				height={"fit-content"}
+				h={"auto"}
 				borderRadius={"30px"}
 				borderBottomRadius={"0"}
 			>

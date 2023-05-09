@@ -1,7 +1,7 @@
 import { VStack, Text, HStack, Heading, Image } from "native-base"
 import { FontAwesome } from "@expo/vector-icons"
 import { TouchableOpacity } from "react-native"
-
+import Squares from "../../assets/Squares.svg"
 export const Marks = ({ route, navigation }) => {
 	const { name } = route.params
 
@@ -130,7 +130,7 @@ export const Marks = ({ route, navigation }) => {
 				height={"400px"}
 				bottom={0}
 				left={0}
-				source={require("../../assets/Squares.svg")}
+				source={Squares}
 			/>
 		</VStack>
 	)

@@ -1,16 +1,29 @@
 import {
-	createContext, Dispatch, SetStateAction, useEffect, useState,
+	createContext,
+	Dispatch,
+	SetStateAction,
+	useEffect,
+	useState,
 } from "react"
 import {
-	signInWithEmailAndPassword, onAuthStateChanged,
-	createUserWithEmailAndPassword, sendPasswordResetEmail,
-	signOut, sendEmailVerification,
-	updateProfile, User
+	signInWithEmailAndPassword,
+	onAuthStateChanged,
+	createUserWithEmailAndPassword,
+	sendPasswordResetEmail,
+	signOut,
+	sendEmailVerification,
+	updateProfile,
+	User,
+	Auth,
 } from "firebase/auth"
-import { Auth as AuthApp } from "../../../App"
 import { verifyError } from "../../utils/errorcodes"
 import { Alert } from "react-native"
-import { getDataFirebase, getUrlImage, saveDataOnFirestore, uploadImageToStorage } from "../../utils/utilitys"
+import {
+	getDataFirebase,
+	getUrlImage,
+	saveDataOnFirestore,
+	uploadImageToStorage,
+} from "../../utils/utilitys"
 import * as ImagePicker from "expo-image-picker"
 import { doc, Firestore, getFirestore, onSnapshot } from "firebase/firestore"
 
@@ -52,11 +65,12 @@ export interface IContext {
 
 export interface IAuthProvider {
 	children: JSX.Element
+	authApp: Auth
 }
 
 export const AuthContext = createContext<IContext>({} as IContext)
 
-export const AuthProvider = ({ children }: IAuthProvider) => {
+export const AuthProvider = ({ children, authApp }: IAuthProvider) => {
 	const [user, setUser] = useState<UserData | null>(null)
 
 	async function createUser(
@@ -69,7 +83,7 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
 		try {
 			setLoading(true)
 			const { user } = await createUserWithEmailAndPassword(
-				AuthApp,
+				authApp,
 				email,
 				password
 			)
@@ -104,7 +118,7 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
 		try {
 			setLoading(true)
 			const response = await signInWithEmailAndPassword(
-				AuthApp,
+				authApp,
 				email,
 				password
 			)
@@ -125,7 +139,7 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
 	}
 
 	function logout() {
-		signOut(AuthApp)
+		signOut(authApp)
 		setUser(null)
 	}
 
@@ -139,7 +153,12 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
 		if (!response) return
 		const data = response.data() as UserData
 		if (response && data) {
-			setUser({ ...user, email: data.email, name: data.name, image: data.image })
+			setUser({
+				...user,
+				email: data.email,
+				name: data.name,
+				image: data.image,
+			})
 		}
 	}
 
@@ -149,39 +168,16 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
 		setLoading: Dispatch<SetStateAction<boolean>>
 	) => {
 		setLoading(true)
-		await sendPasswordResetEmail(AuthApp, email)
-			.catch(error => console.log(verifyError(error)))
+		await sendPasswordResetEmail(authApp, email)
+			.catch((error) => console.log(verifyError(error)))
 			.finally(() => setLoading(false))
 	}
-	// async function recoverPassword(
-	// 	email: string,
-	// 	action: () => void,
-	// 	setLoading: Dispatch<SetStateAction<boolean>>
-	// ) {
-	// 	try {
-	// 		setLoading(true)
-	// 		await sendPasswordResetEmail(AuthApp, email)
-	// 		Alert.alert("Email Enviado")
-	// 		action()
-	// 	} catch (error) {
-	// 		Alert.alert(verifyError(error.code))
-	// 		console.log(error.code)
-	// 	} finally {
-	// 		setLoading(false)
-	// 	}
-	// }
 
-	// const verifyEmail = () => {
-	// 	sendEmailVerification(AuthApp.currentUser)
-	// 	.then(() => console.log("Email de confirmação enviado"))
-	// 	.catch((error) => verifyError(error))
-	// }
 	async function verifyEmail() {
 		try {
-			sendEmailVerification(AuthApp.currentUser)
+			sendEmailVerification(authApp.currentUser)
 		} catch (error) {
-			Alert.alert(verifyError(error.code)),
-				console.log(error.code)
+			Alert.alert(verifyError(error.code)), console.log(error.code)
 		}
 	}
 
@@ -207,7 +203,7 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
 	}
 
 	useEffect(() => {
-		const subscriber = onAuthStateChanged(AuthApp, (user) => {
+		const subscriber = onAuthStateChanged(authApp, (user) => {
 			if (user)
 				setUser({
 					email: user.email,
@@ -216,12 +212,6 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
 					uid: user.uid,
 				})
 		})
-		
-		function unsub() { // não tá funcionando
-				onSnapshot(doc(getFirestore(), "Users", user.uid), (doc) => {
-					console.log("Current data: ", loadData())
-				})
-			}
 		return subscriber
 	}, [])
 
@@ -237,7 +227,7 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
 				recoverPassword,
 				verifyEmail,
 				imagePickerCall,
-				setImageProfile
+				setImageProfile,
 			}}
 		>
 			{children}

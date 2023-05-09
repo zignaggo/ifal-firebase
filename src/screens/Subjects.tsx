@@ -1,7 +1,7 @@
 import { VStack, HStack, Heading, Image } from "native-base"
 import { Subject } from "../components/Subject"
 import { Ionicons } from "@expo/vector-icons"
-
+import Squares from "../../assets/Squares.svg"
 export const Subjects = ({ route, navigation }) => {
 	return (
 		<VStack
@@ -75,7 +75,7 @@ export const Subjects = ({ route, navigation }) => {
 				height={"400px"}
 				bottom={0}
 				left={0}
-				source={require("../../assets/Squares.svg")}
+				source={Squares}
 			/>
 		</VStack>
 	)

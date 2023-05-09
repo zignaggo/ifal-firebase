@@ -17,7 +17,7 @@ export const MenuImage = () => {
 		<Center>
 			<Button
 				onPress={onOpen}
-				borderRadius={"50%"}
+				borderRadius={9999}
 				p={2}
 				bg={"#75D284"}
 				_hover={{ background: "#d27" }}

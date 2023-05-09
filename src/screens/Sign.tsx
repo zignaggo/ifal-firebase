@@ -9,7 +9,7 @@ import { useForm } from "react-hook-form"
 import * as yup from "yup"
 import { verifyError } from "../utils/errorcodes"
 import { ModelLogin } from "../components/ModelLogin"
-
+import Google from "../../assets/Google.png"
 interface FieldsForm {
 	email: string
 	password: string
@@ -58,7 +58,7 @@ export const Sign = ({ route, navigation }) => {
 						fontSize={26}
 						fontWeight={"bold"}
 						textAlign={"center"}
-						lineHeight={"22px"}
+						lineHeight={"26@px"}
 					>
 						Conecte-se
 					</Heading>
@@ -142,7 +142,7 @@ export const Sign = ({ route, navigation }) => {
 						<HStack w={"full"} space={2} alignItems={"flex-start"}>
 							<Image
 								alt={"Google"}
-								source={require("../../assets/Google.png")}
+								source={Google}
 								h={"25px"}
 								w={"25px"}
 							/>

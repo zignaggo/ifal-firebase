@@ -6,6 +6,7 @@ import {
 import { Button, HStack, Heading, Image, Text, VStack } from "native-base"
 import { FontAwesome5 } from "@expo/vector-icons"
 import { useAuth } from "../Contexts/AuthProvider/useAuth"
+import LogoIfal from "../../assets/LogoIfal.svg"
 
 export const CustomDrawer = (props: DrawerContentComponentProps) => {
 	const { logout } = useAuth()
@@ -20,7 +21,7 @@ export const CustomDrawer = (props: DrawerContentComponentProps) => {
 			<HStack alignItems={"center"} space={3}>
 				<Image
 					alt={"LogoIfal"}
-					source={require("../../assets/LogoIfal.svg")}
+					source={LogoIfal}
 					h={"42px"}
 					w={"29px"}
 				/>
@@ -33,7 +34,6 @@ export const CustomDrawer = (props: DrawerContentComponentProps) => {
 			</DrawerContentScrollView>
 
 			<Button
-				h={"40px"}
 				borderRadius={"8px"}
 				bg={"red.default"}
 				onPress={() => {

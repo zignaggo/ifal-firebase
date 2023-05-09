@@ -13,7 +13,8 @@ import { useEffect } from "react"
 import { MenuImage } from "../components/MenuImage"
 import { useAuth } from "../Contexts/AuthProvider/useAuth"
 import { MaterialIcons, Ionicons } from "@expo/vector-icons"
-
+import Squares from "../../assets/Squares.svg"
+import LogoIfal from "../../assets/LogoIfal.svg"
 export const Home = ({ route, navigation }) => {
 	const { user, loadData, logout, verifyEmail } = useAuth()
 
@@ -153,13 +154,13 @@ export const Home = ({ route, navigation }) => {
 							<Button
 								disabled={user.verified}
 								w={"full"}
-								h={"30px"}
 								borderRadius={"8px"}
+								py={1.5}
 								bg={"#75D284"}
 								_hover={{ bg: "#75D284" }}
 								onPress={() => verifyEmail()}
 							>
-								{user.verified ? "Verificado" : "Verificar"}
+								Verificar
 							</Button>
 						)}
 					</VStack>
@@ -245,7 +246,7 @@ export const Home = ({ route, navigation }) => {
 				height={"400px"}
 				bottom={0}
 				left={0}
-				source={require("../../assets/Squares.svg")}
+				source={Squares}
 			/>
 		</VStack>
 	)

@@ -12,7 +12,7 @@ export const Auth = getAuth(app)
 export default function App() {
 	return (
 		<NativeBaseProvider theme={theme}>
-			<AuthProvider>
+			<AuthProvider authApp={Auth}>
 				<MainNavigation />
 			</AuthProvider>
 		</NativeBaseProvider>
