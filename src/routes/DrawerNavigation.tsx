@@ -6,7 +6,7 @@ import { Marks } from "../screens/Marks"
 import { createDrawerNavigator } from "@react-navigation/drawer"
 import { CustomDrawer } from "../components/CustomDrawer"
 
-type RootDrawerParamList = {
+export type RootDrawerParamList = {
 	Home: undefined
 	Subjects: undefined
 	Marks: { name: string }

@@ -2,7 +2,7 @@ import { VStack, HStack, Heading, Image } from "native-base"
 import { Subject } from "../components/Subject"
 import { Ionicons } from "@expo/vector-icons"
 import Squares from "../../assets/Squares.svg"
-export const Subjects = ({ route, navigation }) => {
+export const Subjects = ({ navigation }) => {
 	return (
 		<VStack
 			safeArea
@@ -30,40 +30,34 @@ export const Subjects = ({ route, navigation }) => {
 				alignItems={"center"}
 			>
 				<Subject
-					color="#5187D7"
-					name="Algoritmo e lógica de programação"
-					route={route}
-					navigation={navigation}
+					// color="#5187D7"
+					// name="Algoritmo e lógica de programação"
+					// navigation={navigation}
 				/>
 				<Subject
-					color="#48D1C9"
-					name="Fundamentos da matemática"
-					route={route}
-					navigation={navigation}
+					// color="#48D1C9"
+					// name="Fundamentos da matemática"
+					// navigation={navigation}
 				/>
 				<Subject
-					color="#D78151"
-					name="Fundamentos de sistemas de informação"
-					route={route}
-					navigation={navigation}
+					// color="#D78151"
+					// name="Fundamentos de sistemas de informação"
+					// navigation={navigation}
 				/>
 				<Subject
-					color="#D15148"
-					name="Introdução às tecnologias WEB"
-					route={route}
-					navigation={navigation}
+					// color="#D15148"
+					// name="Introdução às tecnologias WEB"
+					// navigation={navigation}
 				/>
 				<Subject
-					color="#9C51D7"
-					name="Filosofia"
-					route={route}
-					navigation={navigation}
+					// color="#9C51D7"
+					// name="Filosofia"
+					// navigation={navigation}
 				/>
 				<Subject
-					color="#78C03F"
-					name="Inglês técnico"
-					route={route}
-					navigation={navigation}
+					// color="#78C03F"
+					// name="Inglês técnico"
+					// navigation={navigation}
 				/>
 			</HStack>
 
