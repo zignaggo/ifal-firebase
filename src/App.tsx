@@ -1,5 +1,5 @@
 import { Router } from "@tanstack/react-location"
-import Box from "@mui/material/Box"
+import { Box } from "@mui/material"
 import { routes, location } from "./routes"
 export default function App() {
 	return (
