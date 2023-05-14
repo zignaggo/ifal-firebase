@@ -1,7 +1,7 @@
 import { Box, Stack, Typography } from "@mui/material";
 import { LogoIfal, Squares } from "../../assets/icons";
-import { Input } from "../../components/Input";
-import { Button } from "../../components/Button";
+
+import { SignForm } from "./form";
 export const Sign = () => {
   return (
     <Stack
@@ -43,66 +43,7 @@ export const Sign = () => {
           BR
         </Typography>
       </Stack>
-      <Stack
-        direction={"column"}
-        px={{
-          start: "25px",
-          sm: "35px",
-        }}
-        py={{
-          start: "30px",
-          sm: "40px",
-        }}
-        bgcolor={"grey.50"}
-        spacing={2}
-        marginBottom={"auto"}
-        marginTop={"auto"}
-        color={"grey.600"}
-        borderRadius={3}
-        width={{
-          start: "330px",
-          sm: "500px",
-        }}
-        minHeight={{
-          start: "330px",
-          sm: "380px",
-        }}
-        zIndex={1}
-        justifyContent={"space-between"}
-      >
-        <Stack spacing={1}>
-          <Typography
-            fontSize={{
-              start: 24,
-              sm: 32,
-            }}
-            lineHeight={{
-              start: "24px",
-              sm: "32px",
-            }}
-            fontWeight={"bold"}
-          >
-            Entre na sua Conta
-          </Typography>
-          <Typography
-            fontSize={{
-              start: 20,
-              sm: 24,
-            }}
-            lineHeight={{
-              start: "20px",
-              sm: "24px",
-            }}
-          >
-            de Administrador
-          </Typography>
-        </Stack>
-        <Stack spacing={1}>
-          <Input placeholder="Ex: teste@teste.com" label="Email" />
-          <Input placeholder="Digite sua senha" label="Senha" />
-        </Stack>
-        <Button variant="contained">Entrar</Button>
-      </Stack>
+      <SignForm />
       <Box
         position={"absolute"}
         bottom={0}
