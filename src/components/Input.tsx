@@ -5,4 +5,7 @@ export const Input = styled(TextField)({
   fieldset: {
     borderRadius: "8px",
   },
+  input: {
+    padding: 16,
+  },
 }) as typeof TextField;

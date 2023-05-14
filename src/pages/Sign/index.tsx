@@ -21,7 +21,18 @@ export const Sign = () => {
       height={"100%"}
       position={"relative"}
     >
-      <Stack direction={"row"} justifyContent={"space-between"} width={"100%"}>
+      <Stack
+        direction={{
+          start: "column",
+          sm: "row",
+        }}
+        justifyContent={{
+          start: "center",
+          sm: "space-between",
+        }}
+        alignItems={"center"}
+        width={"100%"}
+      >
         <Stack direction={"row"} alignItems={"center"} spacing={2}>
           <LogoIfal />
           <Typography variant="BreeSerif" fontSize={32}>
@@ -34,24 +45,55 @@ export const Sign = () => {
       </Stack>
       <Stack
         direction={"column"}
-        px={"35px"}
-        py={"40px"}
+        px={{
+          start: "25px",
+          sm: "35px",
+        }}
+        py={{
+          start: "30px",
+          sm: "40px",
+        }}
         bgcolor={"grey.50"}
         spacing={2}
         marginBottom={"auto"}
         marginTop={"auto"}
         color={"grey.600"}
         borderRadius={3}
-        width={"500px"}
-        minHeight={"380px"}
+        width={{
+          start: "330px",
+          sm: "500px",
+        }}
+        minHeight={{
+          start: "330px",
+          sm: "380px",
+        }}
         zIndex={1}
         justifyContent={"space-between"}
       >
         <Stack spacing={1}>
-          <Typography fontSize={32} fontWeight={"bold"} lineHeight={"32px"}>
+          <Typography
+            fontSize={{
+              start: 24,
+              sm: 32,
+            }}
+            lineHeight={{
+              start: "24px",
+              sm: "32px",
+            }}
+            fontWeight={"bold"}
+          >
             Entre na sua Conta
           </Typography>
-          <Typography fontSize={24} lineHeight={"24px"}>
+          <Typography
+            fontSize={{
+              start: 20,
+              sm: 24,
+            }}
+            lineHeight={{
+              start: "20px",
+              sm: "24px",
+            }}
+          >
             de Administrador
           </Typography>
         </Stack>
