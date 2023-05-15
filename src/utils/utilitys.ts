@@ -10,22 +10,6 @@ export interface UserData {
 	uid: string
 }
 
-export async function saveOnStorage(key: string, value: string) {
-	try {
-		return await SecureStore.setItemAsync(key, value)
-	} catch (error) {
-		console.log(verifyError(error))
-	}
-}
-
-export async function getValueStorage(key: string) {
-	try {
-		return await SecureStore.getItemAsync(key)
-	} catch (error) {
-		console.log(verifyError(error))
-	}
-}
-
 export async function saveDataOnFirestore({
 	uid,
 	email,

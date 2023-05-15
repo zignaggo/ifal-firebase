@@ -1,14 +1,10 @@
-import { initializeApp } from "firebase/app"
 
-import { getAuth } from "firebase/auth"
 import { MainNavigation } from "./src/routes"
-import firebaseConfig from "./firebase.json"
 import { AuthProvider } from "./src/Contexts/AuthProvider/AuthContext"
 import { NativeBaseProvider, extendTheme } from "native-base"
 import { theme } from "./src/config/theme"
 import "react-native-gesture-handler"
-export const app = initializeApp(firebaseConfig)
-export const Auth = getAuth(app)
+import {app, auth} from "./firebase.config"
 
 export default function App() {
 	const inset = {
@@ -18,7 +14,7 @@ export default function App() {
 	return (
 		<NativeBaseProvider theme={theme} initialWindowMetrics={inset}>
 			{
-				<AuthProvider authApp={Auth}>
+				<AuthProvider authApp={auth}>
 					<MainNavigation />
 				</AuthProvider>
 			}
