@@ -15,6 +15,7 @@
     "@mui/icons-material": "latest",
     "@mui/material": "latest",
     "@tanstack/react-location": "^3.7.4",
+    "firebase": "^9.22.0",
     "react": "latest",
     "react-dom": "latest",
     "react-hook-form": "^7.43.9",

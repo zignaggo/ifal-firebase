@@ -1,12 +1,16 @@
-import { Navigate, Outlet } from "@tanstack/react-location"
+import { Navigate } from "@tanstack/react-location"
+import { useAuth } from "./useAuth"
 export const AuthRoute = ({
-	authenticated = false,
 	children,
 }: {
 	authenticated?: boolean
 	children: JSX.Element
 }) => {
-	if (!authenticated) {
+	const {
+		user: { uid },
+	} = useAuth()
+
+	if (!uid) {
 		return <Navigate to="/sign" />
 	}
 	return children

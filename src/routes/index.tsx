@@ -9,13 +9,11 @@ import { Marks } from "../pages/Marks"
 import { Sign } from "../pages/Sign"
 import { AuthRoute } from "../auth/AuthRoute"
 
-const authenticated = false
-
 export const routes: Route[] = [
 	{
 		path: "/",
 		element: (
-			<AuthRoute authenticated={authenticated}>
+			<AuthRoute>
 				<Home />
 			</AuthRoute>
 		),
@@ -29,7 +27,7 @@ export const routes: Route[] = [
 	{
 		path: "marks",
 		element: (
-			<AuthRoute authenticated={authenticated}>
+			<AuthRoute>
 				<Marks />
 			</AuthRoute>
 		),
@@ -42,7 +40,7 @@ export const routes: Route[] = [
 	{
 		path: "*",
 		element: (
-			<AuthRoute authenticated={authenticated}>
+			<AuthRoute>
 				<Home />
 			</AuthRoute>
 		),
