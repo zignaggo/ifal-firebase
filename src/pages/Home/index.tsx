@@ -1,4 +1,13 @@
-import { Box } from "@mui/material"
+import { Box, Button, Typography } from "@mui/material"
+import { useAuth } from "../../auth/useAuth"
 export const Home = () => {
-	return <Box color={"grey.50"}>Home</Box>
+	const { logout } = useAuth()
+	return (
+		<Box color={"grey.50"}>
+			<Typography>Home</Typography>
+			<Button variant="contained" onClick={() => logout()}>
+				Sair
+			</Button>
+		</Box>
+	)
 }

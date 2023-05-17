@@ -1,6 +1,7 @@
-import { Router } from "@tanstack/react-location"
+import { Outlet, Router } from "@tanstack/react-location"
 import { Box } from "@mui/material"
 import { routes, location } from "./routes"
+import { AuthProvider } from "./auth/useAuth"
 export default function App() {
 	return (
 		<Box
@@ -12,7 +13,11 @@ export default function App() {
 			alignItems={"center"}
 			justifyContent={"center"}
 		>
-			<Router routes={routes} location={location}></Router>
+			<Router routes={routes} location={location}>
+				<AuthProvider>
+					<Outlet />
+				</AuthProvider>
+			</Router>
 		</Box>
 	)
 }

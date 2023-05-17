@@ -2,10 +2,10 @@ import * as React from "react"
 import * as ReactDOM from "react-dom/client"
 import { ThemeProvider } from "@emotion/react"
 import { CssBaseline } from "@mui/material"
-import theme from "./config/theme"
-import App from "./App"
 import { initializeApp } from "firebase/app"
 import { getAuth } from "firebase/auth"
+import theme from "./config/theme"
+import App from "./App"
 
 const firebaseConfig = {
 	apiKey: "AIzaSyBXRzUJhSjMocoKTXL5VLZfheqZyST7cko",

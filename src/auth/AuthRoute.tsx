@@ -6,11 +6,9 @@ export const AuthRoute = ({
 	authenticated?: boolean
 	children: JSX.Element
 }) => {
-	const {
-		user: { uid },
-	} = useAuth()
+	const { user } = useAuth()
 
-	if (!uid) {
+	if (!user) {
 		return <Navigate to="/sign" />
 	}
 	return children

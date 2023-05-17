@@ -1,9 +1,4 @@
-import {
-	Route,
-	ReactLocation,
-	Outlet,
-	Navigate,
-} from "@tanstack/react-location"
+import { Route, ReactLocation } from "@tanstack/react-location"
 import { Home } from "../pages/Home"
 import { Marks } from "../pages/Marks"
 import { Sign } from "../pages/Sign"
