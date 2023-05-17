@@ -10,7 +10,8 @@ const config = {
   projectId: "final-project-5d60e",
   storageBucket: "final-project-5d60e.appspot.com",
   messagingSenderId: "1056418164863",
-  appId: "1:1056418164863:web:02be48699c145df1c28f4a"
+  appId: "1:1056418164863:web:02be48699c145df1c28f4a",
+  databaseURL: "https://final-project-5d60e-default-rtdb.firebaseio.com"
 }
 
 function initAuthNonWeb() {

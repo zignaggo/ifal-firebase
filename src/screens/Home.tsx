@@ -9,19 +9,21 @@ import {
 	Box,
 	Image,
 } from "native-base"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { MenuImage } from "../components/MenuImage"
 import { useAuth } from "../Contexts/AuthProvider/useAuth"
 import { MaterialIcons, Ionicons } from "@expo/vector-icons"
 import Squares from "../../assets/Squares.svg"
 import LogoIfal from "../../assets/LogoIfal.svg"
+import { getDataFirebase } from "../utils/utilitys"
+import { getFirestore, Firestore, doc, getDoc, collection, query, getDocs, where } from "firebase/firestore"
+import { getAuth } from "firebase/auth"
+
 export const Home = ({ route, navigation }) => {
 	const { user, loadData, logout, verifyEmail } = useAuth()
-
 	useEffect(() => {
 		loadData()
 	}, [])
-
 	return (
 		<VStack
 			safeArea
@@ -120,7 +122,7 @@ export const Home = ({ route, navigation }) => {
 							</VStack>
 							<VStack space={"4px"}>
 								<Text fontSize={12}>{user.name}</Text>
-								<Text fontSize={12}>teste{}</Text>
+								<Text fontSize={12}>teste{ }</Text>
 								<HStack alignItems={"center"}>
 									<HStack alignItems={"center"}>
 										<Text

@@ -63,8 +63,8 @@ export const SignUp = ({ route, navigation }) => {
 
 	const [loading, setLoading] = useState<boolean>(false)
 
-	function handleSignUp({ email, password, name }: FieldsForm) {
-		createUser(email, password, name, () => {}, setLoading)
+	function handleSignUp({ email, password, name, cpf }: FieldsForm) {
+		createUser(email, password, name, cpf, () => {}, setLoading)
 	}
 
 	return (

@@ -1,39 +1,39 @@
 import * as SecureStore from "expo-secure-store"
-import { getFirestore, getDoc, setDoc, doc } from "firebase/firestore"
+import { getFirestore, getDoc, setDoc, doc, Firestore, collection } from "firebase/firestore"
 import { getStorage, ref, uploadString, getDownloadURL } from "firebase/storage"
 import { verifyError } from "./errorcodes"
 
 export interface UserData {
 	name: string
 	email: string
-	image: string
-	uid: string
+	cpf: string
 }
 
-export async function saveDataOnFirestore({
-	uid,
+export async function saveDataOnFirestore(uid: string, {
 	email,
-	image,
 	name,
+	cpf
 }: UserData) {
 	try {
 		return await setDoc(doc(getFirestore(), "Users", uid), {
 			name: name,
 			email: email,
-			image: image,
+			cpf: cpf
 		})
 	} catch (error) {
 		console.log(verifyError(error.code))
 	}
 }
 
-export async function getDataFirebase(uid: string) {
+export async function getDataFirebase(bancoRef: Firestore, colecao: string, documento: string) {
 	try {
-		return await getDoc(doc(getFirestore(), "Users", uid))
+		let info = await getDoc(doc(bancoRef, colecao, documento))
+		return info.data()
 	} catch (error) {
-		console.log(error)
+		return console.log(error)
 	}
 }
+
 
 export async function uploadImageToStorage(uri: string, uid: string) {
 	try {

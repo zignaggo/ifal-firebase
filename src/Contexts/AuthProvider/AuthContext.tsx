@@ -15,6 +15,7 @@ import {
 	updateProfile,
 	User,
 	Auth,
+	getAuth,
 } from "firebase/auth"
 import { verifyError } from "../../utils/errorcodes"
 import { Alert } from "react-native"
@@ -26,13 +27,23 @@ import {
 } from "../../utils/utilitys"
 import * as ImagePicker from "expo-image-picker"
 import { doc, Firestore, getFirestore, onSnapshot } from "firebase/firestore"
+import {app, auth} from "../../../firebase.config"
+
+export interface CourseData {
+	carga: number
+	nivel: string
+	nome: string
+	periodo: number
+	turno: string
+}
 
 export interface UserData {
 	name: string
 	email: string
 	verified?: boolean
-	uid?: string
 	image?: string
+	uid?: string
+	dados_curso?: CourseData
 }
 
 export interface IContext {
@@ -48,10 +59,10 @@ export interface IContext {
 		email: string,
 		password: string,
 		name: string,
+		uid: string,
 		action: () => void,
 		setLoading: Dispatch<SetStateAction<boolean>>
 	) => Promise<void>
-	onStateChanged: (user: UserData) => void
 	loadData: () => Promise<void>
 	recoverPassword: (
 		email: string,
@@ -77,6 +88,7 @@ export const AuthProvider = ({ children, authApp }: IAuthProvider) => {
 		email: string,
 		password: string,
 		name: string,
+		cpf: string,
 		action: () => void,
 		setLoading: Dispatch<SetStateAction<boolean>>
 	) {
@@ -87,18 +99,18 @@ export const AuthProvider = ({ children, authApp }: IAuthProvider) => {
 				email,
 				password
 			)
-			await updateProfile(user, { displayName: name })
+			// await updateProfile(user, { displayName: name })
 			setUser({
 				name: name,
 				email: user.email,
 				verified: user.emailVerified,
 				uid: user.uid,
+
 			})
-			saveDataOnFirestore({
-				email: user.email,
+			saveDataOnFirestore(user.uid, {
+				email: email,
 				name: name,
-				uid: user.uid,
-				image: "s",
+				cpf: cpf
 			})
 			action()
 		} catch (error) {
@@ -128,6 +140,7 @@ export const AuthProvider = ({ children, authApp }: IAuthProvider) => {
 				verified: response.user.emailVerified,
 				uid: response.user.uid,
 				name: response.user.displayName,
+				image: response.user.photoURL
 			})
 			action()
 		} catch (error) {
@@ -143,30 +156,29 @@ export const AuthProvider = ({ children, authApp }: IAuthProvider) => {
 		setUser(null)
 	}
 
-	function onStateChanged(user: UserData) {
-		setUser(user)
-	}
+	
 
 	async function loadData() {
 		if (!user.uid) return
-		const response = await getDataFirebase(user.uid)
-		if (!response) return
-		const data = response.data() as UserData
-		if (response && data) {
+		// Promise.all([])
+		const userDataResponse = await getDataFirebase(getFirestore(), "Users", user.uid ) as UserData
+		const dadosCursoResponse = await getDataFirebase(getFirestore(), "Geral", "dados_curso" ) as CourseData
+		if (userDataResponse && dadosCursoResponse) {
 			setUser({
 				...user,
-				email: data.email,
-				name: data.name,
-				image: data.image,
+				email: userDataResponse.email,
+				name: userDataResponse.name,
+				image: getAuth(app).currentUser.photoURL,
+				dados_curso: {carga: dadosCursoResponse.carga, nome: dadosCursoResponse.nome, turno: dadosCursoResponse.turno, periodo: dadosCursoResponse.periodo, nivel: dadosCursoResponse.nivel}
 			})
 		}
 	}
 
-	const recoverPassword = async (
+	async function recoverPassword(
 		email: string,
 		action: () => void,
 		setLoading: Dispatch<SetStateAction<boolean>>
-	) => {
+	)  {
 		setLoading(true)
 		await sendPasswordResetEmail(authApp, email)
 			.catch((error) => console.log(verifyError(error)))
@@ -184,9 +196,9 @@ export const AuthProvider = ({ children, authApp }: IAuthProvider) => {
 	async function imagePickerCall() {
 		try {
 			const data = await ImagePicker.launchImageLibraryAsync({})
-			await uploadImageToStorage(data.assets[0].uri, user.uid)
-			await setImageProfile()
-			await loadData()
+				await uploadImageToStorage(data.assets[0].uri, user.uid)
+				await setImageProfile()
+				await loadData()
 		} catch (error) {
 			console.log(error.code)
 		}
@@ -194,12 +206,8 @@ export const AuthProvider = ({ children, authApp }: IAuthProvider) => {
 
 	async function setImageProfile() {
 		const response = await getUrlImage(user.uid)
-		saveDataOnFirestore({
-			email: user.email,
-			name: user.name,
-			uid: user.uid,
-			image: response,
-		})
+		updateProfile(getAuth().currentUser, {photoURL: response})
+		
 	}
 
 	useEffect(() => {
@@ -222,7 +230,6 @@ export const AuthProvider = ({ children, authApp }: IAuthProvider) => {
 				login,
 				logout,
 				createUser,
-				onStateChanged,
 				loadData,
 				recoverPassword,
 				verifyEmail,
