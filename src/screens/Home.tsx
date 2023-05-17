@@ -21,9 +21,11 @@ import { getAuth } from "firebase/auth"
 
 export const Home = ({ route, navigation }) => {
 	const { user, loadData, logout, verifyEmail } = useAuth()
+	
 	useEffect(() => {
 		loadData()
 	}, [])
+
 	return (
 		<VStack
 			safeArea

@@ -1,4 +1,3 @@
-import * as SecureStore from "expo-secure-store"
 import { getFirestore, getDoc, setDoc, doc, Firestore, collection } from "firebase/firestore"
 import { getStorage, ref, uploadString, getDownloadURL } from "firebase/storage"
 import { verifyError } from "./errorcodes"
@@ -30,7 +29,7 @@ export async function getDataFirebase(bancoRef: Firestore, colecao: string, docu
 		let info = await getDoc(doc(bancoRef, colecao, documento))
 		return info.data()
 	} catch (error) {
-		return console.log(error)
+		return console.log(error.code)
 	}
 }
 
