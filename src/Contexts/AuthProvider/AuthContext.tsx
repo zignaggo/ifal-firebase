@@ -69,7 +69,7 @@ export interface IContext {
 		action: () => void,
 		setLoading: Dispatch<SetStateAction<boolean>>
 	) => Promise<void>
-	verifyEmail: () => Promise<void>
+	verifyEmail: () => Promise<string>
 	imagePickerCall: () => void
 	setImageProfile: () => Promise<void>
 }
@@ -187,7 +187,8 @@ export const AuthProvider = ({ children, authApp }: IAuthProvider) => {
 
 	async function verifyEmail() {
 		try {
-			sendEmailVerification(authApp.currentUser)
+			return sendEmailVerification(authApp.currentUser)
+			.then(() => "Email enviado")
 		} catch (error) {
 			Alert.alert(verifyError(error.code)), console.log(error.code)
 		}

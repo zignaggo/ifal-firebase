@@ -16,15 +16,22 @@ import { MaterialIcons, Ionicons } from "@expo/vector-icons"
 import Squares from "../../assets/Squares.svg"
 import LogoIfal from "../../assets/LogoIfal.svg"
 import { getDataFirebase } from "../utils/utilitys"
-import { getFirestore, Firestore, doc, getDoc, collection, query, getDocs, where } from "firebase/firestore"
+import { getFirestore, Firestore, doc, getDoc, collection, query, getDocs, where, DocumentData } from "firebase/firestore"
 import { getAuth } from "firebase/auth"
 
 export const Home = ({ route, navigation }) => {
 	const { user, loadData, logout, verifyEmail } = useAuth()
+	const [msgVerified, setMsg] = useState<string | null>(null)
 	
 	useEffect(() => {
 		loadData()
 	}, [])
+	
+	useEffect(() => {
+		if (msgVerified) {
+			setTimeout(() => setMsg(null), 4000)
+		}
+	}, [msgVerified])
 
 	return (
 		<VStack
@@ -162,11 +169,12 @@ export const Home = ({ route, navigation }) => {
 								py={1.5}
 								bg={"#75D284"}
 								_hover={{ bg: "#75D284" }}
-								onPress={() => verifyEmail()}
+								onPress={() => verifyEmail().then((mensagem) => setMsg(mensagem))}
 							>
 								Verificar
 							</Button>
 						)}
+						<Text>{msgVerified}</Text>
 					</VStack>
 
 					<VStack
@@ -223,19 +231,19 @@ export const Home = ({ route, navigation }) => {
 							</VStack>
 							<VStack space={"4px"}>
 								<Text fontSize={12} color={"gray.800"}>
-									Sistemas de informação
+									{user.dados_curso?.nome}
 								</Text>
 								<Text fontSize={12} color={"gray.800"}>
-									Noturno
+									{user.dados_curso?.turno}
 								</Text>
 								<Text fontSize={12} color={"gray.800"}>
-									1º
+									{user.dados_curso?.periodo}
 								</Text>
 								<Text fontSize={12} color={"gray.800"}>
-									2683h
+									{user.dados_curso?.carga}º
 								</Text>
 								<Text fontSize={12} color={"gray.800"}>
-									Bacharelado
+									{user.dados_curso?.nivel}
 								</Text>
 							</VStack>
 						</HStack>

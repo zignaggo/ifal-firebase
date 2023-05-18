@@ -1,4 +1,4 @@
-import { getFirestore, getDoc, setDoc, doc, Firestore, collection } from "firebase/firestore"
+import { getFirestore, getDoc, setDoc, doc, Firestore, collection, query, where , getDocs, FieldPath} from "firebase/firestore"
 import { getStorage, ref, uploadString, getDownloadURL } from "firebase/storage"
 import { verifyError } from "./errorcodes"
 
@@ -7,6 +7,8 @@ export interface UserData {
 	email: string
 	cpf: string
 }
+export interface ResponseSubject {n1: number, n2: number, rep: number, final: number, media: number}
+
 
 export async function saveDataOnFirestore(uid: string, {
 	email,
@@ -29,10 +31,18 @@ export async function getDataFirebase(bancoRef: Firestore, colecao: string, docu
 		let info = await getDoc(doc(bancoRef, colecao, documento))
 		return info.data()
 	} catch (error) {
-		return console.log(error.code)
+		console.log(error.code)
 	}
 }
 
+export async function getSubjectInfo(name: string, uid: string): Promise<ResponseSubject> {
+	try {
+		const data = await getDoc(doc(getFirestore(), `Disciplinas/${name}/Discentes/${uid}`))
+		return data.data() as ResponseSubject
+	} catch (error) {
+		console.log(error.code)
+	}
+}
 
 export async function uploadImageToStorage(uri: string, uid: string) {
 	try {

@@ -17,6 +17,9 @@ export const theme = extendTheme({
 		red: {
 			default: "#E94B4B",
 		},
+		orange: {
+			default: "#D78151"
+		}
 	},
 	config: {
 		initialColorMode: "light",
