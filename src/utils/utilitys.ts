@@ -1,26 +1,38 @@
-import { getFirestore, getDoc, setDoc, doc, Firestore, collection, query, where , getDocs, FieldPath} from "firebase/firestore"
+import { getFirestore, getDoc, setDoc, doc, Firestore, collection, query, where, getDocs, FieldPath, addDoc } from "firebase/firestore"
 import { getStorage, ref, uploadString, getDownloadURL } from "firebase/storage"
 import { verifyError } from "./errorcodes"
+import { forEachChild } from "typescript"
 
 export interface UserData {
 	name: string
 	email: string
 	cpf: string
 }
-export interface ResponseSubject {n1: number, n2: number, rep: number, final: number, media: number}
-
+export interface ResponseSubject { n1: number, n2: number, rep: number, final: number, media: number }
 
 export async function saveDataOnFirestore(uid: string, {
-	email,
-	name,
-	cpf
+	email, name, cpf
 }: UserData) {
+	let subjects = [
+		"Algoritmo e lógica de programação", "Filosofia",
+		"Fundamentos da matemática",
+		"Fundamentos de sistemas de informação",
+		"Inglês técnico", "Introdução às tecnologias WEB"
+	]
 	try {
-		return await setDoc(doc(getFirestore(), "Users", uid), {
+		await setDoc(doc(getFirestore(), "Users", uid), {
 			name: name,
 			email: email,
 			cpf: cpf
 		})
+		for (let subject of subjects) {
+			await setDoc(doc(getFirestore(), `Disciplinas/${subject}/Discentes`, uid), {
+				n1: -1,
+				n2: -1,
+				rep: -1,
+				final: -1
+			})
+		}
 	} catch (error) {
 		console.log(verifyError(error.code))
 	}

@@ -110,6 +110,8 @@ export const AuthProvider = ({ children, authApp }: IAuthProvider) => {
 				name: name,
 				cpf: cpf
 			})
+			
+			//saveNotes(user.uid)
 			action()
 		} catch (error) {
 			Alert.alert(error)
