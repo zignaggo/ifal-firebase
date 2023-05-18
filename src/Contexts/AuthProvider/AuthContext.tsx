@@ -13,7 +13,6 @@ import {
 	signOut,
 	sendEmailVerification,
 	updateProfile,
-	User,
 	Auth,
 	getAuth,
 } from "firebase/auth"
@@ -26,8 +25,8 @@ import {
 	uploadImageToStorage,
 } from "../../utils/utilitys"
 import * as ImagePicker from "expo-image-picker"
-import { doc, Firestore, getFirestore, onSnapshot } from "firebase/firestore"
-import {app, auth} from "../../../firebase.config"
+import { getFirestore } from "firebase/firestore"
+import { app } from "../../../firebase.config"
 
 export interface CourseData {
 	carga: number
@@ -99,7 +98,6 @@ export const AuthProvider = ({ children, authApp }: IAuthProvider) => {
 				email,
 				password
 			)
-			// await updateProfile(user, { displayName: name })
 			setUser({
 				name: name,
 				email: user.email,
@@ -156,8 +154,6 @@ export const AuthProvider = ({ children, authApp }: IAuthProvider) => {
 		setUser(null)
 	}
 
-	
-
 	async function loadData() {
 		if (!user.uid) return
 		// Promise.all([])
@@ -198,6 +194,7 @@ export const AuthProvider = ({ children, authApp }: IAuthProvider) => {
 		try {
 			const data = await ImagePicker.launchImageLibraryAsync({})
 				await uploadImageToStorage(data.assets[0].uri, user.uid)
+				console.log(user.uid)
 				await setImageProfile()
 				await loadData()
 		} catch (error) {

@@ -10,6 +10,7 @@ import { getAuth } from "firebase/auth"
 export const Marks = ({ route, navigation }) => {
 	const { name } = route.params
 	const [infoMark, setInfoMark] = useState<{docente: string, notas: ResponseSubject} | undefined>()
+
 	useEffect(() => {
 		getSubjectInfo(name, getAuth(app).currentUser.uid)
 		.then(notas => {notas && setInfoMark((prev) => ({...prev, notas: notas}))})
@@ -22,24 +23,27 @@ export const Marks = ({ route, navigation }) => {
 	}, [route])
 
 	const media = useMemo(() => {
-		if(!infoMark || !infoMark.notas) return -1
+		if (!infoMark || !infoMark.notas) return -1
+		if (Number(infoMark.notas.final) >= 0) return infoMark.notas.final
 		let n1 = Number(infoMark.notas.n1)
 		let n2 = Number(infoMark.notas.n2)
-		if((!n1 || !n2) && infoMark.notas.rep >= 0) {
-			if(!n1) {
+				
+		if ((n1 == -1 || n2 == -1) && infoMark.notas.rep >= 0) {
+			if (n1 == -1) {
 				n1 = infoMark.notas.rep
 			}
 			else {
 				n2 = infoMark.notas.rep
 			}
 		}
+		
 		return (n1 + n2) / 2
 	},[infoMark])
 
 	const status = useMemo(() => {
 		if(!infoMark) return "MATRICULADO"
-		if(!infoMark.notas.n1 && !infoMark.notas.n1) return "MATRICULADO"
-		if(media < 6.99) return "REPROVADO"
+		if(!infoMark.notas.n1 && !infoMark.notas.n2) return "MATRICULADO"
+		if(media < 7) return "REPROVADO"
 		return "APROVADO"
 	}, [infoMark, media])
 	return (

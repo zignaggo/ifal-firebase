@@ -20,7 +20,6 @@ export const MenuImage = () => {
 				borderRadius={9999}
 				p={2}
 				bg={"#75D284"}
-				_hover={{ background: "#d27" }}
 			>
 				<FontAwesome name="camera" size={14} color="#fff" />
 			</Button>

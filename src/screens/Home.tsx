@@ -14,10 +14,6 @@ import { MenuImage } from "../components/MenuImage"
 import { useAuth } from "../Contexts/AuthProvider/useAuth"
 import { MaterialIcons, Ionicons } from "@expo/vector-icons"
 import Squares from "../../assets/Squares.svg"
-import LogoIfal from "../../assets/LogoIfal.svg"
-import { getDataFirebase } from "../utils/utilitys"
-import { getFirestore, Firestore, doc, getDoc, collection, query, getDocs, where, DocumentData } from "firebase/firestore"
-import { getAuth } from "firebase/auth"
 
 export const Home = ({ route, navigation }) => {
 	const { user, loadData, logout, verifyEmail } = useAuth()

@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Auth } from "../../App"
+//import { Auth } from "../../App"
 import { useAuth } from "../Contexts/AuthProvider/useAuth"
 import { Button, Heading, VStack, Text, HStack, Image } from "native-base"
 import { Input } from "../components/Input"
