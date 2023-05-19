@@ -20,7 +20,6 @@ export default function LongMenu({
 	}
 	const handleClose = () => {
 		setAnchorEl(null)
-		actionOnClose()
 	}
 
 	return (
@@ -66,7 +65,7 @@ export default function LongMenu({
 				{options.map((option) => (
 					<MenuItem
 						key={option}
-						onClick={handleClose}
+						onClick={actionOnClose}
 						sx={{
 							backgroundColor: "error.main",
 							":hover": {
