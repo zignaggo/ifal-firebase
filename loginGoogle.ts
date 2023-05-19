@@ -6,7 +6,7 @@ export async function loginGoogle(authF: Auth, email: string) {
   const provider = new GoogleAuthProvider()
   provider.addScope('https://www.googleapis.com/auth/contacts.readonly')
   
-  signInWithRedirect(authF, provider.setCustomParameters({ 'login_hint': `${email}` }))
+  signInWithRedirect(authF, provider)
     .then(result => {
       console.log(result)
       const credential = GoogleAuthProvider.credentialFromResult(result)
