@@ -6,25 +6,37 @@ import {
 	Button,
 	useMediaQuery,
 	Collapse,
+	Avatar,
+	IconButton,
 } from "@mui/material"
-import { Icon } from "@iconify/react"
+import { Icon, InlineIcon } from "@iconify/react"
 import { useLocation } from "@tanstack/react-location"
 import { LogoIfal } from "../assets/icons"
-import { useState } from "react"
+import { useCallback, useMemo, useState } from "react"
 import { ListItemLink } from "./ListItemLink"
 import { useAuth } from "../auth/useAuth"
+import LongMenu from "./Menu"
 
 export const SideBar = () => {
 	const {
 		current: { pathname },
 	} = useLocation()
-	const mobile = useMediaQuery("(max-width:600px)")
-	const drawerWidth = mobile ? 200 : 260
+	const mobile = useMediaQuery("(max-width:600px)", { noSsr: true })
+	const drawerWidth = mobile ? 240 : 280
 	const [open, setOpen] = useState<boolean>(true)
-	const { logout } = useAuth()
-	const handleClick = () => {
+	const { logout, user } = useAuth()
+
+	const handleClick = useCallback(() => {
 		setOpen((prevOpen) => !prevOpen)
-	}
+	}, [open])
+
+	const routes: { [key: string]: string } = useMemo(
+		() => ({
+			"/teste": "teste",
+			"/teste2": "teste2",
+		}),
+		[]
+	)
 	if (pathname == "/sign") return <></>
 	return (
 		<Stack flexDirection={"column"}>
@@ -38,13 +50,17 @@ export const SideBar = () => {
 						background: "#292C30",
 						borderWidth: 0,
 						borderRadius: "0 15px 15px 0 ",
-						padding: "25px",
 					},
 				}}
 				variant="permanent"
 				anchor="left"
 			>
-				<Stack flexDirection={"column"} flexGrow={1} spacing={2}>
+				<Stack
+					flexDirection={"column"}
+					flexGrow={1}
+					spacing={2}
+					padding={"25px"}
+				>
 					<Stack
 						direction={"row"}
 						alignItems={"center"}
@@ -60,35 +76,88 @@ export const SideBar = () => {
 							Sigaa²
 						</Typography>
 					</Stack>
-					<Collapse
-						component="li"
-						in={open}
-						timeout="auto"
-						unmountOnExit
-					>
-						<List disablePadding>
-							<ListItemLink sx={{ pl: 4 }} to="/" />
-							<ListItemLink sx={{ pl: 4 }} to="/teste" />
-						</List>
-					</Collapse>
-				</Stack>
-				<Button
-					variant="contained"
-					color="error"
-					onClick={() => logout()}
-					sx={{
-						textTransform: "none",
-					}}
-					startIcon={
-						<Icon
-							icon={"majesticons:door-exit"}
-							width={"20px"}
-							height={"20px"}
+
+					<Stack overflow={"auto"}>
+						<ListItemLink
+							to="/"
+							title="Início"
+							onClick={handleClick}
+							rightIcon={
+								<InlineIcon
+									icon={
+										"material-symbols:keyboard-arrow-down-rounded"
+									}
+									fontSize={"20px"}
+									vFlip={open}
+								/>
+							}
+							leftIcon={
+								<InlineIcon
+									icon={"octicon:home-fill-24"}
+									fontSize={"20px"}
+								/>
+							}
+							sx={{
+								height: "45px",
+								backgroundColor: "grey.600",
+								borderRadius: 2,
+								color: "grey.50",
+								":hover": {
+									backgroundColor: "#33373E",
+								},
+							}}
 						/>
-					}
+						<Collapse
+							in={open}
+							timeout="auto"
+							unmountOnExit
+							sx={{ pl: 2, pt: 1 }}
+						>
+							<List disablePadding>
+								{Object.entries(routes).map((route) => {
+									return (
+										<ListItemLink
+											key={route[0]}
+											to={route[0]}
+											title={route[1]}
+											sx={{
+												height: "45px",
+												color: "grey.50",
+												":hover": {
+													backgroundColor: "#33373E",
+													borderColor: "grey.400",
+												},
+												borderLeft: "2px solid",
+												borderColor:
+													route[0] === pathname
+														? "grey.50"
+														: "grey.600",
+											}}
+										/>
+									)
+								})}
+							</List>
+						</Collapse>
+					</Stack>
+				</Stack>
+				<Stack
+					flexDirection={"row"}
+					justifyContent={"space-between"}
+					bgcolor={"grey.600"}
+					padding={"15px"}
+					py={"20px"}
 				>
-					<Typography>Sair</Typography>
-				</Button>
+					<Avatar src={user?.photo} />
+					<Stack spacing={-1}>
+						<Typography fontSize={"18px"} color={"grey.50"}>
+							{user?.name}
+						</Typography>
+						<Typography fontSize={"14px"} color={"grey.400"}>
+							{user?.email}
+						</Typography>
+					</Stack>
+					<LongMenu actionOnClose={logout} />
+				</Stack>
 			</Drawer>
 		</Stack>
 	)

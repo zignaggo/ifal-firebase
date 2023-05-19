@@ -1,36 +1,36 @@
-import { ExpandLess, ExpandMore } from "@mui/icons-material"
-import {
-	Collapse,
-	List,
-	ListItemProps,
-	ListItem,
-	ListItemText,
-	ListItemButton,
-} from "@mui/material"
-import { Link as RouterLink } from "@tanstack/react-location"
+import { ListItemProps, ListItemText, ListItemButton } from "@mui/material"
+import { Link, LinkProps } from "@tanstack/react-location"
+import { ReactNode, forwardRef } from "react"
 
-const breadcrumbNameMap: { [key: string]: string } = {
-	"/": "Início",
-}
-
-interface ListItemLinkProps extends ListItemProps {
+interface ListItemLinkProps
+	extends Pick<ListItemProps, "sx" | "ref">,
+		LinkProps {
 	to: string
-	open?: boolean
+	title?: string
+	selected?: boolean
+	rightIcon?: ReactNode
+	leftIcon?: ReactNode
 }
 
-export const ListItemLink = (props: ListItemLinkProps) => {
-	const { to, open, ...other } = props
-	const primary = breadcrumbNameMap[to]
+const LinkBehavior = forwardRef<any, ListItemLinkProps>((props, ref) => (
+	<Link ref={ref} {...props} />
+))
 
-	let icon = null
-	if (open != null) {
-		icon = open ? <ExpandLess /> : <ExpandMore />
-	}
-
-	return (
-		<ListItemButton component={RouterLink as any} to={to} {...other}>
-			<ListItemText primary={primary} />
-			{icon}
-		</ListItemButton>
-	)
-}
+export const ListItemLink = forwardRef<
+	Pick<ListItemProps, "sx" | "ref">,
+	ListItemLinkProps
+>(({ to, title, selected, rightIcon, leftIcon, ...other }, ref) => (
+	<ListItemButton
+		ref={ref}
+		component={LinkBehavior}
+		to={to}
+		sx={{
+			padding: "8px 16px 8px 16px",
+		}}
+		{...other}
+	>
+		{leftIcon}
+		<ListItemText primary={title} sx={{ pl: leftIcon ? 1 : 0 }} />
+		{rightIcon}
+	</ListItemButton>
+))

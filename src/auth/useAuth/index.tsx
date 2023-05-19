@@ -8,6 +8,7 @@ interface User {
 	email: string
 	cpf: string
 	uid: string
+	photo: string
 }
 
 type TypeAuthContext = {
@@ -26,13 +27,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 	} = useLocation()
 	async function login(email: string, password: string) {
 		const {
-			user: { displayName, uid },
+			user: { displayName, uid, photoURL },
 		} = await signInWithEmailAndPassword(auth, email, password)
 		setUser((prev) => ({
 			...prev,
 			uid: uid,
 			email: email,
 			name: displayName || undefined,
+			photo: photoURL || undefined,
 		}))
 		navigate({ replace: true, to: "/" })
 	}
@@ -42,7 +44,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 	}
 
 	useEffect(() => {
-		console.log(user)
 		if (!user && pathname !== "/sign")
 			navigate({ replace: true, to: "/sign" })
 		if (pathname === "/sign" && user) navigate({ replace: true, to: "/" })
