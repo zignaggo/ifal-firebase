@@ -148,26 +148,21 @@ export const Sign = ({ route, navigation }) => {
 					</Text>
 					<Button
 						isLoading={false}
-						onPress={handleSubmit(handleSign)}
+						onPress={() => loginGoogle(auth, singSchema.fields.email)}
 						rounded={"full"}
 						bg={"gray.100"}
 						_hover={{ bg: "gray.400" }}
 						_pressed={{ bg: "gray.400" }}
 					>
+						
 						<HStack w={"full"} space={2} alignItems={"flex-start"}>
-							<TouchableOpacity 
-								style={{display:"flex", width: "200px"}} onPress={() => loginGoogle(auth, singSchema.fields.email)}
-							>
-								<Image
-									alt={"Google"}
-									source={Google}
-									h={"25px"}
-									w={"25px"}
-								/>
-								<Text color={"gray.500"}>Entrar com Google</Text>
-								
-							</TouchableOpacity>
-
+							<Image
+								alt={"Google"}
+								source={Google}
+								h={"25px"}
+								w={"25px"}
+							/>
+							<Text color={"gray.500"}>Entrar com Google</Text>
 						</HStack>
 					</Button>
 				</VStack>

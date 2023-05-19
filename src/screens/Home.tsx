@@ -89,7 +89,7 @@ export const Home = ({ route, navigation }) => {
 					<Heading fontSize={22} color={"gray.50"}>
 						Discente
 					</Heading>
-					{console.log(user.uid)}
+					{/* {console.log(user.uid)} */}
 				</VStack>
 				<VStack borderBottomRadius={8} bgColor={"gray.50"}>
 					<VStack p={"15px"} space={"6px"}>
