@@ -1,17 +1,25 @@
-import { GoogleAuthProvider, signInWithRedirect } from "firebase/auth"
-import { Auth } from "firebase/auth/react-native"
+import { Auth, GoogleAuthProvider, getRedirectResult, signInWithRedirect } from "firebase/auth"
 import { verifyError } from "./src/utils/errorcodes"
+import { auth } from "./firebase.config"
 
-export async function loginGoogle(authF: Auth, email: string) {
-  const provider = new GoogleAuthProvider()
-  provider.addScope('https://www.googleapis.com/auth/contacts.readonly')
-  
-  signInWithRedirect(authF, provider)
+export async function loginGoogle(auth: Auth) {
+  signInWithRedirect(auth, new GoogleAuthProvider())
     .then(result => {
-      console.log(result)
       const credential = GoogleAuthProvider.credentialFromResult(result)
+      const cred = GoogleAuthProvider.PROVIDER_ID
+      console.log(cred)
+      const token = credential.accessToken
+      console.log(result + " " + credencial + " " + token)
+      
 
-    }).catch(error => {
-      console.log(verifyError(error.code))
+    
     })
+    .catch(error => {console.log(verifyError(error.code))})
+    
+  const credencial = await getRedirectResult(auth)
+    .then(resultado => console.log(resultado.user.email))
+    .catch(error => verifyError(error.code))
+  
+    
+  return credencial
 }

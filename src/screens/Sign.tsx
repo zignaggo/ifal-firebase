@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { auth, provider } from "../../firebase.config"
 import { useAuth } from "../Contexts/AuthProvider/useAuth"
 import { Button, Heading, VStack, Text, HStack, Image } from "native-base"
 import { Input } from "../components/Input"
@@ -11,7 +12,8 @@ import Google from "../../assets/Google.png"
 import { AntDesign } from '@expo/vector-icons'
 import { TouchableOpacity } from "react-native"
 import { loginGoogle } from "../../loginGoogle"
-import { auth } from "../../firebase.config"
+
+import { Auth } from "firebase/auth"
 
 interface FieldsForm {
 	email: string
@@ -148,7 +150,14 @@ export const Sign = ({ route, navigation }) => {
 					</Text>
 					<Button
 						isLoading={false}
-						onPress={() => loginGoogle(auth, singSchema.fields.email)}
+						
+						onPress={() => 
+							loginGoogle(auth)
+							// .then((result) => {
+							// 	console.log(result)
+							// })
+						}
+						
 						rounded={"full"}
 						bg={"gray.100"}
 						_hover={{ bg: "gray.400" }}

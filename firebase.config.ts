@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { initializeApp } from "firebase/app"
-import { getAuth, initializeAuth } from "firebase/auth"
+import { getAuth, inMemoryPersistence, initializeAuth, setPersistence } from "firebase/auth"
 import { getReactNativePersistence } from "firebase/auth/react-native"
 import { Platform } from "react-native"
 import { GoogleAuthProvider } from "firebase/auth"
@@ -24,6 +24,8 @@ function initAuthNonWeb() {
   return initializeAuth(app, { persistence })
 }
 
+
 export const app = initializeApp(config)
 export const auth = Platform.OS === "web" ? getAuth(app) : initAuthNonWeb()
 export const provider = new GoogleAuthProvider()
+// .setPersistence(browserSessionPersistence)
