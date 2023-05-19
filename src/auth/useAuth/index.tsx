@@ -42,6 +42,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 	}
 
 	useEffect(() => {
+		console.log(user)
 		if (!user && pathname !== "/sign")
 			navigate({ replace: true, to: "/sign" })
 		if (pathname === "/sign" && user) navigate({ replace: true, to: "/" })
