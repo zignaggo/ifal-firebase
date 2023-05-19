@@ -7,6 +7,8 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 import { useAuth } from "../Contexts/AuthProvider/useAuth"
 import { ModelLogin } from "../components/ModelLogin"
+import { TouchableOpacity } from "react-native"
+import { AntDesign } from '@expo/vector-icons'
 
 interface FieldsForm {
 	name: string
@@ -64,8 +66,11 @@ export const SignUp = ({ route, navigation }) => {
 	const [loading, setLoading] = useState<boolean>(false)
 
 	function handleSignUp({ email, password, name, cpf }: FieldsForm) {
-		createUser(email, password, name, cpf, () => {}, setLoading)
+		createUser(email, password, name, cpf, () => { }, setLoading)
 	}
+
+	const [show, setShow] = useState(false)
+	const handleClick = () => setShow(!show)
 
 	return (
 		<ModelLogin>
@@ -117,6 +122,14 @@ export const SignUp = ({ route, navigation }) => {
 						name="password"
 						render={({ field: { onChange } }) => (
 							<Input
+								type={show ? "text" : "password"}
+								InputRightElement={
+									<TouchableOpacity onPress={handleClick} style={{height: "100%", display: "flex", justifyContent: "center", width: "10%", alignItems:"flex-end", paddingRight: 20}}> 
+											
+									{show ? <AntDesign name="eyeo" size={24} color="#535861" /> : <AntDesign name="eye" size={24} color="#535861" />}
+									</TouchableOpacity>
+								}
+
 								placeholder="Senha"
 								title="Senha"
 								onChangeText={onChange}
@@ -129,6 +142,12 @@ export const SignUp = ({ route, navigation }) => {
 						name="confirmPassword"
 						render={({ field: { onChange } }) => (
 							<Input
+								type={show ? "text" : "password"}
+								InputRightElement={
+									<TouchableOpacity onPress={handleClick} style={{height: "100%", display: "flex", justifyContent: "center", width: "10%", alignItems:"flex-end", paddingRight: 20}}> 
+									{show ? <AntDesign name="eyeo" size={24} color="#535861" /> : <AntDesign name="eye" size={24} color="#535861" />}
+									</TouchableOpacity>
+								}
 								placeholder="Confirmar Senha"
 								title="Confirmar Senha"
 								onChangeText={onChange}

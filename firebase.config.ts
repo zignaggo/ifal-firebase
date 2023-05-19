@@ -19,7 +19,7 @@ function initAuthNonWeb() {
     getItem: AsyncStorage.getItem,
     removeItem: AsyncStorage.removeItem,
     setItem: AsyncStorage.setItem,
-  });
+  })
 
   return initializeAuth(app, { persistence });
 }

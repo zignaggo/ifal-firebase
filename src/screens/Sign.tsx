@@ -1,5 +1,4 @@
 import { useState } from "react"
-//import { Auth } from "../../App"
 import { useAuth } from "../Contexts/AuthProvider/useAuth"
 import { Button, Heading, VStack, Text, HStack, Image } from "native-base"
 import { Input } from "../components/Input"
@@ -7,9 +6,13 @@ import { Controller } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { useForm } from "react-hook-form"
 import * as yup from "yup"
-import { verifyError } from "../utils/errorcodes"
 import { ModelLogin } from "../components/ModelLogin"
 import Google from "../../assets/Google.png"
+import { AntDesign } from '@expo/vector-icons'
+import { TouchableOpacity } from "react-native"
+import { loginGoogle } from "../../loginGoogle"
+import { auth } from "../../firebase.config"
+
 interface FieldsForm {
 	email: string
 	password: string
@@ -46,8 +49,11 @@ export const Sign = ({ route, navigation }) => {
 	const { login } = useAuth()
 
 	function handleSign({ email, password }: FieldsForm) {
-		login(email, password, () => {}, setLoading)
+		login(email, password, () => { }, setLoading)
 	}
+
+	const [show, setShow] = useState(false)
+	const handleClick = () => setShow(!show)
 
 	return (
 		<ModelLogin>
@@ -89,12 +95,21 @@ export const Sign = ({ route, navigation }) => {
 							control={control}
 							name="password"
 							render={({ field: { onChange } }) => (
+
 								<Input
+									type={show ? "text" : "password"}
+									InputRightElement={
+										<TouchableOpacity onPress={handleClick} style={{ height: "100%", display: "flex", justifyContent: "center", width: "10%", alignItems: "flex-end", paddingRight: 20 }}>
+											{show ? <AntDesign name="eyeo" size={24} color="#535861" /> : <AntDesign name="eye" size={24} color="#535861" />}
+										</TouchableOpacity>
+									}
+
 									placeholder="Digite sua senha"
 									onChangeText={onChange}
 									errorMessage={errors.password?.message}
 									title="Senha"
 								/>
+
 							)}
 						/>
 					</VStack>
@@ -140,13 +155,19 @@ export const Sign = ({ route, navigation }) => {
 						_pressed={{ bg: "gray.400" }}
 					>
 						<HStack w={"full"} space={2} alignItems={"flex-start"}>
-							<Image
-								alt={"Google"}
-								source={Google}
-								h={"25px"}
-								w={"25px"}
-							/>
-							<Text color={"gray.500"}>Entrar com Google</Text>
+							<TouchableOpacity 
+								style={{display:"flex", width: "200px"}} onPress={() => loginGoogle(auth, singSchema.fields.email)}
+							>
+								<Image
+									alt={"Google"}
+									source={Google}
+									h={"25px"}
+									w={"25px"}
+								/>
+								<Text color={"gray.500"}>Entrar com Google</Text>
+								
+							</TouchableOpacity>
+
 						</HStack>
 					</Button>
 				</VStack>
