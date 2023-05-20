@@ -1,12 +1,25 @@
-import { Box, Stack, Typography,  } from "@mui/material";
-import { spacing } from "@mui/system";
+import { Box, Stack, Typography,  } from "@mui/material"
+import theme from "../config/theme"
+import { Icon } from "@iconify/react"
+import { useNavigate } from "@tanstack/react-location"
 
-export const Subject = (nome: string, color: string) => {
-	return (
-		<Box component="div" bgcolor={color}>
-      {nome}
-      teste
-
-    </Box>
+export const Subject = ({name, color, path}: {name: string, color: string, path: string | number}) => {
+	
+  const navigate = useNavigate()
+  
+  return (
+		<Stack
+      bgcolor={color} width={"200px"} height={"200px"}
+      borderRadius={10} justifyContent={"space-between"} padding={2} margin={1} onClick={() => navigate({replace: true, to: `marks/${path}`})}
+    >
+      <Typography
+        color={"grey.50"} fontSize={18} 
+        fontWeight={"bold"}
+      >
+        {name}
+      </Typography>
+      
+      <Stack alignSelf={"flex-end"}><Icon width={30} icon="mdi:book-multiple"/></Stack>
+    </Stack>
 	)
 }
