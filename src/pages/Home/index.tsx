@@ -5,7 +5,7 @@ export const Home = () => {
 		<Stack 
 			width={"100%"} height={"100%"} justifyContent={"flex-start"} paddingLeft={3} overflow={"auto"}
 		>
-			<Typography 
+			<Typography marginTop={3}
 				fontWeight={"bold"} fontSize={"32px"} color={"grey.50"}>Matérias disponíveis
 			</Typography>
 			<Typography 
@@ -13,7 +13,7 @@ export const Home = () => {
 				1º Período
 			</Typography>
 			
-			<Stack height={"250px"} alignContent={"center"} justifyContent={"space-evenly"} direction={"row"} width={"95%"} flexWrap={"wrap"} bgcolor={"grey.800"}>
+			<Stack height={"fit-content"} borderRadius={4} borderTop={4} borderColor={"grey.500"} alignContent={"center"} padding={1} justifyContent={"space-evenly"} marginTop={4} direction={"row"} width={"95%"} flexWrap={"wrap"} bgcolor={"grey.800"}>
 				<Subject color="#5187D7" name="Algoritmo e lógica de programação" path="algoritmo" />
 				<Subject color="#48D1C9" name="Fundamentos da matemática" path="fund_mat" />
 				<Subject color="#D78151" name="Fundamentos de sistemas de informação" path="fund_sist" />

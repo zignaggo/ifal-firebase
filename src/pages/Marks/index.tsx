@@ -5,13 +5,13 @@ export const Marks = () => {
 	return(
 		<Stack alignItems={"center"} color={"grey.50"} width={"100%"} height={"100%"} padding={2} >
 			
-			<Typography alignSelf={"flex-start"} color={"grey.50"} fontSize={"32px"}>
+			<Typography marginTop={3} alignSelf={"flex-start"} color={"grey.50"} fontSize={"32px"}>
 				Nome matéria
 			</Typography>
 			
-			<Stack marginY={5} borderRadius={"8px"} alignItems={"center"} justifyItems={"center"} bgcolor={"grey.600"} width={"60%"}>
+			<Stack marginY={5} padding={2} borderRadius={"8px"} alignItems={"center"} justifyItems={"center"} bgcolor={"grey.600"} width={"60%"}>
 				<Typography color={"grey.400"}>
-					Professor responsável
+					Professor responsável:
 				</Typography>
 				<Typography color={"grey.50"}>
 					Glevson Pinto
