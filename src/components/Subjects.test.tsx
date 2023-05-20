@@ -5,6 +5,7 @@ import { NavigationProp } from "@react-navigation/native"
 import { Subject } from "./Subject"
 import { render } from "@testing-library/react-native"
 type NavigationScreenPropAlias = NavigationProp<{}>
+
 describe("Mark Component", () => {
 	let navigation: Partial<NavigationScreenPropAlias>
 

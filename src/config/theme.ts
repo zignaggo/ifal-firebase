@@ -25,3 +25,11 @@ export const theme = extendTheme({
 		initialColorMode: "light",
 	},
 })
+
+// 2. Get the type of the CustomTheme
+type CustomThemeType = typeof theme;
+
+// 3. Extend the internal NativeBase Theme
+declare module 'native-base' {
+  interface ICustomTheme extends CustomThemeType {}
+}

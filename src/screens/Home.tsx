@@ -71,7 +71,7 @@ export const Home = ({ route, navigation }) => {
 							<Avatar
 								bg="#75D284"
 								source={{
-									uri: user.image,
+									uri: user?.image,
 								}}
 								w={"100px"}
 								h={"100px"}
@@ -126,21 +126,21 @@ export const Home = ({ route, navigation }) => {
 								</VStack>
 							</VStack>
 							<VStack space={"4px"}>
-								<Text fontSize={12}>{user.name}</Text>
+								<Text fontSize={12}>{user?.name}</Text>
 								<Text fontSize={12}>teste{}</Text>
 								<HStack alignItems={"center"}>
 									<HStack alignItems={"center"}>
 										<Text
 											color={
-												user.verified
+												user?.verified
 													? "#535861"
 													: "#e9a94b"
 											}
 											fontSize={12}
 										>
-											{user.email + " "}
+											{user?.email + " "}
 										</Text>
-										{user.verified ? (
+										{user?.verified ? (
 											<MaterialIcons
 												name="verified"
 												size={18}
@@ -157,9 +157,9 @@ export const Home = ({ route, navigation }) => {
 								</HStack>
 							</VStack>
 						</HStack>
-						{!user.verified && (
+						{!user?.verified && (
 							<Button
-								disabled={user.verified}
+								disabled={user?.verified}
 								w={"full"}
 								borderRadius={"8px"}
 								py={1.5}
@@ -231,19 +231,19 @@ export const Home = ({ route, navigation }) => {
 							</VStack>
 							<VStack space={"4px"}>
 								<Text fontSize={12} color={"gray.800"}>
-									{user.dados_curso?.nome}
+									{user?.dados_curso?.nome}
 								</Text>
 								<Text fontSize={12} color={"gray.800"}>
-									{user.dados_curso?.turno}
+									{user?.dados_curso?.turno}
 								</Text>
 								<Text fontSize={12} color={"gray.800"}>
-									{user.dados_curso?.periodo}
+									{user?.dados_curso?.periodo}
 								</Text>
 								<Text fontSize={12} color={"gray.800"}>
-									{user.dados_curso?.carga}º
+									{user?.dados_curso?.carga}º
 								</Text>
 								<Text fontSize={12} color={"gray.800"}>
-									{user.dados_curso?.nivel}
+									{user?.dados_curso?.nivel}
 								</Text>
 							</VStack>
 						</HStack>

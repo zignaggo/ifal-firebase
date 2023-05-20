@@ -6,8 +6,8 @@ import {
 	Center,
 	useDisclose,
 	Text,
-	Flex,
 	HStack,
+	Icon,
 } from "native-base"
 import { useAuth } from "../Contexts/AuthProvider/useAuth"
 export const MenuImage = () => {
@@ -15,12 +15,7 @@ export const MenuImage = () => {
 	const { imagePickerCall } = useAuth()
 	return (
 		<Center>
-			<Button
-				onPress={onOpen}
-				borderRadius={9999}
-				p={2}
-				bg={"#75D284"}
-			>
+			<Button onPress={onOpen} borderRadius={9999} p={2} bg={"#75D284"}>
 				<FontAwesome name="camera" size={14} color="#fff" />
 			</Button>
 			<Actionsheet isOpen={isOpen} onClose={onClose}>
@@ -43,11 +38,13 @@ export const MenuImage = () => {
 							alignItems={"center"}
 							space={4}
 						>
-							<FontAwesome
+							<Icon
+								as={FontAwesome}
 								name="camera"
 								size={18}
 								color="gray.800"
 							/>
+
 							<Text fontWeight={"600"} color={"gray.800"}>
 								Tire uma Foto
 							</Text>
@@ -64,10 +61,11 @@ export const MenuImage = () => {
 							alignItems={"center"}
 							space={4}
 						>
-							<FontAwesome
+							<Icon
+								as={FontAwesome}
 								name="photo"
 								size={18}
-								color={"gray.800"}
+								color="gray.800"
 							/>
 							<Text fontWeight={"bold"} color={"gray.800"}>
 								Galeria

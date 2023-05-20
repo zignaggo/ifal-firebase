@@ -1,7 +1,6 @@
-import { getFirestore, getDoc, setDoc, doc, Firestore, collection, query, where, getDocs, FieldPath, addDoc } from "firebase/firestore"
+import { getFirestore, getDoc, setDoc, doc, Firestore } from "firebase/firestore"
 import { getStorage, ref, uploadString, getDownloadURL } from "firebase/storage"
 import { verifyError } from "./errorcodes"
-import { forEachChild } from "typescript"
 
 export interface UserData {
 	name: string

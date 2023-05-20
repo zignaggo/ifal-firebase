@@ -18,7 +18,7 @@ export const Marks = ({ route, navigation }) => {
 	>()
 
 	useEffect(() => {
-		getSubjectInfo(name, getAuth(app).currentUser.uid).then((notas) => {
+		getSubjectInfo(name, getAuth(app)?.currentUser?.uid).then((notas) => {
 			notas && setInfoMark((prev) => ({ ...prev, notas: notas }))
 		})
 

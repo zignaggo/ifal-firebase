@@ -103,14 +103,13 @@ export const AuthProvider = ({ children, authApp }: IAuthProvider) => {
 				email: user.email,
 				verified: user.emailVerified,
 				uid: user.uid,
-
 			})
 			saveDataOnFirestore(user.uid, {
 				email: email,
 				name: name,
-				cpf: cpf
+				cpf: cpf,
 			})
-			
+
 			//saveNotes(user.uid)
 			action()
 		} catch (error) {
@@ -140,7 +139,7 @@ export const AuthProvider = ({ children, authApp }: IAuthProvider) => {
 				verified: response.user.emailVerified,
 				uid: response.user.uid,
 				name: response.user.displayName,
-				image: response.user.photoURL
+				image: response.user.photoURL,
 			})
 			action()
 		} catch (error) {
@@ -157,17 +156,31 @@ export const AuthProvider = ({ children, authApp }: IAuthProvider) => {
 	}
 
 	async function loadData() {
-		if (!user.uid) return
+		if (!user?.uid) return
 		// Promise.all([])
-		const userDataResponse = await getDataFirebase(getFirestore(), "Users", user.uid ) as UserData
-		const dadosCursoResponse = await getDataFirebase(getFirestore(), "Geral", "dados_curso" ) as CourseData
+		const userDataResponse = (await getDataFirebase(
+			getFirestore(),
+			"Users",
+			user.uid
+		)) as UserData
+		const dadosCursoResponse = (await getDataFirebase(
+			getFirestore(),
+			"Geral",
+			"dados_curso"
+		)) as CourseData
 		if (userDataResponse && dadosCursoResponse) {
 			setUser({
 				...user,
 				email: userDataResponse.email,
 				name: userDataResponse.name,
 				image: getAuth(app).currentUser.photoURL,
-				dados_curso: {carga: dadosCursoResponse.carga, nome: dadosCursoResponse.nome, turno: dadosCursoResponse.turno, periodo: dadosCursoResponse.periodo, nivel: dadosCursoResponse.nivel}
+				dados_curso: {
+					carga: dadosCursoResponse.carga,
+					nome: dadosCursoResponse.nome,
+					turno: dadosCursoResponse.turno,
+					periodo: dadosCursoResponse.periodo,
+					nivel: dadosCursoResponse.nivel,
+				},
 			})
 		}
 	}
@@ -176,7 +189,7 @@ export const AuthProvider = ({ children, authApp }: IAuthProvider) => {
 		email: string,
 		action: () => void,
 		setLoading: Dispatch<SetStateAction<boolean>>
-	)  {
+	) {
 		setLoading(true)
 		await sendPasswordResetEmail(authApp, email)
 			.catch((error) => console.log(verifyError(error)))
@@ -185,8 +198,9 @@ export const AuthProvider = ({ children, authApp }: IAuthProvider) => {
 
 	async function verifyEmail() {
 		try {
-			return sendEmailVerification(authApp.currentUser)
-			.then(() => "Email enviado")
+			return sendEmailVerification(authApp.currentUser).then(
+				() => "Email enviado"
+			)
 		} catch (error) {
 			Alert.alert(verifyError(error.code)), console.log(error.code)
 		}
@@ -195,10 +209,10 @@ export const AuthProvider = ({ children, authApp }: IAuthProvider) => {
 	async function imagePickerCall() {
 		try {
 			const data = await ImagePicker.launchImageLibraryAsync({})
-				await uploadImageToStorage(data.assets[0].uri, user.uid)
-				console.log(user.uid)
-				await setImageProfile()
-				await loadData()
+			await uploadImageToStorage(data.assets[0].uri, user.uid)
+			console.log(user.uid)
+			await setImageProfile()
+			await loadData()
 		} catch (error) {
 			console.log(error.code)
 		}
@@ -206,8 +220,7 @@ export const AuthProvider = ({ children, authApp }: IAuthProvider) => {
 
 	async function setImageProfile() {
 		const response = await getUrlImage(user.uid)
-		updateProfile(getAuth().currentUser, {photoURL: response})
-		
+		updateProfile(getAuth().currentUser, { photoURL: response })
 	}
 
 	useEffect(() => {
