@@ -23,6 +23,7 @@ export const SideBar = () => {
 	} = useLocation()
 	const mobile = useMediaQuery("(max-width:600px)", { noSsr: true })
 	const drawerWidth = mobile ? 240 : 280
+	const [drawerOpen, setDrawerOpen] = useState<boolean>(!mobile)
 	const [open, setOpen] = useState<boolean>(true)
 	const { logout, user } = useAuth()
 
@@ -42,7 +43,7 @@ export const SideBar = () => {
 		<Stack flexDirection={"column"}>
 			<Drawer
 				sx={{
-					width: drawerWidth,
+					width: drawerOpen ? drawerWidth : 0,
 					flexShrink: 0,
 					"& .MuiDrawer-paper": {
 						width: drawerWidth,
@@ -52,8 +53,9 @@ export const SideBar = () => {
 						borderRadius: "0 15px 15px 0 ",
 					},
 				}}
-				variant="permanent"
+				variant="persistent"
 				anchor="left"
+				open={drawerOpen}
 			>
 				<Stack
 					flexDirection={"column"}
