@@ -1,5 +1,4 @@
-import { Box, Stack, Typography, useMediaQuery } from "@mui/material"
-import theme from "../config/theme"
+import { Stack, Typography, useMediaQuery } from "@mui/material"
 import { Icon } from "@iconify/react"
 import { useNavigate } from "@tanstack/react-location"
 
@@ -15,6 +14,7 @@ export const Subject = ({
 	const navigate = useNavigate()
 	const mobile = useMediaQuery("(max-width:767px)", { noSsr: true })
 	const size = mobile ? "140px" : "200px"
+	const fontsize = mobile ? "14px" : "18px"
 
 	return (
 		<Stack
@@ -22,7 +22,7 @@ export const Subject = ({
       borderRadius={6} justifyContent={"space-between"} padding={2} margin={1} onClick={() => navigate({replace: true, to: `marks/${path}`})}
     >
       <Typography
-        color={"grey.50"} fontSize={18} 
+        color={"grey.50"} fontSize={fontsize} 
         fontWeight={"bold"}
       >
         {name}

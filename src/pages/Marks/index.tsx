@@ -1,14 +1,21 @@
 import { Stack, Typography } from "@mui/material"
 import { Student } from "../../components/Student"
 import { Icon } from "@iconify/react"
+import { routesType } from "../../routes"
+import { useMatch } from "@tanstack/react-location"
 
 export const Marks = () => {
+	const {params} = useMatch()
+	// @ts-ignore
+	//const name = routesType["marks"][id]
+	console.log(params)
+
 	return (
 		<Stack alignItems={"center"} color={"grey.50"} width={"100%"} height={"100%"} padding={2} >
 			<Stack flexDirection={"row"} alignItems={"center"} width={"100%"}>
 				<Icon icon="maki:arrow" hFlip={true} />
 				<Typography marginLeft={"auto"} marginRight={"auto"} color={"grey.50"} fontSize={"32px"}>
-					Nome matéria
+					{}
 				</Typography>
 			</Stack>
 
