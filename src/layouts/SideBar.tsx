@@ -16,14 +16,14 @@ import { useCallback, useMemo, useState } from "react"
 import { ListItemLink } from "./ListItemLink"
 import { useAuth } from "../auth/useAuth"
 import LongMenu from "./Menu"
+import { useSidebar } from "../contexts/SideBarContext"
 
 export const SideBar = () => {
 	const {
 		current: { pathname },
 	} = useLocation()
-	const mobile = useMediaQuery("(max-width:600px)", { noSsr: true })
+	const { open: openDrawer, toggle: toggleDrawer, mobile } = useSidebar()
 	const drawerWidth = mobile ? 240 : 280
-	const [drawerOpen, setDrawerOpen] = useState<boolean>(!mobile)
 	const [open, setOpen] = useState<boolean>(true)
 	const { logout, user } = useAuth()
 
@@ -43,7 +43,7 @@ export const SideBar = () => {
 		<Stack flexDirection={"column"}>
 			<Drawer
 				sx={{
-					width: drawerOpen ? drawerWidth : 0,
+					width: openDrawer ? drawerWidth : 0,
 					flexShrink: 0,
 					"& .MuiDrawer-paper": {
 						width: drawerWidth,
@@ -55,7 +55,7 @@ export const SideBar = () => {
 				}}
 				variant="persistent"
 				anchor="left"
-				open={drawerOpen}
+				open={openDrawer}
 			>
 				<Stack
 					flexDirection={"column"}

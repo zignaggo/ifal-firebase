@@ -3,6 +3,7 @@ import { Box } from "@mui/material"
 import { routes, location } from "./routes"
 import { AuthProvider } from "./auth/useAuth"
 import { SideBar } from "./layouts/SideBar"
+import { SideBarProvider } from "./contexts/SideBarContext"
 export default function App() {
 	return (
 		<Box
@@ -16,8 +17,10 @@ export default function App() {
 		>
 			<Router routes={routes} location={location}>
 				<AuthProvider>
-					<SideBar />
-					<Outlet />
+					<SideBarProvider>
+						<SideBar />
+						<Outlet />
+					</SideBarProvider>
 				</AuthProvider>
 			</Router>
 		</Box>
