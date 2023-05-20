@@ -1,5 +1,26 @@
-import { Box } from "@mui/material"
+import { Box, Stack, Typography } from "@mui/material"
+import { Student } from "../../components/Student"
 
 export const Marks = () => {
-	return <Box color={"grey.50"}>Marks</Box>
+	return(
+		<Stack alignItems={"center"} color={"grey.50"} width={"100%"} height={"100%"} padding={2} >
+			
+			<Typography alignSelf={"flex-start"} color={"grey.50"} fontSize={"32px"}>
+				Nome matéria
+			</Typography>
+			
+			<Stack marginY={5} borderRadius={"8px"} alignItems={"center"} justifyItems={"center"} bgcolor={"grey.600"} width={"60%"}>
+				<Typography color={"grey.400"}>
+					Professor responsável
+				</Typography>
+				<Typography color={"grey.50"}>
+					Glevson Pinto
+				</Typography>
+			</Stack>
+			
+			<Stack width={"100%"}>
+				<Student/>
+			</Stack>
+		</Stack>
+	) 
 }
