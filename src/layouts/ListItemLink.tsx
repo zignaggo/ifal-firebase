@@ -12,16 +12,15 @@ interface ListItemLinkProps
 	leftIcon?: ReactNode
 }
 
-const LinkBehavior = forwardRef<any, ListItemLinkProps>((props, ref) => (
-	<Link ref={ref} {...props} />
+const LinkBehavior = forwardRef<any, ListItemLinkProps>((props, _) => (
+	<Link {...props} />
 ))
 
 export const ListItemLink = forwardRef<
 	Pick<ListItemProps, "sx" | "ref">,
 	ListItemLinkProps
->(({ to, title, selected, rightIcon, leftIcon, ...other }, ref) => (
+>(({ to, title, selected, rightIcon, leftIcon, ...other }, _) => (
 	<ListItemButton
-		ref={ref}
 		component={LinkBehavior}
 		to={to}
 		sx={{
@@ -30,7 +29,10 @@ export const ListItemLink = forwardRef<
 		{...other}
 	>
 		{leftIcon}
-		<ListItemText primary={title} sx={{ pl: leftIcon ? 1 : 0 }} />
+		<ListItemText
+			primary={title}
+			sx={{ pl: leftIcon ? 1 : 0, span: { lineHeight: "95%" } }}
+		/>
 		{rightIcon}
 	</ListItemButton>
 ))

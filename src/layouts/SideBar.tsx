@@ -4,26 +4,25 @@ import {
 	List,
 	Typography,
 	Button,
-	useMediaQuery,
 	Collapse,
 	Avatar,
 	IconButton,
 } from "@mui/material"
 import { Icon, InlineIcon } from "@iconify/react"
-import { useLocation } from "@tanstack/react-location"
+import { useLocation, Link } from "@tanstack/react-location"
 import { LogoIfal } from "../assets/icons"
 import { useCallback, useMemo, useState } from "react"
 import { ListItemLink } from "./ListItemLink"
 import { useAuth } from "../auth/useAuth"
 import LongMenu from "./Menu"
 import { useSidebar } from "../contexts/SideBarContext"
-
+import { routesType } from "../routes"
 export const SideBar = () => {
 	const {
 		current: { pathname },
 	} = useLocation()
-	const { open: openDrawer, toggle: toggleDrawer, mobile } = useSidebar()
-	const drawerWidth = mobile ? 240 : 280
+	const { open: openDrawer, mobile, toggle } = useSidebar()
+	
 	const [open, setOpen] = useState<boolean>(true)
 	const { logout, user } = useAuth()
 
@@ -31,31 +30,28 @@ export const SideBar = () => {
 		setOpen((prevOpen) => !prevOpen)
 	}, [open])
 
-	const routes: { [key: string]: string } = useMemo(
-		() => ({
-			"/teste": "teste",
-			"/teste2": "teste2",
-		}),
-		[]
-	)
+	const routes = useMemo(() => routesType.marks, [])
+
 	if (pathname == "/sign") return <></>
 	return (
 		<Stack flexDirection={"column"}>
 			<Drawer
 				sx={{
-					width: openDrawer ? drawerWidth : 0,
+					width: openDrawer ? 280 : 0,
 					flexShrink: 0,
 					"& .MuiDrawer-paper": {
-						width: drawerWidth,
+						width: 280,
 						boxSizing: "border-box",
 						background: "#292C30",
 						borderWidth: 0,
 						borderRadius: "0 15px 15px 0 ",
 					},
 				}}
-				variant="persistent"
+				variant={mobile ? "temporary" : "persistent"}
+				
 				anchor="left"
 				open={openDrawer}
+				onClose={() => toggle(false)}
 			>
 				<Stack
 					flexDirection={"column"}
@@ -80,11 +76,46 @@ export const SideBar = () => {
 					</Stack>
 
 					<Stack overflow={"auto"}>
-						<ListItemLink
-							to="/"
-							title="Início"
-							onClick={handleClick}
-							rightIcon={
+						<Stack
+							flexDirection={"row"}
+							gap={"5px"}
+							sx={{
+								height: "45px",
+								backgroundColor: "grey.600",
+								paddingInline: "15px",
+								borderRadius: 2,
+								fontSize: "16px",
+								color: "grey.50",
+								":hover": {
+									backgroundColor: "grey.600",
+								},
+
+								textTransform: "none",
+							}}
+						>
+							<Link style={{display: 'flex', alignItems: 'center'}}>
+							<IconButton
+								sx={{
+									color: "grey.50",
+									":hover": {
+										backgroundColor: "grey.600",
+									},
+								}}
+							>
+								<InlineIcon
+									icon={"octicon:home-fill-24"}
+									fontSize={"20px"}
+								/>
+							</IconButton>
+							</Link>
+							<Typography marginRight={"auto"} marginY={"auto"}>
+								Início
+							</Typography>
+
+							<IconButton
+								onClick={handleClick}
+								sx={{ color: "grey.50" }}
+							>
 								<InlineIcon
 									icon={
 										"material-symbols:keyboard-arrow-down-rounded"
@@ -92,23 +123,8 @@ export const SideBar = () => {
 									fontSize={"20px"}
 									vFlip={open}
 								/>
-							}
-							leftIcon={
-								<InlineIcon
-									icon={"octicon:home-fill-24"}
-									fontSize={"20px"}
-								/>
-							}
-							sx={{
-								height: "45px",
-								backgroundColor: "grey.600",
-								borderRadius: 2,
-								color: "grey.50",
-								":hover": {
-									backgroundColor: "#33373E",
-								},
-							}}
-						/>
+							</IconButton>
+						</Stack>
 						<Collapse
 							in={open}
 							timeout="auto"
@@ -120,7 +136,7 @@ export const SideBar = () => {
 									return (
 										<ListItemLink
 											key={route[0]}
-											to={route[0]}
+											to={`marks/${route[0]}`}
 											title={route[1]}
 											sx={{
 												height: "45px",

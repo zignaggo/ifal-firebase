@@ -20,7 +20,7 @@ const SidebarContext = createContext<TypeSideBarContext>(
 )
 
 export const SideBarProvider = ({ children }: { children: ReactNode }) => {
-	const mobile = useMediaQuery("(max-width:600px)", { noSsr: true })
+	const mobile = useMediaQuery("(max-width:767px)", { noSsr: true })
 	const [open, toggle] = useState<boolean>(!mobile)
 
 	useEffect(() => {
