@@ -6,7 +6,7 @@ import {
 import { Button, HStack, Heading, Image, Text, VStack } from "native-base"
 import { FontAwesome5 } from "@expo/vector-icons"
 import { useAuth } from "../Contexts/AuthProvider/useAuth"
-import LogoIfal from "../../assets/LogoIfal.svg"
+import LogoIfal from "../../assets/LogoIfal.png"
 
 export const CustomDrawer = (props: DrawerContentComponentProps) => {
 	const { logout } = useAuth()

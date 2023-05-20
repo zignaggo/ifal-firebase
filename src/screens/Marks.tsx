@@ -1,24 +1,36 @@
 import { VStack, Text, HStack, Heading, Image } from "native-base"
 import { FontAwesome } from "@expo/vector-icons"
 import { TouchableOpacity } from "react-native"
-import Squares from "../../assets/Squares.svg"
+import Squares from "../../assets/Squares.png"
 import { useEffect, useState, useMemo } from "react"
-import { ResponseSubject, getDataFirebase, getSubjectInfo } from "../utils/utilitys"
+import {
+	ResponseSubject,
+	getDataFirebase,
+	getSubjectInfo,
+} from "../utils/utilitys"
 import { getFirestore } from "firebase/firestore"
 import { app } from "../../firebase.config"
 import { getAuth } from "firebase/auth"
 export const Marks = ({ route, navigation }) => {
 	const { name } = route.params
-	const [infoMark, setInfoMark] = useState<{docente: string, notas: ResponseSubject} | undefined>()
+	const [infoMark, setInfoMark] = useState<
+		{ docente: string; notas: ResponseSubject } | undefined
+	>()
 
 	useEffect(() => {
-		getSubjectInfo(name, getAuth(app).currentUser.uid)
-		.then(notas => {notas && setInfoMark((prev) => ({...prev, notas: notas}))})
-		
-		getDataFirebase(getFirestore(), 'Disciplinas', name)
-		.then(docente =>  {docente &&
-			getDataFirebase(getFirestore(), 'Docentes', String((docente as {docente: number}).docente))
-			.then(dados => setInfoMark((prev) => ({...prev, docente: dados.nome})))
+		getSubjectInfo(name, getAuth(app).currentUser.uid).then((notas) => {
+			notas && setInfoMark((prev) => ({ ...prev, notas: notas }))
+		})
+
+		getDataFirebase(getFirestore(), "Disciplinas", name).then((docente) => {
+			docente &&
+				getDataFirebase(
+					getFirestore(),
+					"Docentes",
+					String((docente as { docente: number }).docente)
+				).then((dados) =>
+					setInfoMark((prev) => ({ ...prev, docente: dados.nome }))
+				)
 		})
 	}, [route])
 
@@ -27,23 +39,22 @@ export const Marks = ({ route, navigation }) => {
 		if (Number(infoMark.notas.final) >= 0) return infoMark.notas.final
 		let n1 = Number(infoMark.notas.n1)
 		let n2 = Number(infoMark.notas.n2)
-				
+
 		if ((n1 == -1 || n2 == -1) && infoMark.notas.rep >= 0) {
 			if (n1 == -1) {
 				n1 = infoMark.notas.rep
-			}
-			else {
+			} else {
 				n2 = infoMark.notas.rep
 			}
 		}
-		
+
 		return (n1 + n2) / 2
-	},[infoMark])
+	}, [infoMark])
 
 	const status = useMemo(() => {
-		if(!infoMark) return "MATRICULADO"
-		if(!infoMark.notas.n1 && !infoMark.notas.n2) return "MATRICULADO"
-		if(media < 7) return "REPROVADO"
+		if (!infoMark) return "MATRICULADO"
+		if (!infoMark.notas.n1 && !infoMark.notas.n2) return "MATRICULADO"
+		if (media < 7) return "REPROVADO"
 		return "APROVADO"
 	}, [infoMark, media])
 	return (
@@ -99,7 +110,11 @@ export const Marks = ({ route, navigation }) => {
 						borderRadius={8}
 					>
 						<Heading fontSize={18}>Nota 1</Heading>
-						<Text fontSize={14}>{infoMark && infoMark?.notas.n1 < 0 ? "-" : infoMark?.notas.n1.toFixed(2)}</Text>
+						<Text fontSize={14}>
+							{infoMark && infoMark?.notas.n1 < 0
+								? "-"
+								: infoMark?.notas.n1.toFixed(2)}
+						</Text>
 					</VStack>
 
 					<VStack
@@ -109,7 +124,11 @@ export const Marks = ({ route, navigation }) => {
 						borderRadius={8}
 					>
 						<Heading fontSize={18}>Nota 2</Heading>
-						<Text fontSize={14}>{infoMark && infoMark?.notas.n2 < 0 ? "-" : infoMark?.notas.n2.toFixed(2)}</Text>
+						<Text fontSize={14}>
+							{infoMark && infoMark?.notas.n2 < 0
+								? "-"
+								: infoMark?.notas.n2.toFixed(2)}
+						</Text>
 					</VStack>
 
 					<VStack
@@ -119,8 +138,10 @@ export const Marks = ({ route, navigation }) => {
 						borderRadius={8}
 					>
 						<Heading fontSize={18}>Reposição</Heading>
-						<Text fontSize={14}>{
-							infoMark && infoMark?.notas.rep < 0 ? "-" : infoMark?.notas.rep.toFixed(2)}
+						<Text fontSize={14}>
+							{infoMark && infoMark?.notas.rep < 0
+								? "-"
+								: infoMark?.notas.rep.toFixed(2)}
 						</Text>
 					</VStack>
 
@@ -131,7 +152,11 @@ export const Marks = ({ route, navigation }) => {
 						borderRadius={8}
 					>
 						<Heading fontSize={18}>Final</Heading>
-						<Text fontSize={14}>{infoMark && infoMark?.notas.final < 0 ? "-" : infoMark?.notas.final.toFixed(2)}</Text>
+						<Text fontSize={14}>
+							{infoMark && infoMark?.notas.final < 0
+								? "-"
+								: infoMark?.notas.final.toFixed(2)}
+						</Text>
 					</VStack>
 
 					<VStack
@@ -144,7 +169,9 @@ export const Marks = ({ route, navigation }) => {
 							Média
 						</Heading>
 						<HStack justifyContent={"space-between"}>
-							<Text fontSize={14} color={"gray.50"}>{media.toFixed(2)}</Text>
+							<Text fontSize={14} color={"gray.50"}>
+								{media.toFixed(2)}
+							</Text>
 							<Text fontSize={14} color={"gray.400"}>
 								Mínimo: 7,00
 							</Text>
@@ -155,7 +182,13 @@ export const Marks = ({ route, navigation }) => {
 					alignItems={"center"}
 					justifyContent={"center"}
 					borderRadius={8}
-					bgColor={status === "REPROVADO" ? "red.default" : status === "APROVADO" ? "green.default" : "orange.default"}
+					bgColor={
+						status === "REPROVADO"
+							? "red.default"
+							: status === "APROVADO"
+							? "green.default"
+							: "orange.default"
+					}
 					height={"68px"}
 				>
 					<Text bold fontSize={18}>

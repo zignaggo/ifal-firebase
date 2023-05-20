@@ -1,6 +1,6 @@
 import { Flex, HStack, Heading, Image, Text, VStack } from "native-base"
-import Squares from "../../assets/Squares.svg"
-import LogoIfal from "../../assets/LogoIfal.svg"
+import Squares from "../../assets/Squares.png"
+import LogoIfal from "../../assets/LogoIfal.png"
 import { ReactNode } from "react"
 export const ModelLogin = ({ children }: { children: ReactNode }) => {
 	return (

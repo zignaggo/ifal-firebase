@@ -1,7 +1,7 @@
 import { VStack, HStack, Heading, Image } from "native-base"
 import { Subject } from "../components/Subject"
 import { Ionicons } from "@expo/vector-icons"
-import Squares from "../../assets/Squares.svg"
+import Squares from "../../assets/Squares.png"
 export const Subjects = ({ navigation }) => {
 	return (
 		<VStack

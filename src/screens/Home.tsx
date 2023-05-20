@@ -13,16 +13,16 @@ import { useEffect, useState } from "react"
 import { MenuImage } from "../components/MenuImage"
 import { useAuth } from "../Contexts/AuthProvider/useAuth"
 import { MaterialIcons, Ionicons } from "@expo/vector-icons"
-import Squares from "../../assets/Squares.svg"
+import Squares from "../../assets/Squares.png"
 
 export const Home = ({ route, navigation }) => {
 	const { user, loadData, logout, verifyEmail } = useAuth()
 	const [msgVerified, setMsg] = useState<string | null>(null)
-	
+
 	useEffect(() => {
 		loadData()
 	}, [])
-	
+
 	useEffect(() => {
 		if (msgVerified) {
 			setTimeout(() => setMsg(null), 4000)
@@ -127,7 +127,7 @@ export const Home = ({ route, navigation }) => {
 							</VStack>
 							<VStack space={"4px"}>
 								<Text fontSize={12}>{user.name}</Text>
-								<Text fontSize={12}>teste{ }</Text>
+								<Text fontSize={12}>teste{}</Text>
 								<HStack alignItems={"center"}>
 									<HStack alignItems={"center"}>
 										<Text
@@ -165,7 +165,11 @@ export const Home = ({ route, navigation }) => {
 								py={1.5}
 								bg={"#75D284"}
 								_hover={{ bg: "#75D284" }}
-								onPress={() => verifyEmail().then((mensagem) => setMsg(mensagem))}
+								onPress={() =>
+									verifyEmail().then((mensagem) =>
+										setMsg(mensagem)
+									)
+								}
 							>
 								Verificar
 							</Button>
