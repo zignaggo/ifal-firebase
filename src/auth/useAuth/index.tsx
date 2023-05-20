@@ -3,6 +3,7 @@ import { ReactNode, createContext, useContext, useEffect } from "react"
 import { auth } from "../../main"
 import { useNavigate, useLocation } from "@tanstack/react-location"
 import { useLocalStorage } from "../../hooks/useLocalStorage"
+
 interface User {
 	name: string
 	email: string

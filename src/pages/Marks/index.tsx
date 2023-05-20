@@ -16,9 +16,7 @@ export const Marks = () => {
 				<Typography color={"grey.400"}>
 					Professor responsável:
 				</Typography>
-				<Typography color={"grey.50"}>
-					Glevson Pinto
-				</Typography>
+				<Typography color={"grey.50"}>Glevson Pinto</Typography>
 			</Stack>
 
 			<Stack width={"100%"} gap={2}>

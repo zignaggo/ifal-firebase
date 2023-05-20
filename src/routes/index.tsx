@@ -4,6 +4,17 @@ import { Marks } from "../pages/Marks"
 import { Sign } from "../pages/Sign"
 import { AuthRoute } from "../auth/AuthRoute"
 
+export const routesType = {
+	"/": "Início",
+	marks: {
+		algoritmo: "Algoritmo e lógica de programação",
+		matematica: "Fundamentos da matemática",
+		fundamentos_si: "Fundamentos de sistemas de informação",
+		web: "Introdução às tecnologias WEB",
+		filosofia: "Filosofia",
+	},
+}
+
 export const routes: Route[] = [
 	{
 		path: "/",

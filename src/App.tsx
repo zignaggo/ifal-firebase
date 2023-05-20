@@ -14,6 +14,7 @@ export default function App() {
 			display={"flex"}
 			alignItems={"center"}
 			justifyContent={"center"}
+			overflow={"hidden"}
 		>
 			<Router routes={routes} location={location}>
 				<AuthProvider>
