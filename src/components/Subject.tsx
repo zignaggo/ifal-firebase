@@ -9,8 +9,8 @@ export const Subject = ({name, color, path}: {name: string, color: string, path:
   
   return (
 		<Stack
-      bgcolor={color} width={"200px"} height={"200px"}
-      borderRadius={10} justifyContent={"space-between"} padding={2} margin={1} onClick={() => navigate({replace: true, to: `marks/${path}`})}
+      bgcolor={color} width={"170px"} height={"170px"}
+      borderRadius={6} justifyContent={"space-between"} padding={2} margin={1} onClick={() => navigate({replace: true, to: `marks/${path}`})}
     >
       <Typography
         color={"grey.50"} fontSize={18} 
