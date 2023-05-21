@@ -108,9 +108,9 @@ export const AuthProvider = ({ children, authApp }: IAuthProvider) => {
 				email: email,
 				name: name,
 				cpf: cpf,
+				photoUrl: user.photoURL,
 			})
 
-			//saveNotes(user.uid)
 			action()
 		} catch (error) {
 			Alert.alert(error)

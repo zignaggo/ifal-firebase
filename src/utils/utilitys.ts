@@ -1,16 +1,18 @@
-import { getFirestore, getDoc, setDoc, doc, Firestore } from "firebase/firestore"
+import { getFirestore, getDoc, setDoc, doc, Firestore, collection, query, where, getDocs, FieldPath, } from "firebase/firestore"
 import { getStorage, ref, uploadString, getDownloadURL } from "firebase/storage"
 import { verifyError } from "./errorcodes"
 
 export interface UserData {
 	name: string
 	email: string
-	cpf: string
+	cpf: string,
+	photoUrl: string
 }
+
 export interface ResponseSubject { n1: number, n2: number, rep: number, final: number, media: number }
 
 export async function saveDataOnFirestore(uid: string, {
-	email, name, cpf
+	email, name, cpf, photoUrl
 }: UserData) {
 	let subjects = [
 		"Algoritmo e lógica de programação", "Filosofia",
@@ -29,7 +31,10 @@ export async function saveDataOnFirestore(uid: string, {
 				n1: -1,
 				n2: -1,
 				rep: -1,
-				final: -1
+				final: -1,
+				nome: name,
+				cpf: cpf,
+				photoUrl: photoUrl,
 			})
 		}
 	} catch (error) {
