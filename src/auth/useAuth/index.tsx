@@ -1,6 +1,6 @@
 import { signInWithEmailAndPassword, signOut, getIdToken } from "@firebase/auth"
 import { ReactNode, createContext, useContext, useEffect } from "react"
-import { auth } from "../../main"
+import { auth } from "../../utils/firebaseConfig"
 import { useNavigate, useLocation } from "@tanstack/react-location"
 import { useLocalStorage } from "../../hooks/useLocalStorage"
 import { toast } from "react-hot-toast"
