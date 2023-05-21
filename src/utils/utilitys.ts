@@ -1,4 +1,4 @@
-import { getFirestore, getDoc, setDoc, doc, Firestore, collection, query, where, getDocs, FieldPath, } from "firebase/firestore"
+import { getFirestore, getDoc, setDoc, doc, Firestore, updateDoc } from "firebase/firestore"
 import { getStorage, ref, uploadString, getDownloadURL } from "firebase/storage"
 import { verifyError } from "./errorcodes"
 
@@ -74,4 +74,22 @@ export async function getUrlImage(uid: string) {
 	const storage = getStorage()
 	const imageRef = ref(storage, `image-profile-${uid}`)
 	return await getDownloadURL(imageRef)
+}
+
+export const updateImageFirestore = async (uid: string, photoUrl: string) => {
+	let subjects = [
+		"Algoritmo e lógica de programação", "Filosofia",
+		"Fundamentos da matemática",
+		"Fundamentos de sistemas de informação",
+		"Inglês técnico", "Introdução às tecnologias WEB"
+	]
+	try {
+		for (let subject of subjects) {
+			await updateDoc(doc(getFirestore(), `Disciplinas/${subject}/Discentes`, uid), {
+				photoUrl: photoUrl,
+			})
+		}
+	} catch (error) {
+		console.log(verifyError(error.code))
+	}
 }

@@ -22,6 +22,7 @@ import {
 	getDataFirebase,
 	getUrlImage,
 	saveDataOnFirestore,
+	updateImageFirestore,
 	uploadImageToStorage,
 } from "../../utils/utilitys"
 import * as ImagePicker from "expo-image-picker"
@@ -104,6 +105,8 @@ export const AuthProvider = ({ children, authApp }: IAuthProvider) => {
 				verified: user.emailVerified,
 				uid: user.uid,
 			})
+
+			updateProfile(getAuth().currentUser, { displayName: name })
 			saveDataOnFirestore(user.uid, {
 				email: email,
 				name: name,
@@ -221,6 +224,7 @@ export const AuthProvider = ({ children, authApp }: IAuthProvider) => {
 	async function setImageProfile() {
 		const response = await getUrlImage(user.uid)
 		updateProfile(getAuth().currentUser, { photoURL: response })
+		updateImageFirestore(user.uid, response)
 	}
 
 	useEffect(() => {
