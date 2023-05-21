@@ -13,7 +13,7 @@ export const Subject = ({
 }) => {
 	const navigate = useNavigate()
 	const mobile = useMediaQuery("(max-width:767px)", { noSsr: true })
-	const size = mobile ? "140px" : "200px"
+	const size = mobile ? "140px" : "180px"
 	const fontsize = mobile ? "14px" : "18px"
 
 	return (
@@ -30,7 +30,11 @@ export const Subject = ({
 				cursor: "pointer",
 			}}
 		>
-			<Typography color={"grey.50"} fontSize={18} fontWeight={"bold"}>
+			<Typography
+				color={"grey.50"}
+				fontSize={fontsize}
+				fontWeight={"bold"}
+			>
 				{name}
 			</Typography>
 
