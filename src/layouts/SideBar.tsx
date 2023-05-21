@@ -22,7 +22,7 @@ export const SideBar = () => {
 		current: { pathname },
 	} = useLocation()
 	const { open: openDrawer, mobile, toggle } = useSidebar()
-	
+
 	const [open, setOpen] = useState<boolean>(true)
 	const { logout, user } = useAuth()
 
@@ -31,7 +31,7 @@ export const SideBar = () => {
 	}, [open])
 
 	const routes = useMemo(() => routesType.marks, [])
-
+	console.log(pathname)
 	if (pathname == "/sign") return <></>
 	return (
 		<Stack flexDirection={"column"}>
@@ -48,7 +48,6 @@ export const SideBar = () => {
 					},
 				}}
 				variant={mobile ? "temporary" : "persistent"}
-				
 				anchor="left"
 				open={openDrawer}
 				onClose={() => toggle(false)}
@@ -93,20 +92,25 @@ export const SideBar = () => {
 								textTransform: "none",
 							}}
 						>
-							<Link style={{display: 'flex', alignItems: 'center'}}>
-							<IconButton
-								sx={{
-									color: "grey.50",
-									":hover": {
-										backgroundColor: "grey.600",
-									},
+							<Link
+								style={{
+									display: "flex",
+									alignItems: "center",
 								}}
 							>
-								<InlineIcon
-									icon={"octicon:home-fill-24"}
-									fontSize={"20px"}
-								/>
-							</IconButton>
+								<IconButton
+									sx={{
+										color: "grey.50",
+										":hover": {
+											backgroundColor: "grey.600",
+										},
+									}}
+								>
+									<InlineIcon
+										icon={"octicon:home-fill-24"}
+										fontSize={"20px"}
+									/>
+								</IconButton>
 							</Link>
 							<Typography marginRight={"auto"} marginY={"auto"}>
 								Início
@@ -147,7 +151,8 @@ export const SideBar = () => {
 												},
 												borderLeft: "2px solid",
 												borderColor:
-													route[0] === pathname
+													`/marks/${route[0]}` ===
+													pathname
 														? "grey.50"
 														: "grey.600",
 											}}

@@ -68,19 +68,19 @@ export const Home = () => {
 				<Subject
 					color="#48D1C9"
 					name="Fundamentos da matemática"
-					path="fund_mat"
+					path="matematica"
 				/>
 				<Subject
 					color="#D78151"
 					name="Fundamentos de sistemas de informação"
-					path="fund_sist"
+					path="fundamentos_si"
 				/>
 				<Subject
 					color="#D15148"
 					name="Introdução às tecnologias WEB"
-					path="WEB"
+					path="web"
 				/>
-				<Subject color="#9C51D7" name="Filosofia" path="filo" />
+				<Subject color="#9C51D7" name="Filosofia" path="filosofia" />
 			</Stack>
 		</Stack>
 	)
