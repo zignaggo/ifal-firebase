@@ -31,7 +31,6 @@ export const SideBar = () => {
 	}, [open])
 
 	const routes = useMemo(() => routesType.marks, [])
-	console.log(pathname)
 	if (pathname == "/sign") return <></>
 	return (
 		<Stack flexDirection={"column"}>

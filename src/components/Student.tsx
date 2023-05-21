@@ -4,7 +4,17 @@ import AccordionSummary from '@mui/material/AccordionSummary'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { useState } from "react"
 
-export const Student = () => {
+interface studentInfo {
+  image: string,
+  nome: string,
+  cpf: string,
+  n1: string,
+  n2: string,
+  rep: string,
+  final: string
+}
+
+export const Student = (image, nome, cpf, n1, n2, rep, final): studentInfo => {
   const [expanded, setExpanded] = useState<string | false>(false)
 
   const handleChange = (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
@@ -24,8 +34,8 @@ export const Student = () => {
           <Stack direction={"row"} paddingLeft={1} alignItems={"center"}>
             <Avatar />
             <Stack paddingLeft={1}>
-              <Typography color={"grey.600"}>Luiz Vinícius Márdelle Costa Silva</Typography>
-              <Typography color={"grey.500"}>CPF</Typography>
+              <Typography color={"grey.600"}>{nome}</Typography>
+              <Typography color={"grey.500"}>{cpf}</Typography>
             </Stack>
           </Stack>
         </Stack>
@@ -40,22 +50,22 @@ export const Student = () => {
           <Stack direction={"row"}>
             <Stack alignItems={"center"}>
               <Typography color={"grey.400"}>N1</Typography>
-              <Typography color={"grey.600"}>nota</Typography>
+              <Typography color={"grey.600"}>{n1}</Typography>
             </Stack>
 
             <Stack paddingLeft={2} alignItems={"center"}>
               <Typography color={"grey.400"}>N2</Typography>
-              <Typography color={"grey.600"}>nota</Typography>
+              <Typography color={"grey.600"}>{n2}</Typography>
             </Stack>
 
             <Stack paddingLeft={2} alignItems={"center"}>
               <Typography color={"grey.400"}>REP</Typography>
-              <Typography color={"grey.600"}>nota</Typography>
+              <Typography color={"grey.600"}>{rep}</Typography>
             </Stack>
 
             <Stack paddingLeft={2} alignItems={"center"}>
               <Typography color={"grey.400"}>FINAL</Typography>
-              <Typography color={"grey.600"}>nota</Typography>
+              <Typography color={"grey.600"}>{final}</Typography>
             </Stack>
           </Stack>
 
@@ -72,30 +82,30 @@ export const Student = () => {
           <Stack direction={"row"} paddingLeft={1}>
           <Avatar />
             <Stack paddingLeft={1}>
-              <Typography color={"grey.600"}>Luiz Vinícius Márdelle Costa Silva</Typography>
-              <Typography color={"grey.500"}>CPF</Typography>
+              <Typography color={"grey.600"}>{nome}</Typography>
+              <Typography color={"grey.500"}>{cpf}</Typography>
             </Stack>
           </Stack>
 
           <Stack direction={"row"} marginRight={"10%"}>
             <Stack alignItems={"center"}>
               <Typography color={"grey.400"}>N1</Typography>
-              <Typography color={"grey.600"}>nota</Typography>
+              <Typography color={"grey.600"}>{n1}</Typography>
             </Stack>
 
             <Stack paddingLeft={2} alignItems={"center"}>
               <Typography color={"grey.400"}>N2</Typography>
-              <Typography color={"grey.600"}>nota</Typography>
+              <Typography color={"grey.600"}>{n2}</Typography>
             </Stack>
 
             <Stack paddingLeft={2} alignItems={"center"}>
               <Typography color={"grey.400"}>REP</Typography>
-              <Typography color={"grey.600"}>nota</Typography>
+              <Typography color={"grey.600"}>{rep}</Typography>
             </Stack>
 
             <Stack paddingLeft={2} alignItems={"center"}>
               <Typography color={"grey.400"}>FINAL</Typography>
-              <Typography color={"grey.600"}>nota</Typography>
+              <Typography color={"grey.600"}>{final}</Typography>
             </Stack>
             <Stack paddingLeft={2} alignItems={"center"}>
               <Typography color={"grey.400"}>MÉDIA</Typography>
@@ -103,17 +113,10 @@ export const Student = () => {
             </Stack>
           </Stack>
 
-
           <Stack justifyContent={"center"}>
             <Typography color={"grey.400"}>Situação</Typography>
           </Stack>
         </Stack>
       </>
   )
-
-
-
-
-
-
 }
