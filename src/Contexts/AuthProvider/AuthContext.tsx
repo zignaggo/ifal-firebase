@@ -108,10 +108,10 @@ export const AuthProvider = ({ children, authApp }: IAuthProvider) => {
 			saveDataOnFirestore(user.uid, {
 				email: email,
 				name: name,
-				cpf: cpf
+				cpf: cpf,
+				photoUrl: user.photoURL
 			})
 			
-			//saveNotes(user.uid)
 			action()
 		} catch (error) {
 			Alert.alert(error)
