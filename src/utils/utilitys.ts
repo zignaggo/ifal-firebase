@@ -1,5 +1,7 @@
-import { getFirestore, getDoc, doc, Firestore } from "firebase/firestore"
+import { getFirestore, getDoc, doc, Firestore, collection, query, getDocs, DocumentData } from "firebase/firestore"
+import { FirebaseError } from 'firebase/app'
 import { verifyError } from "./errorCodes"
+import { toast } from 'react-hot-toast'
 
 export interface UserData {
 	name: string,
@@ -8,27 +10,48 @@ export interface UserData {
 }
 
 export interface ResponseSubject {
-  n1: number,
-  n2: number, 
-  rep: number, 
-  final: number, 
-  media: number
+	n1: number,
+	n2: number,
+	rep: number,
+	final: number,
+	nome: string,
+	cpf: string,
+	photoUrl: string
 }
 
-export async function getDataFirebase(bancoRef: Firestore, colecao: string, documento: string) {
+export async function getDataFirebase(colecao: string, documento: string): Promise<DocumentData | void> {
 	try {
-		let info = await getDoc(doc(bancoRef, colecao, documento))
+		let info = await getDoc(doc(getFirestore(), colecao, documento))
 		return info.data()
 	} catch (error) {
-		console.log(verifyError(error.code))
+		if (error instanceof FirebaseError) {
+			toast.error(`Erro: ${verifyError(error.code)}`)
+			return
+		}
 	}
 }
 
-export async function getSubjectInfo(name: string, uid: string): Promise<ResponseSubject> {
+export interface responseGetDiscentes {id: string, info: ResponseSubject }
+
+export async function getDiscentes(name: string): Promise<any[] | void> {
 	try {
-		const data = await getDoc(doc(getFirestore(), `Disciplinas/${name}/Discentes/${uid}`))
-		return data.data() as ResponseSubject
+		const q = query(collection(getFirestore(), `Disciplinas/${name}/Discentes`))
+		const docs = await getDocs(q)
+		let data: responseGetDiscentes[] = []
+		docs.forEach(doc => { 
+			const info = doc.data() as ResponseSubject
+			data = [...data, {id: doc.id, info: info}]
+	})
+		return data
+		 
 	} catch (error) {
-		console.log(error.code)
+		if (error instanceof FirebaseError) {
+			toast.error(`Erro: ${verifyError(error.code)}`)
+			return
+		}
 	}
+}
+
+export async function getUsersData() {
+
 }

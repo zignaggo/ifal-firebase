@@ -5,11 +5,8 @@ import { useSidebar } from "../../contexts/SideBarContext"
 import { useMatch, useNavigate } from "@tanstack/react-location"
 import { routesType } from "../../routes"
 import { useEffect, useState } from "react"
-import { getDataFirebase, getSubjectInfo } from "../../utils/utilitys"
-import { getFirestore } from "firebase/firestore"
-import { app } from "../../utils/firebaseConfig"
-import { getAuth } from "firebase/auth"
-
+import { getDataFirebase, getDiscentes } from "../../utils/utilitys"
+import { responseGetDiscentes } from "../../utils/utilitys"
 export const Marks = () => {
 	const { toggle } = useSidebar()
 	const mobile = useMediaQuery("(max-width:767px)", { noSsr: true })
@@ -19,22 +16,26 @@ export const Marks = () => {
 	} = useMatch()
 	const routesT = routesType["marks"]
 	const name = typeof routesT !== "string" && routesT[id]
-	
-	const [infoMark, setInfoMark] = useState<{docente: string, notas: ResponseSubject} | undefined>()
-	
-	console.log(infoMark)
-	useEffect(() => {
-		getSubjectInfo(name, getAuth(app).currentUser?.uid)
-		.then(notas => {notas && setInfoMark(prev => ({...prev, notas: notas}))})
-		
-		getDataFirebase(getFirestore(), 'Disciplinas', name)
-		.then(docente =>  {docente &&
-			getDataFirebase(getFirestore(), 'Docentes', String((docente as {docente: number}).docente))
-			.then(dados => setInfoMark((prev) => ({...prev, docente: dados.nome})))
-		})
-	}, [name])
 
-	console.log(infoMark)
+	const [data, setData] = useState<{ docente?: string, discentes: responseGetDiscentes[] }>({ discentes: [] })
+
+	useEffect(() => {
+		if (typeof (name) == "string") {
+			getDiscentes(name)
+				.then(discentes => {
+					discentes && setData(prev => ({ ...prev, discentes: [...prev.discentes, ...discentes] }))
+					getDataFirebase(`Disciplinas`, name).then(cpfDocente => {
+						if (cpfDocente) {
+							getDataFirebase("Docentes", String(cpfDocente.docente))
+								.then(nameDocente => nameDocente && setData(prev => ({ ...prev, docente: String(nameDocente.nome) })))
+						}
+
+					})
+				})
+		}
+	}, [])
+
+	console.log(data)
 
 	return (
 		<Stack
@@ -98,14 +99,31 @@ export const Marks = () => {
 				bgcolor={"grey.600"}
 				width={"250px"}
 			>
-				<Typography color={"grey.400"}>
+				<Typography color={"grey.400"} textAlign={"center"}>
 					Professor responsável:
 				</Typography>
-				<Typography color={"grey.50"}>{infoMark?.docente}</Typography>
+				<Typography color={"grey.50"}>{data?.docente}</Typography>
 			</Stack>
 
-			<Stack width={"100%"} gap={2}>
-				<Student image={infoMark?.docente} n1={infoMark?.notas.n1} n2={infoMark?.notas.n2} rep={infoMark?.notas.rep} final={infoMark?.notas.final}/>
+			<Stack width={"100%"} gap={2} overflow={"auto"} sx={{
+				'::-webkit-scrollbar': {
+					width: '0.4em'
+				},
+				'::-webkit-scrollbar-track': {
+					'-webkit-box-shadow': 'inset 0 0 6px grey.900'
+				},
+				'::-webkit-scrollbar-thumb': {
+					backgroundColor: 'grey.400',
+					outline: '1px solid grey.900',
+					borderRadius: 999
+				}
+			}}>
+				{
+					data.discentes.map(({ info }, index) => {
+						return <Student key={index} photoUrl={info.photoUrl} n1={info?.n1} n2={info?.n2} rep={info?.rep} final={info?.final} nome={info?.nome} cpf={info?.cpf}
+						/>
+					})
+				}
 			</Stack>
 		</Stack>
 	)

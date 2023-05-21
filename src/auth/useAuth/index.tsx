@@ -48,7 +48,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 				photo: user.photoURL || undefined,
 			}))
 			const token = await getIdToken(user)
-			console.log(token)
 			setSessionId(token)
 			navigate({ replace: true, to: "/" })
 		} catch (error: unknown) {
@@ -57,7 +56,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 				return
 			}
 			toast.error("Erro")
-			console.log(error)
 		}
 	}
 

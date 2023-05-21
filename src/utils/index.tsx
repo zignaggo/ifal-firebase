@@ -8,7 +8,7 @@ export const recoverCookie = (name: string) => {
 export const setCookie = (name: string, value: string, duration: number) => {
 	const date = new Date()
 	date.setTime(date.getTime() + duration * 60 * 60 * 1000)
-	// Resolve wrong hour problem
+
 	const localUTCstring = new Date(
 		date.getTime() - date.getTimezoneOffset() * 60000
 	)

@@ -33,7 +33,6 @@ export const UseCookieStorage = (
 	}
 
 	useEffect(() => {
-		console.log(cookie)
 		if (cookie) {
 			try {
 				setCookieUtils(key, cookie, duration)
