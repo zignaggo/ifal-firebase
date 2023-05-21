@@ -21,6 +21,7 @@ export const Marks = () => {
 
 	useEffect(() => {
 		if (typeof (name) == "string") {
+			setData({ discentes: [] })
 			getDiscentes(name)
 				.then(discentes => {
 					discentes && setData(prev => ({ ...prev, discentes: [...prev.discentes, ...discentes] }))
