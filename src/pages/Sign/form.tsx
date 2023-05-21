@@ -34,7 +34,7 @@ export const SignForm = () => {
 	})
 	const { login } = useAuth()
 	const doLogin = (data: SignFormData) => {
-		login(data.email, data.password).then((a) => console.log(a))
+		login(data.email, data.password)
 	}
 	return (
 		<Stack

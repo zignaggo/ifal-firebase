@@ -1,9 +1,12 @@
-import { signInWithEmailAndPassword } from "@firebase/auth"
+import { signInWithEmailAndPassword, signOut, getIdToken } from "@firebase/auth"
 import { ReactNode, createContext, useContext, useEffect } from "react"
 import { auth } from "../../main"
 import { useNavigate, useLocation } from "@tanstack/react-location"
 import { useLocalStorage } from "../../hooks/useLocalStorage"
-
+import { toast } from "react-hot-toast"
+import { FirebaseError } from "firebase/app"
+import { verifyError } from "../../utils/errorCodes"
+import { UseCookieStorage } from "../../hooks/useCookieStorage"
 interface User {
 	name: string
 	email: string
@@ -21,34 +24,55 @@ type TypeAuthContext = {
 const AuthContext = createContext<TypeAuthContext>({} as TypeAuthContext)
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-	const [user, setUser, reset] = useLocalStorage<Partial<User>>("glevson")
+	const [user, setUser, reset] = useLocalStorage<Partial<User>>("data")
+	const [sessionId, setSessionId, resetSession] = UseCookieStorage(
+		"glevson",
+		4
+	)
 	const navigate = useNavigate()
 	const {
 		current: { pathname },
 	} = useLocation()
 	async function login(email: string, password: string) {
-		const {
-			user: { displayName, uid, photoURL },
-		} = await signInWithEmailAndPassword(auth, email, password)
-		setUser((prev) => ({
-			...prev,
-			uid: uid,
-			email: email,
-			name: displayName || undefined,
-			photo: photoURL || undefined,
-		}))
-		navigate({ replace: true, to: "/" })
+		try {
+			const { user } = await signInWithEmailAndPassword(
+				auth,
+				email,
+				password
+			)
+			setUser((prev) => ({
+				...prev,
+				uid: user.uid,
+				email: email,
+				name: user.displayName || undefined,
+				photo: user.photoURL || undefined,
+			}))
+			const token = await getIdToken(user)
+			console.log(token)
+			setSessionId(token)
+			navigate({ replace: true, to: "/" })
+		} catch (error: unknown) {
+			if (error instanceof FirebaseError) {
+				toast.error(`Erro: ${verifyError(error.code)}`)
+				return
+			}
+			toast.error("Erro")
+			console.log(error)
+		}
 	}
 
 	function logout() {
 		reset()
+		signOut(auth)
+		resetSession()
 	}
 
 	useEffect(() => {
-		if (!user && pathname !== "/sign")
+		if (!sessionId && pathname !== "/sign")
 			navigate({ replace: true, to: "/sign" })
-		if (pathname === "/sign" && user) navigate({ replace: true, to: "/" })
-	}, [user, pathname])
+		if (pathname === "/sign" && sessionId)
+			navigate({ replace: true, to: "/" })
+	}, [sessionId, pathname])
 	return (
 		<AuthContext.Provider value={{ user, login, logout }}>
 			{children}

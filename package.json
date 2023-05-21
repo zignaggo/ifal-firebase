@@ -19,6 +19,7 @@
     "react": "latest",
     "react-dom": "latest",
     "react-hook-form": "^7.43.9",
+    "react-hot-toast": "^2.4.1",
     "zod": "^3.21.4"
   },
   "devDependencies": {
