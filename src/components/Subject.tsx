@@ -13,7 +13,7 @@ export const Subject = ({
 }) => {
 	const navigate = useNavigate()
 	const mobile = useMediaQuery("(max-width:767px)", { noSsr: true })
-	const size = mobile ? "140px" : "180px"
+	const size = mobile ? "138px" : "180px"
 	const fontsize = mobile ? "14px" : "18px"
 
 	return (
@@ -24,7 +24,6 @@ export const Subject = ({
 			borderRadius={6}
 			justifyContent={"space-between"}
 			padding={2}
-			margin={1}
 			onClick={() => navigate({ replace: true, to: `marks/${path}` })}
 			sx={{
 				cursor: "pointer",

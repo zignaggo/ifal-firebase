@@ -7,7 +7,7 @@ export const Home = () => {
 	const mobile = useMediaQuery("(max-width:767px)", { noSsr: true })
 	return (
 		<Stack
-			padding={"25px"}
+			padding={mobile ? "20px" : "25px"}
 			width={"100%"}
 			height={"100%"}
 			justifyContent={"flex-start"}
@@ -54,6 +54,7 @@ export const Home = () => {
 				padding={1}
 				justifyContent={"space-evenly"}
 				marginTop={4}
+				gap={1.5}
 				direction={"row"}
 				width={"100%"}
 				flexWrap={"wrap"}
