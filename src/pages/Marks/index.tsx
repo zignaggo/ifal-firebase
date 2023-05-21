@@ -33,7 +33,7 @@ export const Marks = () => {
 					})
 				})
 		}
-	}, [])
+	}, [name])
 
 	console.log(data)
 
