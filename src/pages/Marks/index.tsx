@@ -17,22 +17,36 @@ export const Marks = () => {
 	const routesT = routesType["marks"]
 	const name = typeof routesT !== "string" && routesT[id]
 
-	const [data, setData] = useState<{ docente?: string, discentes: responseGetDiscentes[] }>({ discentes: [] })
+	const [data, setData] = useState<{
+		docente?: string
+		discentes: responseGetDiscentes[]
+	}>({ discentes: [] })
 
 	useEffect(() => {
-		if (typeof (name) == "string") {
+		if (typeof name == "string") {
 			setData({ discentes: [] })
-			getDiscentes(name)
-				.then(discentes => {
-					discentes && setData(prev => ({ ...prev, discentes: [...prev.discentes, ...discentes] }))
-					getDataFirebase(`Disciplinas`, name).then(cpfDocente => {
-						if (cpfDocente) {
-							getDataFirebase("Docentes", String(cpfDocente.docente))
-								.then(nameDocente => nameDocente && setData(prev => ({ ...prev, docente: String(nameDocente.nome) })))
-						}
-
-					})
+			getDiscentes(name).then((discentes) => {
+				discentes &&
+					setData((prev) => ({
+						...prev,
+						discentes: [...prev.discentes, ...discentes],
+					}))
+				getDataFirebase(`Disciplinas`, name).then((cpfDocente) => {
+					if (cpfDocente) {
+						getDataFirebase(
+							"Docentes",
+							String(cpfDocente.docente)
+						).then(
+							(nameDocente) =>
+								nameDocente &&
+								setData((prev) => ({
+									...prev,
+									docente: String(nameDocente.nome),
+								}))
+						)
+					}
 				})
+			})
 		}
 	}, [name])
 
@@ -44,7 +58,7 @@ export const Marks = () => {
 			color={"grey.50"}
 			width={"100%"}
 			height={"100%"}
-			padding={"25px"}
+			padding={mobile ? "20px" : "25px"}
 		>
 			<Stack
 				flexDirection={"row"}
@@ -106,25 +120,38 @@ export const Marks = () => {
 				<Typography color={"grey.50"}>{data?.docente}</Typography>
 			</Stack>
 
-			<Stack width={"100%"} gap={2} overflow={"auto"} sx={{
-				'::-webkit-scrollbar': {
-					width: '0.4em'
-				},
-				'::-webkit-scrollbar-track': {
-					'-webkit-box-shadow': 'inset 0 0 6px grey.900'
-				},
-				'::-webkit-scrollbar-thumb': {
-					backgroundColor: 'grey.400',
-					outline: '1px solid grey.900',
-					borderRadius: 999
-				}
-			}}>
-				{
-					data.discentes.map(({ info }, index) => {
-						return <Student key={index} photoUrl={info.photoUrl} n1={info?.n1} n2={info?.n2} rep={info?.rep} final={info?.final} nome={info?.nome} cpf={info?.cpf}
+			<Stack
+				width={"100%"}
+				gap={2}
+				overflow={"auto"}
+				sx={{
+					"::-webkit-scrollbar": {
+						width: "0.4em",
+					},
+					"::-webkit-scrollbar-track": {
+						"-webkit-box-shadow": "inset 0 0 6px grey.900",
+					},
+					"::-webkit-scrollbar-thumb": {
+						backgroundColor: "grey.400",
+						outline: "1px solid grey.900",
+						borderRadius: 999,
+					},
+				}}
+			>
+				{data.discentes.map(({ info }, index) => {
+					return (
+						<Student
+							key={index}
+							photoUrl={info.photoUrl}
+							n1={info?.n1}
+							n2={info?.n2}
+							rep={info?.rep}
+							final={info?.final}
+							nome={info?.nome}
+							cpf={info?.cpf}
 						/>
-					})
-				}
+					)
+				})}
 			</Stack>
 		</Stack>
 	)
