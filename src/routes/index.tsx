@@ -4,7 +4,7 @@ import { Marks } from "../pages/Marks"
 import { Sign } from "../pages/Sign"
 import { AuthRoute } from "../auth/AuthRoute"
 
-export const routesType = {
+export const routesType: Record<string, string | Record<string, string>> = {
 	"/": "Início",
 	marks: {
 		algoritmo: "Algoritmo e lógica de programação",
@@ -32,14 +32,14 @@ export const routes: Route[] = [
 	},
 	{
 		path: "marks",
-		element: (
-			<AuthRoute>
-				<Marks />
-			</AuthRoute>
-		),
 		children: [
 			{
 				path: ":id",
+				element: (
+					<AuthRoute>
+						<Marks />
+					</AuthRoute>
+				),
 			},
 		],
 	},
